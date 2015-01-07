@@ -16,5 +16,11 @@ namespace WindowsFormsApplicationForPanLearning
         {
             InitializeComponent();
         }
+
+        private void buttonForTesting_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("well you clicked it");
+
+        }
     }
 }
