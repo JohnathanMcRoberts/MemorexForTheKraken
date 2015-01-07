@@ -39,6 +39,7 @@
             this.buttonForTesting.TabIndex = 0;
             this.buttonForTesting.Text = "big red button";
             this.buttonForTesting.UseVisualStyleBackColor = true;
+            this.buttonForTesting.Click += new System.EventHandler(this.buttonForTesting_Click);
             // 
             // Form1
             // 
