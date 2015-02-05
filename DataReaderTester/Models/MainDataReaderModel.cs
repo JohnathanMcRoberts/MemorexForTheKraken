@@ -15,13 +15,18 @@ namespace DataReaderTester.Models
         {
             Log = log;
             TprFileName = Properties.Settings.Default.TprFile;
+            _iTprFile = null;
         }
 
         public string TprFileName { get; set; }
 
         public void OpenSimpleTpr()
         {
-            SimplestTprFile simpleFile = new SimplestTprFile(TprFileName, Log);
+            _iTprFile = new SimplestTprFile(TprFileName, Log);
         }
+
+        private ITprFile _iTprFile;
+
+        public ITprFile TprFile { get {return _iTprFile;} }
     }
 }

@@ -23,5 +23,8 @@ namespace TprFileReader
         List<double> Times { get; }
         List<double> Pressures { get; }
 
+        int TimeColumn { get; }
+        int PressureColumn { get;}
+        List<string> ColumnNames { get; }
     }
 }

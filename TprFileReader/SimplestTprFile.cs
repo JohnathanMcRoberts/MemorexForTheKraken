@@ -165,6 +165,31 @@ namespace TprFileReader
         public List<TprColumnDefinition> ColumnDefinitions { get; private set; }
         public int TimeColumn { get; private set; }
         public int PressureColumn { get; private set; }
+        public List<double> Times
+        {
+            get
+            {
+                if (SetTime) return ColumnDefinitions[TimeColumn].ColumnNumerics;
+                Log.Debug("No Time column set - return an empty list.");
+                return new List<double>();
+            }
+        }
+        public List<double> Pressures
+        {
+            get
+            {
+                if (SetPressure) return ColumnDefinitions[PressureColumn].ColumnNumerics;
+                Log.Debug("No Pressure column set - return an empty list.");
+                return new List<double>();
+            }
+        }
+        public bool SetTime { get; private set; }
+        public bool SetPressure { get; private set; }
+
+        public List<string> ColumnNames
+        {
+            get { return ColumnDefinitions.Select(e => e.Name).ToList(); }
+        }
 
         #endregion
 
@@ -204,28 +229,5 @@ namespace TprFileReader
             throw new NotImplementedException();
         }
 
-        public List<double> Times
-        {
-            get 
-            { 
-                if (SetTime) return ColumnDefinitions[TimeColumn].ColumnNumerics;
-                Log.Debug("No Time column set - return an empty list.");
-                return new List<double>();
-            }
-        }
-
-        public List<double> Pressures
-        {
-            get
-            {
-                if (SetPressure) return ColumnDefinitions[PressureColumn].ColumnNumerics;
-                Log.Debug("No Pressure column set - return an empty list.");
-                return new List<double>();
-            }
-        }
-
-        public bool SetTime { get; private set; }
-
-        public bool SetPressure { get; private set; }
     }
 }

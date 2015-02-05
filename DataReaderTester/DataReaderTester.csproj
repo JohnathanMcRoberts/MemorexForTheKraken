@@ -57,9 +57,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\DataColumnViewModel.cs" />
     <Compile Include="ViewModels\DataReaderMainViewModel.cs" />
     <Compile Include="ViewModels\Utilities\CommandHandler.cs" />
     <Compile Include="ViewModels\Utilities\WaitCursor.cs" />
+    <Compile Include="Views\DataRange.xaml.cs">
+      <DependentUpon>DataRange.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SimpleTprReader.xaml.cs">
       <DependentUpon>SimpleTprReader.xaml</DependentUpon>
     </Compile>
@@ -75,6 +79,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\DataRange.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SimpleTprReader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

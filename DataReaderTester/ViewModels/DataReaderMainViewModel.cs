@@ -30,6 +30,10 @@ namespace DataReaderTester.ViewModels
 
             //_selectWellpathsEnabled = false;
             //_plotViewsEnabled = false;
+
+            
+            SelectedTimeColumnVM = new  DataColumnViewModel(log);
+            SelectedPressureColumnVM = new  DataColumnViewModel(log);
         }
 
         #endregion
@@ -66,6 +70,72 @@ namespace DataReaderTester.ViewModels
         public Boolean IsFileOpened { get; private set; }
 
         public String TprFileName { get { return _mainDataReaderModel.TprFileName; } }
+
+        public List<string> ColumnNames 
+        { 
+            get 
+            {
+                if (_mainDataReaderModel == null || _mainDataReaderModel.TprFile == null ||
+                    _mainDataReaderModel.TprFile.ColumnNames == null)
+                    return new List<string>();
+                return _mainDataReaderModel.TprFile.ColumnNames; 
+            } 
+        }
+
+        public int SelectedTimeColumnIndex
+        {
+            get
+            {
+                if (_mainDataReaderModel == null || _mainDataReaderModel.TprFile == null ||
+                    _mainDataReaderModel.TprFile.ColumnNames == null || _mainDataReaderModel.TprFile.TimeColumn == -1)
+                    return 0;
+                return _mainDataReaderModel.TprFile.TimeColumn;
+            }
+            set
+            {
+                if (_mainDataReaderModel == null || _mainDataReaderModel.TprFile == null ||
+                    _mainDataReaderModel.TprFile.ColumnNames == null )
+                    return;
+                _mainDataReaderModel.TprFile.SelectTimeColumn(value);
+                OnPropertyChanged(() => SelectedTimeColumnIndex);
+                if (_mainDataReaderModel != null && _mainDataReaderModel.TprFile != null &&
+                    _mainDataReaderModel.TprFile.TimeColumn >= 0)
+                {
+                    SelectedTimeColumnVM.Column =
+                        _mainDataReaderModel.TprFile.ColumnDefinitions[_mainDataReaderModel.TprFile.TimeColumn];
+                    OnPropertyChanged(() => SelectedTimeColumnVM);
+                }
+            }
+        }
+        public int SelectedPressureColumnIndex
+        {
+            get
+            {
+                if (_mainDataReaderModel == null || _mainDataReaderModel.TprFile == null ||
+                    _mainDataReaderModel.TprFile.ColumnNames == null || _mainDataReaderModel.TprFile.PressureColumn == -1)
+                    return 0;
+                return _mainDataReaderModel.TprFile.PressureColumn;
+            }
+            set
+            {
+                if (_mainDataReaderModel == null || _mainDataReaderModel.TprFile == null ||
+                    _mainDataReaderModel.TprFile.ColumnNames == null)
+                    return;
+                _mainDataReaderModel.TprFile.SelectPressureColumn(value);
+                OnPropertyChanged(() => SelectedPressureColumnIndex);
+
+                if (_mainDataReaderModel != null && _mainDataReaderModel.TprFile != null &&
+                    _mainDataReaderModel.TprFile.PressureColumn >= 0)
+                {
+                    SelectedPressureColumnVM.Column =
+                        _mainDataReaderModel.TprFile.ColumnDefinitions[_mainDataReaderModel.TprFile.PressureColumn];
+                    OnPropertyChanged(() => SelectedPressureColumnVM);
+                }
+            }
+        }
+        
+        public DataColumnViewModel SelectedTimeColumnVM{get; private set;}
+        public DataColumnViewModel SelectedPressureColumnVM{get; private set;}
 
         #endregion
 
@@ -116,6 +186,25 @@ namespace DataReaderTester.ViewModels
 
                     IsFileOpened = true;
                     OnPropertyChanged(() => IsFileOpened);
+                    OnPropertyChanged(() => ColumnNames);
+                    OnPropertyChanged(() => SelectedTimeColumnIndex);
+                    OnPropertyChanged(() => SelectedPressureColumnIndex);
+
+                    if (_mainDataReaderModel != null && _mainDataReaderModel.TprFile != null &&
+                        _mainDataReaderModel.TprFile.TimeColumn >= 0)
+                    {
+                        SelectedTimeColumnVM.Column =
+                            _mainDataReaderModel.TprFile.ColumnDefinitions[_mainDataReaderModel.TprFile.TimeColumn];
+                        OnPropertyChanged(() => SelectedTimeColumnVM);
+                    }
+                    
+                    if (_mainDataReaderModel != null && _mainDataReaderModel.TprFile != null &&
+                        _mainDataReaderModel.TprFile.PressureColumn >= 0)
+                    {
+                        SelectedPressureColumnVM.Column =
+                            _mainDataReaderModel.TprFile.ColumnDefinitions[_mainDataReaderModel.TprFile.PressureColumn];
+                        OnPropertyChanged(() => SelectedPressureColumnVM);
+                    }
                 }
             }
         }
