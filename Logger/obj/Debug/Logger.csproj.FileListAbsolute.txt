@@ -1,7 +1,0 @@
-C:\Users\E142890\MemorexForTheKraken\Projects\Logger\bin\Debug\Logger.dll
-C:\Users\E142890\MemorexForTheKraken\Projects\Logger\bin\Debug\Logger.pdb
-C:\Users\E142890\MemorexForTheKraken\Projects\Logger\bin\Debug\log4net.dll
-C:\Users\E142890\MemorexForTheKraken\Projects\Logger\bin\Debug\log4net.xml
-C:\Users\E142890\MemorexForTheKraken\Projects\Logger\obj\Debug\Logger.csprojResolveAssemblyReference.cache
-C:\Users\E142890\MemorexForTheKraken\Projects\Logger\obj\Debug\Logger.dll
-C:\Users\E142890\MemorexForTheKraken\Projects\Logger\obj\Debug\Logger.pdb
