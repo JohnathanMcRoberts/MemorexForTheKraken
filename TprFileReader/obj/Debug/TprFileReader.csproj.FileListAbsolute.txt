@@ -1,0 +1,9 @@
+C:\Users\E142890\MemorexForTheKraken\Projects\TprFileReader\obj\Debug\TprFileReader.csprojResolveAssemblyReference.cache
+C:\Users\E142890\MemorexForTheKraken\Projects\TprFileReader\bin\Debug\TprFileReader.dll
+C:\Users\E142890\MemorexForTheKraken\Projects\TprFileReader\bin\Debug\TprFileReader.pdb
+C:\Users\E142890\MemorexForTheKraken\Projects\TprFileReader\bin\Debug\log4net.dll
+C:\Users\E142890\MemorexForTheKraken\Projects\TprFileReader\bin\Debug\Logger.dll
+C:\Users\E142890\MemorexForTheKraken\Projects\TprFileReader\bin\Debug\Logger.pdb
+C:\Users\E142890\MemorexForTheKraken\Projects\TprFileReader\bin\Debug\log4net.xml
+C:\Users\E142890\MemorexForTheKraken\Projects\TprFileReader\obj\Debug\TprFileReader.dll
+C:\Users\E142890\MemorexForTheKraken\Projects\TprFileReader\obj\Debug\TprFileReader.pdb
