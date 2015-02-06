@@ -43,6 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ITprFile.cs" />
+    <Compile Include="LAS\LasCurve.cs" />
+    <Compile Include="LAS\LasDataValue.cs" />
+    <Compile Include="LAS\LasFile.cs" />
+    <Compile Include="LAS\LasWellInfoItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimplestTprFile.cs" />
     <Compile Include="TprColumnDefinition.cs" />

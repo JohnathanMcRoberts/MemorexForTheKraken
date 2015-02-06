@@ -34,5 +34,17 @@ namespace DataReaderTester.Properties {
                 this["TprFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\E142890\\Documents\\LAS Files\\3300[1].las")]
+        public string LasFile {
+            get {
+                return ((string)(this["LasFile"]));
+            }
+            set {
+                this["LasFile"] = value;
+            }
+        }
     }
 }

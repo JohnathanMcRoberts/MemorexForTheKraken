@@ -71,6 +71,8 @@ namespace DataReaderTester.ViewModels
 
         public String TprFileName { get { return _mainDataReaderModel.TprFileName; } }
 
+        public String LasFileName { get { return _mainDataReaderModel.LasFileName; } }
+
         public List<string> ColumnNames 
         { 
             get 
@@ -144,6 +146,7 @@ namespace DataReaderTester.ViewModels
         private MainWindow _mainWindow;
         private MainDataReaderModel _mainDataReaderModel;
         private ICommand _chooseTprFileCommand;
+        private ICommand _chooseLasFileCommand;
 
         #endregion
 
@@ -158,6 +161,14 @@ namespace DataReaderTester.ViewModels
             }
         }
 
+        public ICommand ChooseLasFileCommand
+        {
+            get
+            {
+                return _chooseLasFileCommand ??
+                    (_chooseLasFileCommand = new CommandHandler(() => ChooseLasFileCommandAction(), true));
+            }
+        }
         #endregion
 
         #region Command Handlers
@@ -209,6 +220,52 @@ namespace DataReaderTester.ViewModels
             }
         }
 
+        public void ChooseLasFileCommandAction()
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.FileName = _mainDataReaderModel.LasFileName;
+
+            // TODO - get the file types from the available serialisers
+            fileDialog.Filter = @"All files (*.*)|*.*|LAS files (*.las)|*.las";
+            fileDialog.FilterIndex = 4;
+            fileDialog.RestoreDirectory = true;
+
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                _mainDataReaderModel.LasFileName = fileDialog.FileName;
+
+                Properties.Settings.Default.LasFile =
+                    _mainDataReaderModel.LasFileName;
+                Properties.Settings.Default.Save();
+
+                using (new WaitCursor())
+                {
+                    _mainDataReaderModel.OpenSimpleLas();
+
+                    IsFileOpened = true;
+                    OnPropertyChanged(() => IsFileOpened);
+                    OnPropertyChanged(() => ColumnNames);
+                    OnPropertyChanged(() => SelectedTimeColumnIndex);
+                    OnPropertyChanged(() => SelectedPressureColumnIndex);
+
+                    if (_mainDataReaderModel != null && _mainDataReaderModel.TprFile != null &&
+                        _mainDataReaderModel.TprFile.TimeColumn >= 0)
+                    {
+                        SelectedTimeColumnVM.Column =
+                            _mainDataReaderModel.TprFile.ColumnDefinitions[_mainDataReaderModel.TprFile.TimeColumn];
+                        OnPropertyChanged(() => SelectedTimeColumnVM);
+                    }
+
+                    if (_mainDataReaderModel != null && _mainDataReaderModel.TprFile != null &&
+                        _mainDataReaderModel.TprFile.PressureColumn >= 0)
+                    {
+                        SelectedPressureColumnVM.Column =
+                            _mainDataReaderModel.TprFile.ColumnDefinitions[_mainDataReaderModel.TprFile.PressureColumn];
+                        OnPropertyChanged(() => SelectedPressureColumnVM);
+                    }
+                }
+            }
+        }
         #endregion
     }
 }

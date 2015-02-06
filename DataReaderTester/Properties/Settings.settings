@@ -5,5 +5,8 @@
     <Setting Name="TprFile" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Users\E142890\PanSystem\TestData\test_decline.tpr</Value>
     </Setting>
+    <Setting Name="LasFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\E142890\Documents\LAS Files\3300[1].las</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

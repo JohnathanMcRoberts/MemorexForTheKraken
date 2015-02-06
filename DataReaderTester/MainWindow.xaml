@@ -2,9 +2,14 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Views="clr-namespace:DataReaderTester.Views"
-        Title="Data Reader Tester"  Height="200" Width="775">
+        Title="Data Reader Tester"  Height="500" Width="775">
     <Grid>
         <TabControl HorizontalAlignment="Left"  VerticalAlignment="Top" >
+            <TabItem Header="Read Simple LAS">
+                <Grid Background="#FFE5E5E5">
+                    <Views:SimpleLasReader />
+                </Grid>
+            </TabItem>
             <TabItem Header="Read Simple TPR">
                 <Grid Background="#FFE5E5E5">
                     <Views:SimpleTprReader />

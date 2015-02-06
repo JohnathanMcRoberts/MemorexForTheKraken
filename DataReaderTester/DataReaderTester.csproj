@@ -64,6 +64,12 @@
     <Compile Include="Views\DataRange.xaml.cs">
       <DependentUpon>DataRange.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\LasCurveDetail.xaml.cs">
+      <DependentUpon>LasCurveDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SimpleLasReader.xaml.cs">
+      <DependentUpon>SimpleLasReader.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SimpleTprReader.xaml.cs">
       <DependentUpon>SimpleTprReader.xaml</DependentUpon>
     </Compile>
@@ -80,6 +86,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\DataRange.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LasCurveDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SimpleLasReader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

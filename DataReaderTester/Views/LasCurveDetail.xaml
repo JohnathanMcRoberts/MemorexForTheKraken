@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="DataReaderTester.Views.LasCurveDetail"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="120" d:DesignWidth="320">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Content="Mnemonic"/>
+            <Label Grid.Row="0" Grid.Column="1" Content="Unit"/>
+            <Label Grid.Row="0" Grid.Column="2" Content="API"/>
+            <Label Grid.Row="0" Grid.Column="3" Content="Description"/>
+
+            <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Path=Name, Mode=OneWay}"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Unit, Mode=OneWay}"/>
+            <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Path=Api, Mode=OneWay}"/>
+            <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding Path=Description, Mode=OneWay}"/>
+
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Content="# Items"/>
+            <Label Grid.Row="0" Grid.Column="1" Content="Min"/>
+            <Label Grid.Row="0" Grid.Column="2" Content="Max"/>
+            <Label Grid.Row="0" Grid.Column="3" Content="Items"/>
+
+            <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Path=NumDataItems, Mode=OneWay}"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Min, Mode=OneWay}"/>
+            <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Path=Max, Mode=OneWay}"/>
+            <ComboBox Grid.Row="1" Grid.Column="3" ItemsSource="{Binding Path=DataItems, Mode=OneWay}"/>
+        </Grid>
+
+
+    </Grid>
+</UserControl>
