@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6AB91985-6373-4C03-9796-8493B10AAB0B}</ProjectGuid>
+    <ProjectGuid>{52D76317-C050-46FF-A0D7-941C23C578BA}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataReaderTester</RootNamespace>
-    <AssemblyName>DataReaderTester</AssemblyName>
+    <RootNamespace>WpfPressurePlotter</RootNamespace>
+    <AssemblyName>WpfPressurePlotter</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -23,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,14 +34,45 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
-      <HintPath>..\..\..\PanSystem\Pan1\Reservoir\Pan4.0.8\Excel-Files\DialogTranslations\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+      <HintPath>..\..\..\..\PanSystem\Pan1\Reservoir\Pan4.0.8\Excel-Files\DialogTranslations\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Windows.Design.Extensibility, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="MigraDoc.DocumentObjectModel">
+      <HintPath>..\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\MigraDoc.DocumentObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="MigraDoc.Rendering">
+      <HintPath>..\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\MigraDoc.Rendering.dll</HintPath>
+    </Reference>
+    <Reference Include="MigraDoc.RtfRendering">
+      <HintPath>..\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\MigraDoc.RtfRendering.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot, Version=2014.1.546.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Documents\TestApps\WellPlotter\bin\Debug\OxyPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Wpf, Version=2014.1.491.0, Culture=neutral, PublicKeyToken=75e952ba404cdbb0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Documents\TestApps\WellPlotter\bin\Debug\OxyPlot.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Xps, Version=2014.1.546.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Documents\TestApps\WellPlotter\bin\Debug\OxyPlot.Xps.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp">
+      <HintPath>..\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\PdfSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting">
+      <HintPath>..\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\PdfSharp.Charting.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -51,28 +84,32 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit.Extended">
+      <HintPath>..\..\..\..\Documents\TestApps\WellPlotter\bin\Debug\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModels\DataColumnViewModel.cs" />
-    <Compile Include="ViewModels\DataReaderMainViewModel.cs" />
+    <Compile Include="Models\GeoData\CountriesData.cs" />
+    <Compile Include="Models\GeoData\CountryGeography.cs" />
+    <Compile Include="Models\GeoData\PolygonBoundary.cs" />
+    <Compile Include="Models\GeoData\PolygonPoint.cs" />
+    <Compile Include="ViewModels\CountryViewModel.cs" />
     <Compile Include="ViewModels\LasCurveViewModel.cs" />
     <Compile Include="ViewModels\Utilities\CommandHandler.cs" />
     <Compile Include="ViewModels\Utilities\WaitCursor.cs" />
-    <Compile Include="Views\DataRange.xaml.cs">
-      <DependentUpon>DataRange.xaml</DependentUpon>
+    <Compile Include="ViewModels\WpfPressurePlotterViewModel.cs" />
+    <Compile Include="Views\CartesianPlot.xaml.cs">
+      <DependentUpon>CartesianPlot.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LasCurveDetail.xaml.cs">
       <DependentUpon>LasCurveDetail.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SimpleLasReader.xaml.cs">
       <DependentUpon>SimpleLasReader.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SimpleTprReader.xaml.cs">
-      <DependentUpon>SimpleTprReader.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -86,25 +123,21 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\DataRange.xaml">
+    <Page Include="Views\CartesianPlot.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LasCurveDetail.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SimpleLasReader.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SimpleTprReader.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\MainDataReaderModel.cs" />
+    <Compile Include="Models\MainPressurePlotterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -122,6 +155,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -132,16 +166,30 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Logger\Logger.csproj">
+    <ProjectReference Include="..\..\Logger\Logger.csproj">
       <Project>{6f47a138-766f-4997-bf97-fb3ad2217032}</Project>
       <Name>Logger</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TprFileReader\TprFileReader.csproj">
+    <ProjectReference Include="..\..\TprFileReader\TprFileReader.csproj">
       <Project>{44fd7131-485f-44ac-85ad-cf109280b085}</Project>
       <Name>TprFileReader</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="GeoData\countries_world.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GeoData\ChadGeography.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GeoData\UruguayGeography.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GeoData\CostaRicaGeography.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GeoData\SwedenGeography.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

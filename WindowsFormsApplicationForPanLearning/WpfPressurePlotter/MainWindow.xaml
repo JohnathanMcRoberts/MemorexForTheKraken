@@ -1,0 +1,22 @@
+﻿<Window x:Class="WpfPressurePlotter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" 
+             xmlns:Views="clr-namespace:WpfPressurePlotter.Views">
+    <Grid>
+
+        <TabControl HorizontalAlignment="Left"  VerticalAlignment="Top" >
+            <TabItem Header="Read Simple LAS">
+                <Grid Background="#FFE5E5E5">
+                    <Views:SimpleLasReader />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Display Cartesian">
+                <Grid Background="#FFE5E5E5">
+                    <Views:CartesianPlot />
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>

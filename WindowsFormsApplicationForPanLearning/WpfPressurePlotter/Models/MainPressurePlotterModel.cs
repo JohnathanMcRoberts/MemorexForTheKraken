@@ -5,35 +5,34 @@ using System.Text;
 using System.Threading.Tasks;
 using TprFileReader;
 using TprFileReader.LAS;
+using WpfPressurePlotter.Models.GeoData;
 
-namespace DataReaderTester.Models
+namespace WpfPressurePlotter.Models
 {
-    public class MainDataReaderModel
+    public class MainPressurePlotterModel
     {
         private log4net.ILog Log;
 
-        public MainDataReaderModel(log4net.ILog log)
+        public MainPressurePlotterModel(log4net.ILog log)
         {
             Log = log;
-            TprFileName = Properties.Settings.Default.TprFile;
             LasFileName = Properties.Settings.Default.LasFile;
-            _iTprFile = null;
+
+            _countries = new CountriesData();
+
         }
 
-        #region TPR
+        private CountriesData _countries;
 
-        public string TprFileName { get; set; }
-
-        private ITprFile _iTprFile;
-
-        public ITprFile TprFile { get { return _iTprFile; } }
-
-        public void OpenSimpleTpr()
+        public List<string> CountryNames
         {
-            _iTprFile = new SimplestTprFile(TprFileName, Log);
+            get { return _countries.CountryNames; }
+        }
+        public List<CountryGeography> Countries
+        {
+            get { return _countries.Countries; }
         }
 
-        #endregion
 
         #region LAS
 
@@ -56,17 +55,17 @@ namespace DataReaderTester.Models
         public readonly string[] RateUnits = { "GPM", "cc/s" };
 
         public int LasFilePressureColumn
-        { 
+        {
             get { return _lasFilePressureColumn; }
-            set 
-            { 
+            set
+            {
                 if (value >= _lasFile.DataCurves.Count) return;
                 if (_lasFile.DataCurves[value].Descriptor.Unit == null)
                     return;
                 if (!PressureUnits.Contains(_lasFile.DataCurves[value].Descriptor.Unit))
                     return;
-                _lasFilePressureColumn = value; 
-            } 
+                _lasFilePressureColumn = value;
+            }
         }
         public int LasFileRateColumn
         {
@@ -74,29 +73,29 @@ namespace DataReaderTester.Models
             set
             {
                 if (value >= _lasFile.DataCurves.Count) return;
-                if (_lasFile.DataCurves[value].Descriptor.Unit == null) 
+                if (_lasFile.DataCurves[value].Descriptor.Unit == null)
                     return;
-                if (!RateUnits.Contains(_lasFile.DataCurves[value].Descriptor.Unit)) 
+                if (!RateUnits.Contains(_lasFile.DataCurves[value].Descriptor.Unit))
                     return;
                 _lasFileRateColumn = value;
             }
         }
 
-        public List<string> LasColumnNames 
+        public List<string> LasColumnNames
         {
             get { return _lasFile.DataCurves.Select(e => e.Descriptor.Mnemonic).ToList(); }
         }
 
-        
+
         public List<string> LasPressureColumnNames
         {
-            get 
+            get
             {
                 List<string> pressureCols = new List<string>();
                 foreach (var curve in _lasFile.DataCurves)
                     if (curve.Descriptor.Unit != null && PressureUnits.Contains(curve.Descriptor.Unit))
                         pressureCols.Add(curve.Descriptor.Mnemonic);
-                return pressureCols; 
+                return pressureCols;
             }
         }
         public List<string> LasRateColumnNames
@@ -111,10 +110,9 @@ namespace DataReaderTester.Models
             }
         }
 
-        private int _lasFileTimeColumn =0;
+        private int _lasFileTimeColumn = 0;
         private int _lasFilePressureColumn = 0;
         private int _lasFileRateColumn = 0;
         #endregion
-
     }
 }

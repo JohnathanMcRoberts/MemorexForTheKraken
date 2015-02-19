@@ -26,14 +26,14 @@ namespace DataReaderTester.ViewModels
             Log = log;
             _mainDataReaderModel = new MainDataReaderModel(log);
 
-            //CreateTabViewModels();
-
-            //_selectWellpathsEnabled = false;
-            //_plotViewsEnabled = false;
-
             
             SelectedTimeColumnVM = new  DataColumnViewModel(log);
             SelectedPressureColumnVM = new  DataColumnViewModel(log);
+
+
+            SelectedLasTimeColumnVM = new LasCurveViewModel(log);
+            SelectedLasPressureColumnVM = new LasCurveViewModel(log);
+            SelectedLasRateColumnVM = new LasCurveViewModel(log);
         }
 
         #endregion
@@ -136,8 +136,114 @@ namespace DataReaderTester.ViewModels
             }
         }
         
-        public DataColumnViewModel SelectedTimeColumnVM{get; private set;}
-        public DataColumnViewModel SelectedPressureColumnVM{get; private set;}
+        public DataColumnViewModel SelectedTimeColumnVM { get; private set;}
+        public DataColumnViewModel SelectedPressureColumnVM { get; private set;}
+
+        public List<string> LasColumnNames
+        {
+            get
+            {
+                if (_mainDataReaderModel == null || _mainDataReaderModel.LasFile == null ||
+                    _mainDataReaderModel.LasColumnNames == null)
+                    return new List<string>();
+                return _mainDataReaderModel.LasColumnNames;
+            }
+        }
+        public LasCurveViewModel SelectedLasTimeColumnVM { get; private set; }
+        public LasCurveViewModel SelectedLasPressureColumnVM { get; private set; }
+        public LasCurveViewModel SelectedLasRateColumnVM { get; private set; }
+
+        public int SelectedLasTimeColumnIndex
+        {
+            get
+            {
+                if (_mainDataReaderModel == null || _mainDataReaderModel.LasFile == null ||
+                    _mainDataReaderModel.LasFile.DataCurves == null || _mainDataReaderModel.LasFileTimeColumn == -1)
+                    return 0;
+                return _mainDataReaderModel.LasFileTimeColumn;
+            }
+            set
+            {
+                if (_mainDataReaderModel == null || _mainDataReaderModel.LasFile == null ||
+                    _mainDataReaderModel.LasFile.DataCurves == null)
+                    return;
+                _mainDataReaderModel.LasFileTimeColumn = value;
+
+                OnPropertyChanged(() => SelectedLasTimeColumnIndex);
+                
+                if (_mainDataReaderModel != null && _mainDataReaderModel.LasFile != null &&
+                    _mainDataReaderModel.LasFileTimeColumn == value)
+                {
+                    SelectedLasTimeColumnVM.Column =
+                        _mainDataReaderModel.LasFile.DataCurves[_mainDataReaderModel.LasFileTimeColumn];
+                    OnPropertyChanged(() => SelectedLasTimeColumnVM);
+                }
+                else
+                    OnPropertyChanged(() => SelectedLasTimeColumnIndex);
+            }
+        }
+
+
+        public int SelectedLasPressureColumnIndex
+        {
+            get
+            {
+                if (_mainDataReaderModel == null || _mainDataReaderModel.LasFile == null ||
+                    _mainDataReaderModel.LasFile.DataCurves == null || _mainDataReaderModel.LasFilePressureColumn == -1)
+                    return 0;
+                return _mainDataReaderModel.LasFilePressureColumn;
+            }
+            set
+            {
+                if (_mainDataReaderModel == null || _mainDataReaderModel.LasFile == null ||
+                    _mainDataReaderModel.LasFile.DataCurves == null)
+                    return;
+                _mainDataReaderModel.LasFilePressureColumn = value;
+
+                OnPropertyChanged(() => SelectedLasPressureColumnIndex);
+                
+                if (_mainDataReaderModel != null && _mainDataReaderModel.LasFile != null &&
+                    _mainDataReaderModel.LasFilePressureColumn == value)
+                {
+                    SelectedLasPressureColumnVM.Column =
+                        _mainDataReaderModel.LasFile.DataCurves[value];
+                    OnPropertyChanged(() => SelectedLasPressureColumnVM);
+                }
+                else
+                    OnPropertyChanged(() => SelectedLasPressureColumnIndex);
+            }
+        }
+
+        public int SelectedLasRateColumnIndex
+        {
+            get
+            {
+                if (_mainDataReaderModel == null || _mainDataReaderModel.LasFile == null ||
+                    _mainDataReaderModel.LasFile.DataCurves == null || _mainDataReaderModel.LasFileRateColumn == -1)
+                    return 0;
+                return _mainDataReaderModel.LasFileRateColumn;
+            }
+            set
+            {
+                if (_mainDataReaderModel == null || _mainDataReaderModel.LasFile == null ||
+                    _mainDataReaderModel.LasFile.DataCurves == null)
+                    return;
+                _mainDataReaderModel.LasFileRateColumn = value;
+
+                OnPropertyChanged(() => SelectedLasRateColumnIndex);
+
+                if (_mainDataReaderModel != null && _mainDataReaderModel.LasFile != null &&
+                    _mainDataReaderModel.LasFileRateColumn == value)
+                {
+                    SelectedLasRateColumnVM.Column =
+                        _mainDataReaderModel.LasFile.DataCurves[value];
+                    OnPropertyChanged(() => SelectedLasRateColumnVM);
+                }
+                else
+                    OnPropertyChanged(() => SelectedLasRateColumnIndex);
+            }
+        }
+
 
         #endregion
 
@@ -244,24 +350,20 @@ namespace DataReaderTester.ViewModels
 
                     IsFileOpened = true;
                     OnPropertyChanged(() => IsFileOpened);
-                    OnPropertyChanged(() => ColumnNames);
+                    OnPropertyChanged(() => LasColumnNames);
                     OnPropertyChanged(() => SelectedTimeColumnIndex);
                     OnPropertyChanged(() => SelectedPressureColumnIndex);
 
-                    if (_mainDataReaderModel != null && _mainDataReaderModel.TprFile != null &&
-                        _mainDataReaderModel.TprFile.TimeColumn >= 0)
-                    {
-                        SelectedTimeColumnVM.Column =
-                            _mainDataReaderModel.TprFile.ColumnDefinitions[_mainDataReaderModel.TprFile.TimeColumn];
-                        OnPropertyChanged(() => SelectedTimeColumnVM);
-                    }
 
-                    if (_mainDataReaderModel != null && _mainDataReaderModel.TprFile != null &&
-                        _mainDataReaderModel.TprFile.PressureColumn >= 0)
+                    if (_mainDataReaderModel != null && _mainDataReaderModel.LasFile != null &&
+                        _mainDataReaderModel.LasFile.DataCurves != null && 
+                        _mainDataReaderModel.LasFile.DataCurves.Count > 0)
                     {
-                        SelectedPressureColumnVM.Column =
-                            _mainDataReaderModel.TprFile.ColumnDefinitions[_mainDataReaderModel.TprFile.PressureColumn];
-                        OnPropertyChanged(() => SelectedPressureColumnVM);
+                        _mainDataReaderModel.LasFileTimeColumn = 0;
+                        SelectedLasTimeColumnVM.Column =
+                            _mainDataReaderModel.LasFile.DataCurves[_mainDataReaderModel.LasFileTimeColumn];
+                        OnPropertyChanged(() => SelectedLasTimeColumnIndex);
+                        OnPropertyChanged(() => SelectedLasTimeColumnVM);
                     }
                 }
             }
