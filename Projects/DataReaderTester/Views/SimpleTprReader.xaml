@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="DataReaderTester.Views.SimpleTprReader"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Views="clr-namespace:DataReaderTester.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="750">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="40*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="300*"/>
+        </Grid.ColumnDefinitions>
+
+        <Button Grid.Row="0" Grid.Column="0" Margin="5,3,0,0" 
+                Content="TPR File" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="185"
+                Command="{Binding Path=ChooseTprFileCommand}" Height="22"/>
+        <TextBox Grid.Row="0" Grid.Column="1"  Margin="5,5,0,0" Grid.ColumnSpan="2"
+                 HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"   IsReadOnly="True"
+                 Text="{Binding Path=TprFileName, Mode=OneWay}" VerticalAlignment="Top" MinWidth="290" Width="525"
+                IsEnabled="{Binding Path=IsFileOpened, Mode=OneWay}"  />
+
+
+        <Grid  Grid.Row="1" Grid.Column="2" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="60"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Name"/>
+            <Label Grid.Row="0" Grid.Column="1" Content="Min"/>
+            <Label Grid.Row="0" Grid.Column="2" Content="Max"/>
+            <Label Grid.Row="0" Grid.Column="3" Content="# Items"/>
+            <Label Grid.Row="0" Grid.Column="4" Content="Items"/>
+        </Grid>
+
+        <Label Grid.Row="2" Grid.Column="0" Margin="5,3,0,0" 
+               Content="Time Column" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="185"/>
+        <ComboBox Grid.Row="2" Grid.Column="1" Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23"   IsReadOnly="True"
+                ItemsSource="{Binding Path=ColumnNames, Mode=OneWay}" 
+                SelectedIndex="{Binding Path=SelectedTimeColumnIndex, Mode=TwoWay}" 
+                IsSynchronizedWithCurrentItem="True" 
+                Text="Select Columns" VerticalAlignment="Top" MinWidth="140" 
+                IsEnabled="{Binding Path=IsFileOpened, Mode=OneWay}" />
+        <Views:DataRange  Grid.Row="2" Grid.Column="2" DataContext="{Binding Path=SelectedTimeColumnVM}" />
+
+        <Label Grid.Row="3" Grid.Column="0" Margin="5,3,0,0" 
+               Content="Pressure Column" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="185"/>
+        <ComboBox Grid.Row="3" Grid.Column="1" Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23"   IsReadOnly="True"
+                ItemsSource="{Binding Path=ColumnNames, Mode=OneWay}" 
+                SelectedIndex="{Binding Path=SelectedPressureColumnIndex, Mode=TwoWay}"
+                IsSynchronizedWithCurrentItem="True" 
+                Text="Select Columns" VerticalAlignment="Top" MinWidth="140" 
+                IsEnabled="{Binding Path=IsFileOpened, Mode=OneWay}" />
+        <Views:DataRange  Grid.Row="3" Grid.Column="2" DataContext="{Binding Path=SelectedPressureColumnVM}" />
+            
+    </Grid>
+</UserControl>

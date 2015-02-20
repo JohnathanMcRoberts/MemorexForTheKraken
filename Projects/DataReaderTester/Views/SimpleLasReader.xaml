@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="DataReaderTester.Views.SimpleLasReader"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:Views="clr-namespace:DataReaderTester.Views"
+             d:DesignHeight="400" d:DesignWidth="750">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="120"></RowDefinition>
+            <RowDefinition Height="120"></RowDefinition>
+            <RowDefinition Height="120"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="40*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="300*"/>
+        </Grid.ColumnDefinitions>
+
+        <Button Grid.Row="0" Grid.Column="0" Margin="5,3,0,0" 
+                Content="LAS File" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="185"
+                Command="{Binding Path=ChooseLasFileCommand}" Height="22"/>
+        <TextBox Grid.Row="0" Grid.Column="1"  Margin="5,5,0,0" Grid.ColumnSpan="2"
+                 HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"   IsReadOnly="True"
+                 Text="{Binding Path=LasFileName, Mode=OneWay}" VerticalAlignment="Top" MinWidth="290" Width="525"
+                IsEnabled="{Binding Path=IsFileOpened, Mode=OneWay}"  />
+
+
+
+        <Label Grid.Row="1" Grid.Column="0" Margin="5,3,0,0" 
+               Content="Time Column" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="185"/>
+        <ComboBox Grid.Row="1" Grid.Column="1" Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23"   IsReadOnly="True"
+                ItemsSource="{Binding Path=LasColumnNames, Mode=OneWay}" 
+                SelectedIndex="{Binding Path=SelectedLasTimeColumnIndex, Mode=TwoWay}" 
+                IsSynchronizedWithCurrentItem="True" 
+                Text="Select Columns" VerticalAlignment="Top" MinWidth="140" 
+                IsEnabled="{Binding Path=IsFileOpened, Mode=OneWay}" />
+        <Views:LasCurveDetail  Grid.Row="1" Grid.Column="2" DataContext="{Binding Path=SelectedLasTimeColumnVM}" />
+
+        <Label Grid.Row="2" Grid.Column="0" Margin="5,3,0,0" 
+               Content="Pressure Column" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="185"/>
+        <ComboBox Grid.Row="2" Grid.Column="1" Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23"   IsReadOnly="True"
+                ItemsSource="{Binding Path=LasColumnNames, Mode=OneWay}" 
+                SelectedIndex="{Binding Path=SelectedLasPressureColumnIndex, Mode=TwoWay}"
+                IsSynchronizedWithCurrentItem="True" 
+                Text="Select Columns" VerticalAlignment="Top" MinWidth="140" 
+                IsEnabled="{Binding Path=IsFileOpened, Mode=OneWay}" />
+        <Views:LasCurveDetail  Grid.Row="2" Grid.Column="2" DataContext="{Binding Path=SelectedLasPressureColumnVM}" />
+
+        <Label Grid.Row="3" Grid.Column="0" Margin="5,3,0,0" 
+               Content="Rate Column" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="185"/>
+        <ComboBox Grid.Row="3" Grid.Column="1" Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23"   IsReadOnly="True"
+                ItemsSource="{Binding Path=LasColumnNames, Mode=OneWay}" 
+                SelectedIndex="{Binding Path=SelectedLasRateColumnIndex, Mode=TwoWay}"
+                IsSynchronizedWithCurrentItem="True" 
+                Text="Select Columns" VerticalAlignment="Top" MinWidth="140" 
+                IsEnabled="{Binding Path=IsFileOpened, Mode=OneWay}" />
+        <Views:LasCurveDetail  Grid.Row="3" Grid.Column="2" DataContext="{Binding Path=SelectedLasRateColumnVM}" />
+
+    </Grid>
+</UserControl>

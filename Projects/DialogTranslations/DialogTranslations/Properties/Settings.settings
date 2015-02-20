@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DialogTranslations.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="EnglishDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\E142890\PanSystem\Languages\English\PanSysData\Text Files</Value>
+    </Setting>
+    <Setting Name="TranslationDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\E142890\PanSystem\Languages\Espanol\PanSysData\Text Files</Value>
+    </Setting>
+    <Setting Name="OutputFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\E142890\Documents\TranslationStrings.csv</Value>
+    </Setting>
+    <Setting Name="CompleteEnglishDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\E142890\PanSystem\Pan1\Reservoir\Pan4.0.8\Resource files</Value>
+    </Setting>
+    <Setting Name="CompleteTranslationDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\E142890\PanSystem\Pan1\Reservoir\Pan4.0.8\Resource files</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

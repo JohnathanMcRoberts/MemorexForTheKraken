@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="DialogTranslations.Views.ChooseLanguageDirectories"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="150" d:DesignWidth="700">
+    <Grid Margin="5,5,5,5">
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="40*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0" Margin="5,3,0,0" 
+               Content="Complete English Directory" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="185"/>
+        <TextBox Grid.Row="0" Grid.Column="1"  Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"   IsReadOnly="True"
+                 Text="{Binding Path=CompleteEnglishDirectoryName, Mode=OneWay}" VerticalAlignment="Top" MinWidth="290" />
+        <Button Grid.Row="0" Grid.Column="2" Margin="5,3,0,0" 
+                Content="Choose English Directory" HorizontalAlignment="Left" VerticalAlignment="Top" Width="225"
+                Command="{Binding Path=ChooseEnglishDirectoryCommand}" Height="22"/>
+
+
+        <Label Grid.Row="1" Grid.Column="0" Margin="5,3,0,0" 
+               Content="Complete Translation Directory" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="185"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"   IsReadOnly="True"
+                 Text="{Binding Path=CompleteTranslationDirectoryName, Mode=OneWay}" VerticalAlignment="Top" MinWidth="290" />
+        <Button Grid.Row="1" Grid.Column="2" Margin="5,3,0,0" 
+                Content="Choose Translation Directory" HorizontalAlignment="Left" VerticalAlignment="Top" Width="225"
+                Command="{Binding Path=ChooseTranslationDirectoryCommand}" Height="22"/>
+
+
+        <Button Grid.Row="3" Grid.Column="2" Margin="5,10,0,0" 
+                Content="Generate Translation File" HorizontalAlignment="Left" VerticalAlignment="Top" Width="225"
+                Command="{Binding Path=GenerateCompleteTranslationFileCommand}" Height="22"/>
+
+    </Grid>
+</UserControl>
