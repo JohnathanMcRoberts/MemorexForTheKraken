@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -359,6 +360,7 @@ namespace WpfPressurePlotter.ViewModels
         private MainWindow _mainWindow;
         private MainPressurePlotterModel _mainModel;
         private ICommand _chooseLasFileCommand;
+        private ICommand _printToPngCommand;
         private CountryViewModel _selectedCountry;
 
         #endregion
@@ -374,9 +376,43 @@ namespace WpfPressurePlotter.ViewModels
             }
         }
 
+
+        public ICommand PrintToPngCommand
+        {
+            get
+            {
+                return _printToPngCommand ??
+                    (_printToPngCommand = new CommandHandler(() => PrintToPngCommandAction(), true));
+            }
+        }
         #endregion
 
         #region Command Handlers
+
+        public void PrintToPngCommandAction()
+        {
+            SaveFileDialog fileDialog = new SaveFileDialog();
+            fileDialog.FileName = _mainModel.LastPngFile;
+
+            // TODO - get the file types from the available serializers
+            fileDialog.Filter = @"All files (*.*)|*.*|PNG files (*.png)|*.png";
+            fileDialog.FilterIndex = 4;
+            fileDialog.RestoreDirectory = true;
+
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                _mainModel.LastPngFile = fileDialog.FileName;
+
+                Properties.Settings.Default.LastPngFile =
+                    _mainModel.LastPngFile;
+                Properties.Settings.Default.Save();
+
+                using (var stream = File.Create(fileDialog.FileName))
+                {
+                    OxyPlot.Wpf.PngExporter.Export(_plotModel, stream, 800, 600, OxyColors.White);
+                }
+            }
+        }
 
         public void ChooseLasFileCommandAction()
         {

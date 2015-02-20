@@ -5,5 +5,8 @@
     <Setting Name="LasFile" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Users\E142890\Documents\LAS Files\REP[1].las</Value>
     </Setting>
+    <Setting Name="LastPngFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\E142890\Documents\Iceland.PNG</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

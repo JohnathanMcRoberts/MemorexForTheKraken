@@ -17,6 +17,7 @@ namespace WpfPressurePlotter.Models
         {
             Log = log;
             LasFileName = Properties.Settings.Default.LasFile;
+            LastPngFile =  Properties.Settings.Default.LastPngFile;
 
             _countries = new CountriesData();
 
@@ -33,6 +34,7 @@ namespace WpfPressurePlotter.Models
             get { return _countries.Countries; }
         }
 
+        public string LastPngFile { get; set; }
 
 
         #region LAS
@@ -115,5 +117,6 @@ namespace WpfPressurePlotter.Models
         private int _lasFilePressureColumn = 0;
         private int _lasFileRateColumn = 0;
         #endregion
+
     }
 }
