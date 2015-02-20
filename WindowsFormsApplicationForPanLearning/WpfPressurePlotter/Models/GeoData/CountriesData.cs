@@ -32,6 +32,6 @@ namespace WpfPressurePlotter.Models.GeoData
         }
 
         public List<string> CountryNames { get { return _countries.Keys.ToList(); } }
-        public List<CountryGeography> Countries { get { return _countries.Values.ToList(); } }
+        public List<CountryGeography> Countries { get { return _countries.Values.OrderBy(x => x.Name).ToList(); } }
     }
 }
