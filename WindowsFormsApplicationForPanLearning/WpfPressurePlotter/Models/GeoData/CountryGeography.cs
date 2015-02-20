@@ -30,7 +30,13 @@ namespace WpfPressurePlotter.Models.GeoData
         }
 
         public double CentralLongitude {get;set;}
-        public double CentralLatitude {get;set;}        
+        public double CentralLatitude {get;set;}
+
+        public double MinLongitude { get; private set; }
+        public double MinLatitude { get; private set; }
+
+        public double MaxLongitude { get; private set; }
+        public double MaxLatitude { get; private set; }   
 
         public List<PolygonBoundary> LandBlocks { get; set; }
 
@@ -42,7 +48,6 @@ namespace WpfPressurePlotter.Models.GeoData
         public static CountryGeography Create(XmlElement element)
         {
             CountryGeography country = new CountryGeography();
-
 
             country.Name = element.SelectSingleNode("name").InnerText;
             country.Description = element.SelectSingleNode("description").InnerText;
@@ -57,12 +62,21 @@ namespace WpfPressurePlotter.Models.GeoData
             var boundaryRingCoordinates =
                 element.SelectNodes("MultiGeometry/Polygon/outerBoundaryIs/LinearRing");
 
+            country.MinLongitude = country.MaxLongitude = country.CentralLongitude;
+            country.MinLatitude = country.MaxLatitude = country.CentralLatitude;
+
             foreach (var boundary in boundaryRingCoordinates)
             {
                 PolygonBoundary landBlock = new PolygonBoundary(
                         ((XmlElement)boundary).SelectSingleNode("coordinates").InnerText);
 
                 country.LandBlocks.Add(landBlock);
+
+                country.MinLongitude = Math.Min(landBlock.MinLongitude, country.MinLongitude);
+                country.MaxLongitude = Math.Max(landBlock.MaxLongitude, country.MaxLongitude);
+
+                country.MinLatitude = Math.Min(landBlock.MinLatitude, country.MinLatitude);
+                country.MaxLatitude = Math.Max(landBlock.MaxLatitude, country.MaxLatitude);
             }
 
             return country;

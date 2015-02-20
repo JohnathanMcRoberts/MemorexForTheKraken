@@ -17,7 +17,6 @@ namespace WpfPressurePlotter.Models.GeoData
         private readonly Dictionary<string, CountryGeography> _countries = new Dictionary<string, CountryGeography>();
         private void ParseCountries(XmlDocument doc)
         {
-
             var nameNodes = doc.SelectNodes("//Document/Placemark/name");
             
             var placemarkNodes = doc.SelectNodes("//Document/Placemark");
@@ -30,7 +29,6 @@ namespace WpfPressurePlotter.Models.GeoData
                 CountryGeography country = CountryGeography.Create(element);
                 _countries.Add(country.Name, country);
             }
-
         }
 
         public List<string> CountryNames { get { return _countries.Keys.ToList(); } }

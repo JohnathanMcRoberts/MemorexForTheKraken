@@ -11,7 +11,12 @@ using System.Collections.ObjectModel;
 using log4net;
 
 using WpfPressurePlotter.Models;
+using WpfPressurePlotter.Models.GeoData;
 using WpfPressurePlotter.ViewModels.Utilities;
+
+using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Series;
 
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 
@@ -43,6 +48,151 @@ namespace WpfPressurePlotter.ViewModels
         }
 
         #endregion
+
+        protected PlotModel _plotModel;
+
+
+        public PlotModel PlotModel
+        {
+            get { return _plotModel; }
+            set { _plotModel = value; OnPropertyChanged("PlotModel"); }
+        }
+
+        internal void InitialiseChartViewModel()
+        {
+            _plotModel = new PlotModel();
+            SetUpModel();
+            LoadData();
+            OnPropertyChanged(() => PlotModel);
+        }
+
+
+        private void SetUpModel()
+        {
+            _plotModel.LegendTitle = SelectedCountry.Name;
+            _plotModel.LegendOrientation = LegendOrientation.Horizontal;
+            _plotModel.LegendPlacement = LegendPlacement.Outside;
+            _plotModel.LegendPosition = LegendPosition.TopRight;
+            _plotModel.LegendBackground = OxyColor.FromAColor(200, OxyColors.White);
+            _plotModel.LegendBorder = OxyColors.Black;
+            _plotModel.PlotType = PlotType.Cartesian;
+
+
+            double minX = _selectedCountry.MinLongitude;
+            double minY = _selectedCountry.MinLatitude;
+
+            PolygonPoint minPt = new PolygonPoint(_selectedCountry.MinLongitude, _selectedCountry.MinLatitude);
+            minPt.GetCoordinates(out minX, out minY);
+
+
+            double maxX = _selectedCountry.MinLongitude;
+            double maxY = _selectedCountry.MinLatitude;
+
+            PolygonPoint maxPt = new PolygonPoint(_selectedCountry.MaxLongitude, _selectedCountry.MaxLatitude);
+            maxPt.GetCoordinates(out maxX, out maxY);
+
+            double xRange = maxX - minX;
+            double yRange = maxY - minY;
+
+
+            var eastAxis = new LinearAxis(AxisPosition.Bottom, 0)
+            {
+                MajorGridlineStyle = LineStyle.Solid,
+                MinorGridlineStyle = LineStyle.Dot,
+                Title = "East",
+                PositionAtZeroCrossing = false,
+                Maximum = maxX  + (xRange* 0.1),
+                Minimum = minX - (xRange * 0.1)
+            };
+            _plotModel.Axes.Add(eastAxis);
+
+            var northAxis = new LinearAxis(AxisPosition.Left, 0)
+            {
+                MajorGridlineStyle = LineStyle.Solid,
+                MinorGridlineStyle = LineStyle.Dot,
+                Title = "North",
+                PositionAtZeroCrossing = false,
+                Maximum = maxY + (yRange * 0.1),
+                Minimum = minY - (yRange * 0.1)
+            };
+            _plotModel.Axes.Add(northAxis);
+
+        }
+
+        private void LoadData()
+        {
+            double minEast;
+            double minNorth;
+            double maxEast;
+            double maxNorth;
+            AddAreaSeriesToPlot(out minEast, out minNorth, out maxEast, out maxNorth);
+        }
+
+        
+        private double _startPointEast = 0;
+        private double _startPointNorth = 0;
+
+        private void SetupMasterPoint()
+        {
+            double centreX = 0;
+            double centreY = 0;
+            PolygonPoint centre = new PolygonPoint(_selectedCountry.CentralLongitude, _selectedCountry.CentralLatitude);
+            centre.GetCoordinates(out centreX, out centreY);
+
+            _startPointEast = centreX;
+            _startPointNorth = centreY;
+        }
+
+
+        private void AddAreaSeriesToPlot(
+            out double minEast, out double minNorth, out double maxEast, out double maxNorth)
+        {
+
+            SetupMasterPoint();
+
+            minEast = _selectedCountry.MinLongitude;
+            minNorth = _selectedCountry.MinLatitude;
+
+            maxEast = _selectedCountry.MaxLongitude;
+            maxNorth = _selectedCountry.MaxLatitude;
+
+
+            int i = 0;
+            foreach (var boundary in _selectedCountry.LandBlocks)
+            {
+                var areaSeries = new AreaSeries
+                {
+                    Color = OxyColors.Blue,
+                };
+#if aaa
+                double eastOffset =
+                    wellpath.PlanSurvey.ParentWell.ParentSlot.CoordEasting - _startPointEast;
+                double northOffset =
+                    wellpath.PlanSurvey.ParentWell.ParentSlot.CoordNorthing - _startPointNorth;
+
+                int pointIndex = 0;
+
+                List<Annotation> annotations = new List<Annotation>();
+#endif
+                foreach (var point in boundary.Points)
+                {
+
+                    double ptX = 0;
+                    double ptY = 0;
+                    point.GetCoordinates(out ptX, out ptY);
+                    DataPoint dataPoint = new DataPoint(ptX, ptY);
+
+                    areaSeries.Points.Add(dataPoint);
+
+                }
+
+
+                _plotModel.Series.Add(areaSeries);
+
+                i++;
+            }
+        }
+
 
         #region INotifyPropertyChanged Members
 
@@ -85,6 +235,7 @@ namespace WpfPressurePlotter.ViewModels
             {
                 _selectedCountry = value;
                 OnPropertyChanged(() => SelectedCountry);
+                InitialiseChartViewModel();
             }
         }
 

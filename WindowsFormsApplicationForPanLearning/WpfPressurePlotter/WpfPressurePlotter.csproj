@@ -99,6 +99,8 @@
     <Compile Include="Models\GeoData\PolygonPoint.cs" />
     <Compile Include="ViewModels\CountryViewModel.cs" />
     <Compile Include="ViewModels\LasCurveViewModel.cs" />
+    <Compile Include="ViewModels\PlotModelBase.cs" />
+    <Compile Include="ViewModels\Settings\PlotSettingViewModelBase.cs" />
     <Compile Include="ViewModels\Utilities\CommandHandler.cs" />
     <Compile Include="ViewModels\Utilities\WaitCursor.cs" />
     <Compile Include="ViewModels\WpfPressurePlotterViewModel.cs" />

@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              xmlns:oxy="http://oxyplot.codeplex.com"
              xmlns:views="clr-namespace:WpfPressurePlotter.Views"
-             d:DesignHeight="300" d:DesignWidth="600">
+             d:DesignHeight="300" d:DesignWidth="900">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -16,6 +16,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
+            <RowDefinition Height="60" />
             <RowDefinition Height="6*" MinHeight="100"/>
             <RowDefinition Height="10" />
             <RowDefinition Height="*"  MinHeight="30"/>
@@ -30,22 +31,74 @@
         	ItemsSource="{Binding Countries}" DisplayMemberPath="Name" SelectedValue="{Binding SelectedCountry}" 
                         VerticalAlignment="Top" Height="28" Width="180" RenderTransformOrigin="0.5,0.5" Margin="10,9,0,0"/>
 
-        <DockPanel Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="3">
+
+        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" ></RowDefinition>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="60"/>
+
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="90"/>
+
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="90"/>
+
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="90"/>
+
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="90"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Content="ISO_A2"/>
+            <Label Grid.Row="0" Grid.Column="1" Content="ISO_N3"/>
+            
+            <Label Grid.Row="0" Grid.Column="3" Content="Central Lat"/>
+            <Label Grid.Row="0" Grid.Column="4" Content="Central Long"/>
+
+            <Label Grid.Row="0" Grid.Column="6" Content="Min Lat"/>
+            <Label Grid.Row="0" Grid.Column="7" Content="Max Lat"/>
+
+            <Label Grid.Row="0" Grid.Column="9" Content="Min Long"/>
+            <Label Grid.Row="0" Grid.Column="10" Content="Max Long"/>
+            
+            <Label Grid.Row="0" Grid.Column="12" Content="# Land Blocks"/>
+
+
+            <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Path=SelectedCountry.ISO_A2 , Mode=OneWay}"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=SelectedCountry.ISO_N3, Mode=OneWay}"/>
+
+            <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding Path=SelectedCountry.CentralLongitudeDms, Mode=OneWay}"/>
+            <TextBox Grid.Row="1" Grid.Column="4" Text="{Binding Path=SelectedCountry.CentralLatitudeDms, Mode=OneWay}"/>
+
+            <TextBox Grid.Row="1" Grid.Column="6" Text="{Binding Path=SelectedCountry.MinLongitudeDms, Mode=OneWay}"/>
+            <TextBox Grid.Row="1" Grid.Column="7" Text="{Binding Path=SelectedCountry.MaxLongitudeDms, Mode=OneWay}"/>
+
+            <TextBox Grid.Row="1" Grid.Column="9" Text="{Binding Path=SelectedCountry.MinLatitudeDms, Mode=OneWay}"/>
+            <TextBox Grid.Row="1" Grid.Column="10" Text="{Binding Path=SelectedCountry.MaxLatitudeDms, Mode=OneWay}"/>
+
+            <TextBox Grid.Row="1" Grid.Column="12" Text="{Binding Path=SelectedCountry.NumberLandBlocks, Mode=OneWay}"/>
+        </Grid>
+        <DockPanel Grid.Row="2" Grid.RowSpan="3" Grid.ColumnSpan="3">
 
             <Grid  >
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="40"/>
                     <RowDefinition Height="120*" ></RowDefinition>
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
 
-                <Label  Grid.Row="0" 
-            Content="{Binding Path=LoadedFieldName, Mode=OneWay}" />
-
-
-                <oxy:Plot Title="{Binding Path=LoadedFieldName, Mode=OneWay}" 
-                  Model="{Binding Path=PlotModel}" Margin="10" Grid.Row="1">
+                <oxy:Plot Title="{Binding Path=SelectedCountry.Name, Mode=OneWay}" 
+                  Model="{Binding Path=PlotModel}" Margin="10" Grid.Row="0" MinHeight="400" MinWidth="600">
                 </oxy:Plot>
 
             </Grid>

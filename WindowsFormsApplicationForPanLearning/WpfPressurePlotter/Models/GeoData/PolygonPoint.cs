@@ -22,18 +22,24 @@ namespace WpfPressurePlotter.Models.GeoData
                 Latitude = coord;
         }
 
-        const double DegreesToRadians = 180.0 / Math.PI;
+        public PolygonPoint(double longitude, double latitude)
+        {
+            Longitude = longitude;
+            Latitude = latitude;
+        }
+
+        const double DegreesPerRadians = 180.0 / Math.PI;
 
         public void GetCoordinates(out double x, out double y)
         {
             x = Longitude;
-            if ((Math.Abs(Latitude) - 90.0) < 0.01) 
+            if ((90.0 - Math.Abs(Latitude)) < 0.01) 
                 y = 0;
             else
             {
-                double latInRads = Latitude * DegreesToRadians;
-                double loxodrome = Math.Tan( (Math.PI/4) + latInRads/2);
-                y = Math.Log (loxodrome);
+                double latInRads = Latitude / DegreesPerRadians;
+                double latTan = Math.Tan( (Math.PI/4) + latInRads/2);
+                y = Math.Log(latTan) * DegreesPerRadians;
             }
         }
     }
