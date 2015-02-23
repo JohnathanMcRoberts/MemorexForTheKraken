@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Windows.Input;
 using System.Windows.Forms;
+using System.Windows.Media;
 using System.Collections.ObjectModel;
 using log4net;
 
@@ -19,6 +20,8 @@ using OxyPlot.Axes;
 using OxyPlot.Series;
 
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
+
+
 
 namespace WpfPressurePlotter.ViewModels
 {
@@ -41,7 +44,16 @@ namespace WpfPressurePlotter.ViewModels
                 if (_selectedCounty == null)
                     _selectedCounty = countyVM;
             }
+
+            _numNeighbours = 5;
+            _oxySelectedCountyColour = OxyColors.Green;
+            _oxyNeighbourCountiesColour = OxyColors.LightBlue;
         }
+
+        #endregion
+
+        private OxyPlot.Axes.Axis _eastAxis;
+        private OxyPlot.Axes.Axis _northAxis;
 
         #region INotifyPropertyChanged Members
 
@@ -67,8 +79,6 @@ namespace WpfPressurePlotter.ViewModels
         }
 
         #endregion // INotifyPropertyChanged Members
-
-        #endregion
 
         #region Utility Functions
 
@@ -107,28 +117,30 @@ namespace WpfPressurePlotter.ViewModels
             double xRange = maxX - minX;
             double yRange = maxY - minY;
 
-
-            var eastAxis = new LinearAxis(AxisPosition.Bottom, 0)
+            _eastAxis = new LinearAxis()
             {
                 MajorGridlineStyle = LineStyle.Solid,
                 MinorGridlineStyle = LineStyle.Dot,
                 Title = "East",
                 PositionAtZeroCrossing = false,
                 Maximum = maxX + (xRange * 0.1),
-                Minimum = minX - (xRange * 0.1)
-            };
-            _plotModel.Axes.Add(eastAxis);
+                Minimum = minX - (xRange * 0.1),
+                Position = OxyPlot.Axes.AxisPosition.Bottom
+            }; ;
 
-            var northAxis = new LinearAxis(AxisPosition.Left, 0)
+            _plotModel.Axes.Add(_eastAxis);
+
+            _northAxis = new LinearAxis()
             {
                 MajorGridlineStyle = LineStyle.Solid,
                 MinorGridlineStyle = LineStyle.Dot,
                 Title = "North",
                 PositionAtZeroCrossing = false,
                 Maximum = maxY + (yRange * 0.1),
-                Minimum = minY - (yRange * 0.1)
+                Minimum = minY - (yRange * 0.1),
+                Position = OxyPlot.Axes.AxisPosition.Left
             };
-            _plotModel.Axes.Add(northAxis);
+            _plotModel.Axes.Add(_northAxis);
 
         }
 
@@ -138,7 +150,61 @@ namespace WpfPressurePlotter.ViewModels
             double minNorth;
             double maxEast;
             double maxNorth;
-            AddAreaSeriesToPlot(out minEast, out minNorth, out maxEast, out maxNorth);
+
+            SetupMasterPoint();
+
+
+            AddAreaSeriesToPlot(out minEast, out minNorth, out maxEast, out maxNorth, 
+                _selectedCounty, _oxySelectedCountyColour);
+
+            double minNeighbourEast;
+            double minNeighbourNorth;
+            double maxNeighbourEast;
+            double maxNeighbourNorth;
+
+            for (int i = 0; i < _numNeighbours; ++i)
+            {
+                AddAreaSeriesToPlot(out minNeighbourEast, out minNeighbourNorth, 
+                    out maxNeighbourEast, out maxNeighbourNorth,
+                    _selectedCounty.Neighbours[i],
+                    _oxyNeighbourCountiesColour
+                    //_defaultColors[i % _defaultColors.Count]
+                    );
+
+                minEast = Math.Min(minEast, minNeighbourEast);
+                maxEast = Math.Max(minEast, maxNeighbourEast);
+                minNorth = Math.Min(minNorth, minNeighbourNorth);
+                maxNorth = Math.Max(minNorth, maxNeighbourNorth);
+            }
+
+            UpdateAxesMinMax(minEast, minNorth, maxEast, maxNorth);
+
+        }
+
+        private void UpdateAxesMinMax(
+            double minEast,double minNorth,double maxEast,double maxNorth)
+        {
+
+            double eastRange = maxEast - minEast;
+            double northRange = maxNorth - minNorth;
+
+
+            double minPtLong = minEast - (eastRange * 0.1);
+            double minPtLat = minNorth - (northRange * 0.1);
+            PolygonPoint minPt = new PolygonPoint(minPtLong, minPtLat);
+            minPt.GetCoordinates(out minPtLong, out minPtLat);
+
+            _eastAxis.Minimum = minPtLong;
+            _northAxis.Minimum = minPtLat;
+
+
+            double maxPtLong = maxEast + (eastRange * 0.1);
+            double maxPtLat = maxNorth + (northRange * 0.1);
+            PolygonPoint maxPt = new PolygonPoint(maxPtLong, maxPtLat);
+            maxPt.GetCoordinates(out maxPtLong, out maxPtLat);
+
+            _eastAxis.Maximum = maxPtLong;
+            _northAxis.Maximum = maxPtLat;
         }
 
         private void SetupMasterPoint()
@@ -153,44 +219,46 @@ namespace WpfPressurePlotter.ViewModels
         }
 
         private void AddAreaSeriesToPlot(
-            out double minEast, out double minNorth, out double maxEast, out double maxNorth)
+            out double minEast, out double minNorth, out double maxEast, out double maxNorth, CountyViewModel county,
+            OxyPlot.OxyColor colour)
         {
+            minEast = county.MinLongitude;
+            minNorth = county.MinLatitude;
 
-            SetupMasterPoint();
+            maxEast = county.MaxLongitude;
+            maxNorth = county.MaxLatitude;
 
-            minEast = _selectedCounty.MinLongitude;
-            minNorth = _selectedCounty.MinLatitude;
-
-            maxEast = _selectedCounty.MaxLongitude;
-            maxNorth = _selectedCounty.MaxLatitude;
-
+            bool addedTitleForLegend = false;
 
             int i = 0;
-            foreach (var boundary in _selectedCounty.LandBlocks)
+            foreach (var boundary in county.LandBlocks)
             {
                 var areaSeries = new AreaSeries
                 {
-                    Color = OxyColors.Blue,
+                    Color = colour,
+                    ToolTip = county.Name,
                 };
+                if (!addedTitleForLegend)
+                {
+                    areaSeries.Title = county.Name;
+                    addedTitleForLegend = true;
+                }
 
                 foreach (var point in boundary.Points)
                 {
-
                     double ptX = 0;
                     double ptY = 0;
                     point.GetCoordinates(out ptX, out ptY);
                     DataPoint dataPoint = new DataPoint(ptX, ptY);
 
                     areaSeries.Points.Add(dataPoint);
-
                 }
 
-
                 _plotModel.Series.Add(areaSeries);
-
                 i++;
             }
         }
+
 
         #endregion
 
@@ -220,6 +288,79 @@ namespace WpfPressurePlotter.ViewModels
             set { _plotModel = value; OnPropertyChanged("PlotModel"); }
         }
 
+        public int NumNeighbours 
+        { 
+            get { return _numNeighbours; }
+            set
+            {
+                _numNeighbours = value;
+                OnPropertyChanged(() => NumNeighbours);
+                InitialiseChartViewModel();
+            }
+        }
+        public int MaxNeighbours
+        {
+            get { return SelectedCounty.Neighbours.Count; }
+        }
+        
+        public OxyColor OxySelectedCountyColour
+        {
+            get { return _oxySelectedCountyColour; }
+            set
+            {
+                _oxySelectedCountyColour = value;
+                OnPropertyChanged(() => OxySelectedCountyColour);
+                OnPropertyChanged(() => SelectedCountyColour);
+            }
+        }
+        public Color SelectedCountyColour
+        {
+            get 
+            { 
+                return Color.FromArgb(
+                    _oxySelectedCountyColour.A, 
+                    _oxySelectedCountyColour.R, 
+                    _oxySelectedCountyColour.G, 
+                    _oxySelectedCountyColour.B); 
+            }
+            set
+            {
+                _oxySelectedCountyColour = OxyPlot.OxyColor.FromArgb(value.A, value.R, value.G, value.B);
+                OnPropertyChanged(() => OxySelectedCountyColour);
+                OnPropertyChanged(() => SelectedCountyColour);
+                InitialiseChartViewModel();
+            }
+        }        
+            
+        public OxyColor OxyNeighbourCountiesColour
+        {
+            get { return _oxyNeighbourCountiesColour; }
+            set
+            {
+                _oxyNeighbourCountiesColour = value;
+                OnPropertyChanged(() => OxyNeighbourCountiesColour);
+                OnPropertyChanged(() => NeighbourCountiesColour);
+            }
+        }
+        public Color NeighbourCountiesColour
+        {
+            get 
+            { 
+                return Color.FromArgb(
+                    _oxyNeighbourCountiesColour.A, 
+                    _oxyNeighbourCountiesColour.R, 
+                    _oxyNeighbourCountiesColour.G, 
+                    _oxySelectedCountyColour.B); 
+            }
+            set
+            {
+                _oxyNeighbourCountiesColour = OxyPlot.OxyColor.FromArgb(value.A, value.R, value.G, value.B);
+                OnPropertyChanged(() => OxyNeighbourCountiesColour);
+                OnPropertyChanged(() => NeighbourCountiesColour);
+                InitialiseChartViewModel();
+            }
+        }        
+
         #endregion
 
         #region Member variables
@@ -234,6 +375,28 @@ namespace WpfPressurePlotter.ViewModels
 
         private ICommand _printToPngCommand;
         private CountyViewModel _selectedCounty;
+
+        private int _numNeighbours;
+        private OxyColor _oxySelectedCountyColour;
+        private OxyColor _oxyNeighbourCountiesColour;
+
+
+        protected readonly List<OxyColor> _defaultColors = new List<OxyColor>
+                                            {
+                                                OxyColors.Blue,
+                                                OxyColors.Red,
+                                                //OxyColors.Green,
+                                                OxyColors.Yellow,
+                                                OxyColors.DarkSlateGray,
+                                                OxyColors.Coral,
+                                                OxyColors.Chartreuse,
+                                                OxyColors.Thistle,
+                                                OxyColors.OrangeRed,
+                                                OxyColors.Plum,
+                                                OxyColors.DarkCyan,
+                                                OxyColors.Magenta,
+                                                OxyColors.LimeGreen
+                                            };
 
         #endregion
 

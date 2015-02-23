@@ -108,25 +108,27 @@ namespace WpfPressurePlotter.ViewModels
             double yRange = maxY - minY;
 
 
-            var eastAxis = new LinearAxis(AxisPosition.Bottom, 0)
+            var eastAxis = new LinearAxis()
             {
                 MajorGridlineStyle = LineStyle.Solid,
                 MinorGridlineStyle = LineStyle.Dot,
                 Title = "East",
                 PositionAtZeroCrossing = false,
                 Maximum = maxX + (xRange * 0.1),
-                Minimum = minX - (xRange * 0.1)
+                Minimum = minX - (xRange * 0.1),
+                Position = AxisPosition.Bottom
             };
             _plotModel.Axes.Add(eastAxis);
 
-            var northAxis = new LinearAxis(AxisPosition.Left, 0)
+            var northAxis = new LinearAxis()
             {
                 MajorGridlineStyle = LineStyle.Solid,
                 MinorGridlineStyle = LineStyle.Dot,
                 Title = "North",
                 PositionAtZeroCrossing = false,
                 Maximum = maxY + (yRange * 0.1),
-                Minimum = minY - (yRange * 0.1)
+                Minimum = minY - (yRange * 0.1),
+                Position = AxisPosition.Left
             };
             _plotModel.Axes.Add(northAxis);
 

@@ -87,12 +87,16 @@
     <Reference Include="WPFToolkit.Extended">
       <HintPath>..\..\..\..\Documents\TestApps\WellPlotter\bin\Debug\WPFToolkit.Extended.dll</HintPath>
     </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>..\..\..\..\Documents\TestApps\WellPlotter\bin\Debug\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BrushColourConverter.cs" />
     <Compile Include="Models\CountiesModel.cs" />
     <Compile Include="Models\CountriesModel.cs" />
     <Compile Include="Models\GeoData\CountriesData.cs" />

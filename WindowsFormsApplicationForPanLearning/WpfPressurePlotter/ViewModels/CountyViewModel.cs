@@ -24,7 +24,7 @@ namespace WpfPressurePlotter.ViewModels
             _mainWindow = mainWindow;
             Log = log;
             _geography = geography;
-
+            _neighbourVMs = null;
         }
 
         #endregion
@@ -83,36 +83,28 @@ namespace WpfPressurePlotter.ViewModels
 
         public List<PolygonBoundary> LandBlocks { get { return _geography.LandBlocks; } }
 
+
+        public List<CountyViewModel> Neighbours 
+        { 
+            get 
+            { 
+                if (_neighbourVMs != null) return _neighbourVMs;
+                _neighbourVMs = new List<CountyViewModel>();
+                foreach (var neighbour in _geography.Neighbours)
+                    _neighbourVMs.Add(new CountyViewModel(_mainWindow, neighbour.County, Log));
+                return _neighbourVMs; 
+            } 
+        }
+
         #endregion
 
         #region Member variables
 
         private MainWindow _mainWindow;
         private CountyGeography _geography;
+        private List<CountyViewModel> _neighbourVMs;
 
         #endregion
-
-
-#if aaa
-        public static string ToDegreesMinutesSeconds(double latDegrees)
-        {
-            int degInt = Math.Abs((int)latDegrees);
-            double minutes = (Math.Abs(latDegrees) - degInt) * 60;
-            int minInt = (int)minutes;
-            double seconds = (minutes - minInt) * 60;
-            //dms[0] = latDegrees;
-            //dms[1] = minutes;
-            //dms[2] = seconds;
-            int degrees = (int)latDegrees;
-            if (latDegrees < 0 && degInt == 0 && minInt == 0)
-                seconds *= -1;
-            else if (latDegrees < 0 && degInt == 0)
-                minutes *= -1;
-
-            string dms = String.Format("{0}\u00B0 {1}' {2:0.00}\"", degrees, minInt, seconds);
-            return dms;
-        }
-#endif
-
+        
     }
 }

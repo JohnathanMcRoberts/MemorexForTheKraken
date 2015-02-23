@@ -24,6 +24,7 @@ namespace WpfPressurePlotter.Models.GeoData
         public CountyGeography()
         {
             LandBlocks = new List<PolygonBoundary>();
+            Neighbours = new List<NeighbouringCounty>();
         }
 
         public static CountyGeography Create(XmlElement element)
@@ -60,7 +61,7 @@ namespace WpfPressurePlotter.Models.GeoData
                 country.MaxLatitude = Math.Max(landBlock.MaxLatitude, country.MaxLatitude);
 
                 country.CentroidLongitude += landBlock.CentroidLongitude * landBlock.TotalArea;
-                country.CentroidLatitude += landBlock.CentroidLongitude * landBlock.TotalArea;
+                country.CentroidLatitude += landBlock.CentroidLatitude * landBlock.TotalArea;
 
                 totalArea += landBlock.TotalArea;
             }
@@ -68,6 +69,41 @@ namespace WpfPressurePlotter.Models.GeoData
             country.CentroidLatitude /= totalArea;
 
             return country;
+        }
+
+        public class NeighbouringCounty
+        {
+            public CountyGeography County { get; set; }
+            public double CentreToCentreDistance { get; set; }
+        }
+
+        public List<NeighbouringCounty> Neighbours { get; set; }
+
+        public void SetupNeighbours(List<CountyGeography> counties)
+        {
+            List<NeighbouringCounty> neighbours = new List<NeighbouringCounty>();
+
+            foreach (var county in counties)
+            {
+                if (county.Name == Name) continue;
+
+                neighbours.Add(
+                    new NeighbouringCounty() 
+                    { 
+                        County = county, 
+                        CentreToCentreDistance = DistanceBetweenCountyCentres(this, county)
+                    }
+                    );
+            }
+            Neighbours = neighbours.OrderBy(x => x.CentreToCentreDistance).ToList();
+        }
+
+        public static double DistanceBetweenCountyCentres(CountyGeography c1, CountyGeography c2)
+        {
+            double deltaLat = c1.CentroidLatitude - c2.CentroidLatitude;
+            double deltaLong = c1.CentroidLongitude - c2.CentroidLongitude;
+            double distance = Math.Sqrt((deltaLat * deltaLat) + (deltaLong * deltaLong));
+            return distance;
         }
     }
 }

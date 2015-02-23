@@ -20,6 +20,9 @@ namespace WpfPressurePlotter.Models
             doc.Load(new StringReader(Properties.Resources.CountiesOfEngland));
             ParseCounties(doc);
 
+            foreach (var county in Counties)
+                county.SetupNeighbours(Counties);
+
         }
 
         #endregion

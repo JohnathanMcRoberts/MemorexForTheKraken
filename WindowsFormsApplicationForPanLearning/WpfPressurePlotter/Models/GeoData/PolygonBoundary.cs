@@ -87,8 +87,8 @@ namespace WpfPressurePlotter.Models.GeoData
                 int iplusOne = (1 + i) % Points.Count;
                 multiplier = ((Points[i].Longitude * Points[iplusOne].Latitude) -
                     (Points[iplusOne].Longitude * Points[i].Latitude));
-                cx = (Points[i].Longitude + Points[iplusOne].Longitude) * multiplier;
-                cy = (Points[i].Latitude + Points[iplusOne].Latitude) * multiplier;
+                cx += (Points[i].Longitude + Points[iplusOne].Longitude) * multiplier;
+                cy += (Points[i].Latitude + Points[iplusOne].Latitude) * multiplier;
             }
             CentroidLongitude = cx / (6 * SignedArea);
             CentroidLatitude = cy / (6 * SignedArea);
