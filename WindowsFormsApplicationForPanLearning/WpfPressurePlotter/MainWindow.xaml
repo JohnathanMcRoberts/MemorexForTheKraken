@@ -12,7 +12,7 @@
             </TabItem>
             <TabItem Header="Display Cartesian">
         <Grid Background="#FFE5E5E5">
-            <Views:CartesianPlot />
+                    <Views:CartesianPlot DataContext="{Binding Path=CountriesPlotVM}"  />
             </Grid>
             </TabItem>
         </TabControl>

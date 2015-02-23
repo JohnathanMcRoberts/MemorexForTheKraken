@@ -17,26 +17,8 @@ namespace WpfPressurePlotter.Models
         {
             Log = log;
             LasFileName = Properties.Settings.Default.LasFile;
-            LastPngFile =  Properties.Settings.Default.LastPngFile;
-
-            _countries = new CountriesData();
-
         }
-
-        private CountriesData _countries;
-
-        public List<string> CountryNames
-        {
-            get { return _countries.CountryNames; }
-        }
-        public List<CountryGeography> Countries
-        {
-            get { return _countries.Countries; }
-        }
-
-        public string LastPngFile { get; set; }
-
-
+        
         #region LAS
 
         public string LasFileName { get; set; }

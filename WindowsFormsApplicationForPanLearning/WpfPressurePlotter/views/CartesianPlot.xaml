@@ -75,15 +75,15 @@
 
             <Label Grid.Row="0" Grid.Column="0" Content="ISO_A2"/>
             <Label Grid.Row="0" Grid.Column="1" Content="ISO_N3"/>
-            
-            <Label Grid.Row="0" Grid.Column="3" Content="Central Lat"/>
-            <Label Grid.Row="0" Grid.Column="4" Content="Central Long"/>
 
-            <Label Grid.Row="0" Grid.Column="6" Content="Min Lat"/>
-            <Label Grid.Row="0" Grid.Column="7" Content="Max Lat"/>
+            <Label Grid.Row="0" Grid.Column="3" Content="Central Long"/>
+            <Label Grid.Row="0" Grid.Column="4" Content="Central Lat"/>
 
-            <Label Grid.Row="0" Grid.Column="9" Content="Min Long"/>
-            <Label Grid.Row="0" Grid.Column="10" Content="Max Long"/>
+            <Label Grid.Row="0" Grid.Column="6" Content="Min Long"/>
+            <Label Grid.Row="0" Grid.Column="7" Content="Max Long"/>
+
+            <Label Grid.Row="0" Grid.Column="9" Content="Min Lat"/>
+            <Label Grid.Row="0" Grid.Column="10" Content="Max Lat"/>
             
             <Label Grid.Row="0" Grid.Column="12" Content="# Land Blocks"/>
 

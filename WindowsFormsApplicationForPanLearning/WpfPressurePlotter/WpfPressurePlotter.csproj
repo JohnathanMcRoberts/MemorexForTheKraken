@@ -93,10 +93,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\CountriesModel.cs" />
     <Compile Include="Models\GeoData\CountriesData.cs" />
     <Compile Include="Models\GeoData\CountryGeography.cs" />
     <Compile Include="Models\GeoData\PolygonBoundary.cs" />
     <Compile Include="Models\GeoData\PolygonPoint.cs" />
+    <Compile Include="ViewModels\CartesianCountriesViewModel.cs" />
     <Compile Include="ViewModels\CountryViewModel.cs" />
     <Compile Include="ViewModels\LasCurveViewModel.cs" />
     <Compile Include="ViewModels\PlotModelBase.cs" />
