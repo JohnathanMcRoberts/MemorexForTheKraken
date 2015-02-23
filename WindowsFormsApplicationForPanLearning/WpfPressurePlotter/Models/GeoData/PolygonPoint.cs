@@ -14,7 +14,12 @@ namespace WpfPressurePlotter.Models.GeoData
 
         public PolygonPoint(string latLongPair)
         {
+            Longitude = Latitude = Double.NaN;
             string[] coords = latLongPair.Split(',');
+
+            if (coords.Length < 2)
+                return;
+
             double coord = 0.0f;
             if (Double.TryParse(coords[0], out coord))
                 Longitude = coord;
@@ -41,6 +46,29 @@ namespace WpfPressurePlotter.Models.GeoData
                 double latTan = Math.Tan( (Math.PI/4) + latInRads/2);
                 y = Math.Log(latTan) * DegreesPerRadians;
             }
+        }
+
+        public static PolygonPoint Create(string latLongPair, out bool isValid)
+        {
+            isValid = false;
+            PolygonPoint pt = new PolygonPoint();
+            pt.Longitude = pt.Latitude = Double.NaN;
+            string[] coords = latLongPair.Split(',');
+
+            if (coords.Length < 2)
+                return pt;
+
+            isValid = true;
+            double coord = 0.0f;
+            if (Double.TryParse(coords[0], out coord))
+                pt.Longitude = coord;
+            else
+                isValid = false;
+            if (Double.TryParse(coords[1], out coord))
+                pt.Latitude = coord;
+            else
+                isValid = false;
+            return pt;
         }
     }
 }

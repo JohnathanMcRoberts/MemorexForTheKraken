@@ -38,6 +38,8 @@ namespace WpfPressurePlotter.ViewModels
             SelectedLasRateColumnVM = new LasCurveViewModel(log);
 
             CountriesPlotVM = new CartesianCountriesViewModel(_mainWindow, log);
+
+            CountiesPlotVM = new CountiesMapViewModel(_mainWindow, log);
         }
 
         #endregion
@@ -72,6 +74,8 @@ namespace WpfPressurePlotter.ViewModels
         public ILog Log { get; set; }
 
         public CartesianCountriesViewModel CountriesPlotVM { get; set; }
+
+        public CountiesMapViewModel CountiesPlotVM { get; set; }
 
         #region LAS
 

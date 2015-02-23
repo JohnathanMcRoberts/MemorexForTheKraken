@@ -15,6 +15,13 @@
                     <Views:CartesianPlot DataContext="{Binding Path=CountriesPlotVM}"  />
             </Grid>
             </TabItem>
+
+            <TabItem Header="Counties Map">
+                <Grid Background="#FFE5E5E5">
+                    <Views:CountiesCartesianPlot DataContext="{Binding Path=CountiesPlotVM}"  />
+                </Grid>
+            </TabItem>
+
         </TabControl>
     </Grid>
 </Window>
