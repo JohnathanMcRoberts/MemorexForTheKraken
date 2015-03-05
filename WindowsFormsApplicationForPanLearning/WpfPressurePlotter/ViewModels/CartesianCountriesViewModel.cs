@@ -174,16 +174,6 @@ namespace WpfPressurePlotter.ViewModels
                 {
                     Color = OxyColors.Blue,
                 };
-#if aaa
-                double eastOffset =
-                    wellpath.PlanSurvey.ParentWell.ParentSlot.CoordEasting - _startPointEast;
-                double northOffset =
-                    wellpath.PlanSurvey.ParentWell.ParentSlot.CoordNorthing - _startPointNorth;
-
-                int pointIndex = 0;
-
-                List<Annotation> annotations = new List<Annotation>();
-#endif
                 foreach (var point in boundary.Points)
                 {
 
@@ -229,6 +219,14 @@ namespace WpfPressurePlotter.ViewModels
         {
             get { return _plotModel; }
             set { _plotModel = value; OnPropertyChanged("PlotModel"); }
+        }
+
+        public CountriesModel AllCountriesModel
+        {
+            get
+            {
+                return _countriesModel;
+            }
         }
 
         #endregion

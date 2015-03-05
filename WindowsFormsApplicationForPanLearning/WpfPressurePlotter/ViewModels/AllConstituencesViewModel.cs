@@ -16,16 +16,21 @@ using WpfPressurePlotter.Models.GeoData;
 
 namespace WpfPressurePlotter.ViewModels
 {
-    public class CountryViewModel : INotifyPropertyChanged
+    public class AllConstituencesViewModel : INotifyPropertyChanged, IGeographicalEntityViewModel
     {
         #region Constructors
 
-        public CountryViewModel(MainWindow mainWindow, CountryGeography geography, ILog log)
+        public AllConstituencesViewModel(MainWindow mainWindow, ConstituenciesModel entireGeography, ILog log)
         {
             _mainWindow = mainWindow;
             Log = log;
-            _geography = geography;
+            _geography = new ConstituencyGeography();
+            _geography.Name = "UK Constituencies";
+            foreach (var constituency in entireGeography.Constituencies)
+                foreach (var landBlock in constituency.LandBlocks)
+                    _geography.LandBlocks.Add(landBlock);
 
+            _geography.UpdateLatLongs();
         }
 
         #endregion
@@ -60,11 +65,9 @@ namespace WpfPressurePlotter.ViewModels
         public ILog Log { get; set; }
         
         public string Name { get { return _geography.Name; } }
-        public string ISO_A2 { get { return _geography.ISO_A2; } }
-        public string ISO_N3 { get { return _geography.ISO_N3; } }
         
-        public double CentralLongitude { get { return _geography.CentralLongitude; } }
-        public double CentralLatitude { get { return _geography.CentralLatitude; } }
+        public double CentralLongitude { get { return _geography.CentroidLongitude; } }
+        public double CentralLatitude { get { return _geography.CentroidLatitude; } }
 
         public double MinLongitude { get { return _geography.MinLongitude; } }
         public double MinLatitude { get { return _geography.MinLatitude; } }
@@ -73,47 +76,28 @@ namespace WpfPressurePlotter.ViewModels
         public double MaxLatitude { get { return _geography.MaxLatitude; } }
 
 
-        public string CentralLongitudeDms { get { return ToDegreesMinutesSeconds(CentralLongitude); } }
-        public string CentralLatitudeDms { get { return ToDegreesMinutesSeconds(CentralLatitude); } }
+        public string CentralLongitudeDms { get { return CountryViewModel.ToDegreesMinutesSeconds(CentralLongitude); } }
+        public string CentralLatitudeDms { get { return CountryViewModel.ToDegreesMinutesSeconds(CentralLatitude); } }
 
-        public string MinLongitudeDms { get { return ToDegreesMinutesSeconds(MinLongitude); } }
-        public string MinLatitudeDms { get { return ToDegreesMinutesSeconds(MinLatitude); } }
+        public string MinLongitudeDms { get { return CountryViewModel.ToDegreesMinutesSeconds(MinLongitude); } }
+        public string MinLatitudeDms { get { return CountryViewModel.ToDegreesMinutesSeconds(MinLatitude); } }
 
-        public string MaxLongitudeDms { get { return ToDegreesMinutesSeconds(MaxLongitude); } }
-        public string MaxLatitudeDms { get { return ToDegreesMinutesSeconds(MaxLatitude); } }
+        public string MaxLongitudeDms { get { return CountryViewModel.ToDegreesMinutesSeconds(MaxLongitude); } }
+        public string MaxLatitudeDms { get { return CountryViewModel.ToDegreesMinutesSeconds(MaxLatitude); } }
 
         public int NumberLandBlocks { get { return _geography.LandBlocks.Count; } }
 
         public List<PolygonBoundary> LandBlocks { get { return _geography.LandBlocks; } }
+
 
         #endregion
 
         #region Member variables
 
         private MainWindow _mainWindow;
-        private CountryGeography _geography;
+        private ConstituencyGeography _geography;
 
         #endregion
-
-        public static string ToDegreesMinutesSeconds(double latDegrees)
-        {
-            int degInt = Math.Abs((int)latDegrees);
-            double minutes = (Math.Abs(latDegrees) - degInt) * 60;
-            int minInt = (int)minutes;
-            double seconds = (minutes - minInt) * 60;
-            //dms[0] = latDegrees;
-            //dms[1] = minutes;
-            //dms[2] = seconds;
-            int degrees = (int)latDegrees;
-            if (latDegrees < 0 && degInt == 0 && minInt == 0)
-                seconds *= -1;
-            else if (latDegrees < 0 && degInt == 0)
-                minutes *= -1;
-
-            string dms = String.Format("{0}\u00B0 {1}' {2:0.00}\"", degrees, minInt, seconds);
-            return dms;
-        }
-
-
+        
     }
 }

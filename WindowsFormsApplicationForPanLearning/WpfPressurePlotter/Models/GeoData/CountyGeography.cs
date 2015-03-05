@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace WpfPressurePlotter.Models.GeoData
 {
-    public class CountyGeography
+    public class CountyGeography : IGeographicEntity
     {
         public string Name {get;set;}
 
@@ -17,7 +17,17 @@ namespace WpfPressurePlotter.Models.GeoData
         public double MinLatitude { get; private set; }
 
         public double MaxLongitude { get; private set; }
-        public double MaxLatitude { get; private set; }   
+        public double MaxLatitude { get; private set; }
+
+        public double TotalArea 
+        {
+            get 
+            { 
+                double ttl = 0; 
+                foreach (var block in LandBlocks) ttl += block.TotalArea; 
+                return ttl; 
+            } 
+        }   
 
         public List<PolygonBoundary> LandBlocks { get; set; }
 
@@ -90,20 +100,12 @@ namespace WpfPressurePlotter.Models.GeoData
                 neighbours.Add(
                     new NeighbouringCounty() 
                     { 
-                        County = county, 
-                        CentreToCentreDistance = DistanceBetweenCountyCentres(this, county)
+                        County = county,
+                        CentreToCentreDistance = NeighbouringGeography.CentreToCentreDistanceBetweenGeographicEntities(this, county)
                     }
                     );
             }
             Neighbours = neighbours.OrderBy(x => x.CentreToCentreDistance).ToList();
-        }
-
-        public static double DistanceBetweenCountyCentres(CountyGeography c1, CountyGeography c2)
-        {
-            double deltaLat = c1.CentroidLatitude - c2.CentroidLatitude;
-            double deltaLong = c1.CentroidLongitude - c2.CentroidLongitude;
-            double distance = Math.Sqrt((deltaLat * deltaLat) + (deltaLong * deltaLong));
-            return distance;
         }
     }
 }

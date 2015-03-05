@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace WpfPressurePlotter.Models.GeoData
 {
-    public class CountryGeography
+    public class CountryGeography : IGeographicEntity
     {
         public string Name {get;set;}
         public string Description { get; set; } // eg "ISO_A2=SE : ISO_N3=752.0"
@@ -36,7 +36,20 @@ namespace WpfPressurePlotter.Models.GeoData
         public double MinLatitude { get; private set; }
 
         public double MaxLongitude { get; private set; }
-        public double MaxLatitude { get; private set; }   
+        public double MaxLatitude { get; private set; }
+
+        public double CentroidLongitude { get; private set; }
+        public double CentroidLatitude { get; private set; }
+
+        public double TotalArea
+        {
+            get
+            {
+                double ttl = 0;
+                foreach (var block in LandBlocks) ttl += block.TotalArea;
+                return ttl;
+            }
+        }   
 
         public List<PolygonBoundary> LandBlocks { get; set; }
 
@@ -62,24 +75,44 @@ namespace WpfPressurePlotter.Models.GeoData
             var boundaryRingCoordinates =
                 element.SelectNodes("MultiGeometry/Polygon/outerBoundaryIs/LinearRing");
 
-            country.MinLongitude = country.MaxLongitude = country.CentralLongitude;
-            country.MinLatitude = country.MaxLatitude = country.CentralLatitude;
-
             foreach (var boundary in boundaryRingCoordinates)
             {
                 PolygonBoundary landBlock = new PolygonBoundary(
                         ((XmlElement)boundary).SelectSingleNode("coordinates").InnerText);
 
                 country.LandBlocks.Add(landBlock);
-
-                country.MinLongitude = Math.Min(landBlock.MinLongitude, country.MinLongitude);
-                country.MaxLongitude = Math.Max(landBlock.MaxLongitude, country.MaxLongitude);
-
-                country.MinLatitude = Math.Min(landBlock.MinLatitude, country.MinLatitude);
-                country.MaxLatitude = Math.Max(landBlock.MaxLatitude, country.MaxLatitude);
             }
 
+            country.UpdateLatLongs();
+
             return country;
+        }
+
+        public void UpdateLatLongs()
+        {
+            MinLongitude = MinLatitude = Double.MaxValue;
+            MaxLongitude = MaxLatitude = Double.MinValue;
+
+            CentroidLongitude = 0;
+            CentroidLatitude = 0;
+
+            double totalArea = 0;
+
+            foreach (var landBlock in LandBlocks)
+            {
+                MinLongitude = Math.Min(landBlock.MinLongitude, MinLongitude);
+                MaxLongitude = Math.Max(landBlock.MaxLongitude, MaxLongitude);
+
+                MinLatitude = Math.Min(landBlock.MinLatitude, MinLatitude);
+                MaxLatitude = Math.Max(landBlock.MaxLatitude, MaxLatitude);
+
+                CentroidLongitude += landBlock.CentroidLongitude * landBlock.TotalArea;
+                CentroidLatitude += landBlock.CentroidLatitude * landBlock.TotalArea;
+
+                totalArea += landBlock.TotalArea;
+            }
+            CentroidLongitude /= totalArea;
+            CentroidLatitude /= totalArea;
         }
     }
 }

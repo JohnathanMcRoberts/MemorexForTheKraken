@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "..\Logger\Logger.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfPressurePlotter", "WpfPressurePlotter\WpfPressurePlotter.csproj", "{52D76317-C050-46FF-A0D7-941C23C578BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqliteReader", "SqliteReader\SqliteReader.csproj", "{5105FD3F-007A-4F09-A6FA-F42F44B7131C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{52D76317-C050-46FF-A0D7-941C23C578BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52D76317-C050-46FF-A0D7-941C23C578BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52D76317-C050-46FF-A0D7-941C23C578BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5105FD3F-007A-4F09-A6FA-F42F44B7131C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5105FD3F-007A-4F09-A6FA-F42F44B7131C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5105FD3F-007A-4F09-A6FA-F42F44B7131C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5105FD3F-007A-4F09-A6FA-F42F44B7131C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

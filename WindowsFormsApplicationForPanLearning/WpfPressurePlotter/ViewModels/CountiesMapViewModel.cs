@@ -52,9 +52,6 @@ namespace WpfPressurePlotter.ViewModels
 
         #endregion
 
-        private OxyPlot.Axes.Axis _eastAxis;
-        private OxyPlot.Axes.Axis _northAxis;
-
         #region INotifyPropertyChanged Members
 
         void OnPropertyChanged<T>(Expression<Func<T>> sExpression)
@@ -380,6 +377,8 @@ namespace WpfPressurePlotter.ViewModels
         private OxyColor _oxySelectedCountyColour;
         private OxyColor _oxyNeighbourCountiesColour;
 
+        private OxyPlot.Axes.Axis _eastAxis;
+        private OxyPlot.Axes.Axis _northAxis;
 
         protected readonly List<OxyColor> _defaultColors = new List<OxyColor>
                                             {

@@ -22,6 +22,12 @@
                 </Grid>
             </TabItem>
 
+            <TabItem Header="Constituencies Map">
+                <Grid Background="#FFE5E5E5">
+                    <Views:ConstituenciesPlot DataContext="{Binding Path=ConstituenciesPlotVM}"  />
+                </Grid>
+            </TabItem>
+            
         </TabControl>
     </Grid>
 </Window>

@@ -40,6 +40,8 @@ namespace WpfPressurePlotter.ViewModels
             CountriesPlotVM = new CartesianCountriesViewModel(_mainWindow, log);
 
             CountiesPlotVM = new CountiesMapViewModel(_mainWindow, log);
+
+            ConstituenciesPlotVM = new ConstituenciesMapViewModel(_mainWindow, log, CountriesPlotVM);
         }
 
         #endregion
@@ -76,6 +78,10 @@ namespace WpfPressurePlotter.ViewModels
         public CartesianCountriesViewModel CountriesPlotVM { get; set; }
 
         public CountiesMapViewModel CountiesPlotVM { get; set; }
+
+        public ConstituenciesMapViewModel ConstituenciesPlotVM { get; set; }
+
+        
 
         #region LAS
 

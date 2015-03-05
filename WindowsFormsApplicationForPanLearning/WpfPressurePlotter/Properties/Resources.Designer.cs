@@ -89,5 +89,16 @@ namespace WpfPressurePlotter.Properties {
                 return ResourceManager.GetString("countries_world", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Document&gt;
+        ///&lt;Placemark xmlns=&quot;http://www.opengis.net/kml/2.2&quot;&gt;&lt;name&gt;Aberdeen North&lt;/name&gt;&lt;Polygon&gt;&lt;outerBoundaryIs&gt;&lt;LinearRing&gt;&lt;coordinates&gt;-2.26561174051,57.1483054096,0 -2.25924102907,57.154263723,0 -2.25918062533,57.1543716444,0 -2.25793108376,57.1560459642,0 -2.25745582918,57.1573521758,0 -2.2574017527,57.1574205578,0 -2.25725343844,57.1574873367,0 -2.254519906,57.1583085751,0 -2.25439964267,57.1583690055,0 -2.25427175507,57.1585228748,0 -2.25388872466,57.1593186 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UkConstuencies {
+            get {
+                return ResourceManager.GetString("UkConstuencies", resourceCulture);
+            }
+        }
     }
 }

@@ -16,7 +16,7 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -97,17 +97,25 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\BrushColourConverter.cs" />
+    <Compile Include="Models\ConstituenciesModel.cs" />
     <Compile Include="Models\CountiesModel.cs" />
     <Compile Include="Models\CountriesModel.cs" />
+    <Compile Include="Models\GeoData\ConstituencyGeography.cs" />
     <Compile Include="Models\GeoData\CountriesData.cs" />
     <Compile Include="Models\GeoData\CountryGeography.cs" />
     <Compile Include="Models\GeoData\CountyGeography.cs" />
+    <Compile Include="Models\GeoData\IGeographicEntity.cs" />
+    <Compile Include="Models\GeoData\NeighbouringGeography.cs" />
     <Compile Include="Models\GeoData\PolygonBoundary.cs" />
     <Compile Include="Models\GeoData\PolygonPoint.cs" />
+    <Compile Include="ViewModels\AllConstituencesViewModel.cs" />
     <Compile Include="ViewModels\CartesianCountriesViewModel.cs" />
+    <Compile Include="ViewModels\ConstituenciesMapViewModel.cs" />
+    <Compile Include="ViewModels\ConstituencyViewModel.cs" />
     <Compile Include="ViewModels\CountiesMapViewModel.cs" />
     <Compile Include="ViewModels\CountryViewModel.cs" />
     <Compile Include="ViewModels\CountyViewModel.cs" />
+    <Compile Include="ViewModels\IGeographicalEntityViewModel.cs" />
     <Compile Include="ViewModels\LasCurveViewModel.cs" />
     <Compile Include="ViewModels\PlotModelBase.cs" />
     <Compile Include="ViewModels\Settings\PlotSettingViewModelBase.cs" />
@@ -116,6 +124,9 @@
     <Compile Include="ViewModels\WpfPressurePlotterViewModel.cs" />
     <Compile Include="Views\CartesianPlot.xaml.cs">
       <DependentUpon>CartesianPlot.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConstituenciesPlot.xaml.cs">
+      <DependentUpon>ConstituenciesPlot.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CountiesCartesianPlot.xaml.cs">
       <DependentUpon>CountiesCartesianPlot.xaml</DependentUpon>
@@ -139,6 +150,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\CartesianPlot.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConstituenciesPlot.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -193,6 +208,10 @@
       <Project>{44fd7131-485f-44ac-85ad-cf109280b085}</Project>
       <Name>TprFileReader</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SqliteReader\SqliteReader.csproj">
+      <Project>{5105fd3f-007a-4f09-a6fa-f42f44b7131c}</Project>
+      <Name>SqliteReader</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="GeoData\countries_world.xml" />
@@ -204,6 +223,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="GeoData\us_states.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GeoData\UkConstuencies.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
