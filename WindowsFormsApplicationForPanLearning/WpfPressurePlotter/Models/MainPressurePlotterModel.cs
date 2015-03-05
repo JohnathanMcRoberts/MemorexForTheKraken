@@ -17,6 +17,7 @@ namespace WpfPressurePlotter.Models
         {
             Log = log;
             LasFileName = Properties.Settings.Default.LasFile;
+
         }
         
         #region LAS
