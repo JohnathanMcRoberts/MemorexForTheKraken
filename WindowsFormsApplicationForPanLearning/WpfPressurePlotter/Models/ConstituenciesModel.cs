@@ -32,7 +32,6 @@ namespace WpfPressurePlotter.Models
 
         #endregion
 
-
         #region Properties
 
         public List<string> ConstituencyNames { get { return _constituencies.Keys.ToList(); } }
@@ -376,11 +375,14 @@ namespace WpfPressurePlotter.Models
             var countryTotalDist =
                 (from c in countriesTotalDistances.Values
                  orderby c.NumberAtPosition(1) descending
-                 select c);
+                 select c).ToList();
 
             NearestCountries = (from c in countriesTotalDistances.Values
+                                where ( (c.NumberAtPosition(1) > 0) ||  (c.NumberAtPosition(2) > 0))
                                 orderby c.NumberAtPosition(1) descending
                                 select c.Country).ToList();
+
+
         }
 
         #endregion
@@ -405,6 +407,15 @@ namespace WpfPressurePlotter.Models
                 if (!PositionCounts.ContainsKey(position)) return 0;
                 return PositionCounts[position];
             }
+
+            public int PositionTotal()
+            {
+                int total = 0;
+                foreach (var positionIndex in PositionCounts.Keys)
+                    total += positionIndex * PositionCounts[positionIndex];
+                return total;
+            }
+
         }
 
         #endregion

@@ -26,13 +26,14 @@ namespace WpfPressurePlotter.ViewModels
 {
     public class ConstituenciesMapViewModel : INotifyPropertyChanged
     {
-        public ConstituenciesMapViewModel(MainWindow mainWindow, log4net.ILog log, CartesianCountriesViewModel countriesVM)
+        public ConstituenciesMapViewModel(
+            MainWindow mainWindow, log4net.ILog log, CartesianCountriesViewModel countriesVM)
         {
             _mainWindow = mainWindow;
             Log = log;
             _countriesVM = countriesVM;
 
-            _oxySelectedConstituencyColour = OxyColors.Green;
+            _oxySelectedConstituencyColour = OxyColors.Maroon;
             _oxyNeighbourConstituenciesColour = OxyColors.LightBlue;
 
             Constituencies = new ObservableCollection<ConstituencyViewModel>();
@@ -175,7 +176,7 @@ namespace WpfPressurePlotter.ViewModels
 
         private void AddAreaSeriesToPlot(
             out double minEast, out double minNorth, out double maxEast, out double maxNorth, IGeographicalEntityViewModel constituency,
-            OxyPlot.OxyColor colour, PlotModel plotModel,  int reduction)
+            OxyPlot.OxyColor colour, PlotModel plotModel,  int reduction, bool addToLegend = false)
         {
             minEast = constituency.MinLongitude;
             minNorth = constituency.MinLatitude;
@@ -195,6 +196,14 @@ namespace WpfPressurePlotter.ViewModels
                         ToolTip = constituency.Name,
                         StrokeThickness = 1.0
                     };
+
+                    if (addToLegend)
+                    {
+                        ConstituencyViewModel constVM = constituency as ConstituencyViewModel;
+                        if (constVM != null)
+                            areaSeries.Title = GetNearestCountry(constVM).Name;
+                    }
+
                     int j = 0;
                     foreach (var point in boundary.Points)
                     {
@@ -233,62 +242,79 @@ namespace WpfPressurePlotter.ViewModels
             double maxEast;
             double maxNorth;
 
+            List<string> countriesInLegend = new List<string>();
+
             foreach (var constituency in Constituencies)
             {
                 if (constituency.Name == _selectedConstituency.Name)
-                    continue ;
+                    continue;
+
+                bool addToLegend = false;
+                OxyColor color;
+                GetConstuencyColourAndLegendFlag(constituency,
+                    ref countriesInLegend, out color, out addToLegend);
 
                 AddAreaSeriesToPlot(out minEast, out minNorth, out maxEast, out maxNorth,
-                    constituency, _oxyNeighbourConstituenciesColour, _plotModelAllConstuencies, UkReduction);
+                    constituency, color, _plotModelAllConstuencies,
+                    UkReduction, addToLegend);
             }
 
 
             AddAreaSeriesToPlot(out minEast, out minNorth, out maxEast, out maxNorth,
-                _selectedConstituency, _oxySelectedConstituencyColour, _plotModelAllConstuencies, UkReduction);
+                _selectedConstituency, _oxySelectedConstituencyColour, _plotModelAllConstuencies, 
+                UkReduction);
 
             OnPropertyChanged(() => UkConstituenciesPlot);
         }
 
-        private void WriteOutConstituencyNeighbourDistances()
+        private void GetConstuencyColourAndLegendFlag
+            (ConstituencyViewModel constituency, 
+            ref List<string> countriesInLegend, out OxyColor color, out bool addToLegend)
         {
-            using (XmlWriter writer = XmlWriter.Create("ConstituencyAndNeighbourDistances.xml"))
+            // get the nearest country form the list
+            IGeographicEntity nearest = GetNearestCountry(constituency);
+
+            int countryColourIndex = -1;
+
+            // see if it is to be added to the legend
+            addToLegend = true;
+            for(int i = 0; i < countriesInLegend.Count; ++i)
             {
-                writer.WriteStartDocument();
-                writer.WriteStartElement("Constituencies");
-
-                foreach (var constituency in _constituenciesModel.Constituencies)
+                var countryInLegend = countriesInLegend[i];
+                if (countryInLegend == nearest.Name)
                 {
-                    writer.WriteStartElement("Constituency");
-
-                    writer.WriteElementString("Name", constituency.Name);
-
-                    writer.WriteStartElement("Neighbours");
-                    foreach (var neighbour in constituency.Neighbours)
-                    {
-                        writer.WriteStartElement("Neighbour");
-
-                        writer.WriteElementString("Name", neighbour.Neighbour.Name);
-                        writer.WriteElementString("TotalArea",
-                            neighbour.Neighbour.TotalArea.ToString());
-                        writer.WriteElementString("CentroidLatitude",
-                            neighbour.Neighbour.CentroidLatitude.ToString());
-                        writer.WriteElementString("CentroidLongitude",
-                            neighbour.Neighbour.CentroidLongitude.ToString());
-                        writer.WriteElementString("EdgeToEdgeDistance",
-                            neighbour.EdgeToEdgeDistance.ToString());
-                        writer.WriteElementString("CentreToCentreDistance",
-                            neighbour.CentreToCentreDistance.ToString());
-
-                        writer.WriteEndElement();
-                    }
-                    writer.WriteEndElement();
-
-                    writer.WriteEndElement();
+                    addToLegend = false;
+                    countryColourIndex = i;
                 }
-
-                writer.WriteEndElement();
-                writer.WriteEndDocument();
             }
+            if (addToLegend)
+            {
+                countryColourIndex = countriesInLegend.Count;
+                countriesInLegend.Add(nearest.Name);
+            }
+            if (countryColourIndex < 0)
+                countryColourIndex = 0;
+            countryColourIndex = countryColourIndex % _defaultColors.Count;
+
+            color = _defaultColors[countryColourIndex];
+        }
+
+        private IGeographicEntity GetNearestCountry(ConstituencyViewModel constituency)
+        {
+            IGeographicEntity nearest = null;
+            foreach (var neigbour in constituency.Geography.Neighbours)
+            {
+                foreach (var country in _constituenciesModel.NearestCountries)
+                    if (neigbour.Neighbour.Name == country.Name)
+                    {
+                        nearest = country;
+                        break;
+                    }
+
+                if (nearest != null)
+                    break;
+            }
+            return nearest;
         }
 
         #endregion
@@ -429,9 +455,9 @@ namespace WpfPressurePlotter.ViewModels
 
         protected readonly List<OxyColor> _defaultColors = new List<OxyColor>
                                             {
+                                                OxyColors.Green,
                                                 OxyColors.Blue,
                                                 OxyColors.Red,
-                                                //OxyColors.Green,
                                                 OxyColors.Yellow,
                                                 OxyColors.DarkSlateGray,
                                                 OxyColors.Coral,

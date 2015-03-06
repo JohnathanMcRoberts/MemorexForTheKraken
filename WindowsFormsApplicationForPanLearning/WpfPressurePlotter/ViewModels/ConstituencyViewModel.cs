@@ -82,6 +82,7 @@ namespace WpfPressurePlotter.ViewModels
 
         public List<PolygonBoundary> LandBlocks { get { return _geography.LandBlocks; } }
 
+        public ConstituencyGeography Geography { get { return _geography; } }
 
         #endregion
 
