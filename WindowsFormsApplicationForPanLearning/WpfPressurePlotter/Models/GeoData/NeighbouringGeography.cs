@@ -69,11 +69,7 @@ namespace WpfPressurePlotter.Models.GeoData
             {
                 foreach (var pointC1 in landBlockC1.Points)
                 {
-                    var landBlocksC2 = (from b in c2.LandBlocks
-                                        orderby b.TotalArea
-                                        select b).Take(5);
-
-                    foreach (var landBlockC2 in landBlocksC2)
+                    foreach (var landBlockC2 in c2.LandBlocks)
                         foreach (var pointC2 in landBlockC2.Points)
                             minDist = Math.Min(minDist,
                                 DistanceSquaredBetweenLatLongs(
@@ -111,6 +107,5 @@ namespace WpfPressurePlotter.Models.GeoData
         }
 
         #endregion
-
     }
 }

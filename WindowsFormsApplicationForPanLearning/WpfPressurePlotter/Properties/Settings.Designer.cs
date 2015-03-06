@@ -46,5 +46,18 @@ namespace WpfPressurePlotter.Properties {
                 this["LastPngFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\E142890\\MemorexForTheKraken\\Projects\\WindowsFormsApplicationForPanLearni" +
+            "ng\\WpfPressurePlotter\\GeoData\\ConstituencyAndNeighbourDistances.xml")]
+        public string NeighbourDistancesFile {
+            get {
+                return ((string)(this["NeighbourDistancesFile"]));
+            }
+            set {
+                this["NeighbourDistancesFile"] = value;
+            }
+        }
     }
 }

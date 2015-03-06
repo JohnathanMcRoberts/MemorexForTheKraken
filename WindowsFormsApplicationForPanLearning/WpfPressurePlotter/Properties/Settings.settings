@@ -8,5 +8,8 @@
     <Setting Name="LastPngFile" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Users\E142890\Documents\Iceland.PNG</Value>
     </Setting>
+    <Setting Name="NeighbourDistancesFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\E142890\MemorexForTheKraken\Projects\WindowsFormsApplicationForPanLearning\WpfPressurePlotter\GeoData\ConstituencyAndNeighbourDistances.xml</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

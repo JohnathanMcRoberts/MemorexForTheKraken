@@ -30,7 +30,6 @@ namespace WpfPressurePlotter.ViewModels
         {
             _mainWindow = mainWindow;
             Log = log;
-            _constituenciesModel = new ConstituenciesModel(log);
             _countriesVM = countriesVM;
 
             _oxySelectedConstituencyColour = OxyColors.Green;
@@ -39,33 +38,14 @@ namespace WpfPressurePlotter.ViewModels
             Constituencies = new ObservableCollection<ConstituencyViewModel>();
             _selectedConstituency = null;
 
-            List<IGeographicEntity> countries = new List<IGeographicEntity>();
-            foreach (var country in countriesVM.AllCountriesModel.Countries)
-                countries.Add(country);
+            List<IGeographicEntity> countries =
+                (from c in countriesVM.AllCountriesModel.Countries select c as IGeographicEntity).ToList();
 
-            bool isNeighbourDistancesFile = false;
-
-            // make this a function
-            isNeighbourDistancesFile = true;
-
+            _constituenciesModel = new ConstituenciesModel(log, countries);
             foreach (var constituency in _constituenciesModel.Constituencies)
             {
-                if (!isNeighbourDistancesFile)
-                {
-                    constituency.Neighbours =
-                       NeighbouringGeography.SetupNeighbours(constituency, countries);
-                }
-                ConstituencyViewModel constituencyVM = new ConstituencyViewModel(_mainWindow, constituency, log);
-
-                if (!isNeighbourDistancesFile)
-                {
-                    for (int i = 0; i < 40 && i < constituency.Neighbours.Count; ++i)
-                        log.Debug(
-                            "Country " + (1 + i) + "th nearest (" + constituency.Name
-                            + ") is " + constituency.Neighbours[i].Neighbour.Name + "\n  @ C2C=" +
-                            constituency.Neighbours[i].CentreToCentreDistance + "\n  @ E2E=" +
-                            constituency.Neighbours[i].EdgeToEdgeDistance);
-                }
+                ConstituencyViewModel constituencyVM = 
+                    new ConstituencyViewModel(_mainWindow, constituency, log);
 
                 Constituencies.Add(constituencyVM);
                 if (_selectedConstituency == null)
@@ -73,8 +53,6 @@ namespace WpfPressurePlotter.ViewModels
             }
             UkConstituencies = new AllConstituencesViewModel(_mainWindow, _constituenciesModel, log);
             SelectedConstituency = _selectedConstituency;
-            if (!isNeighbourDistancesFile)
-                WriteOutConstituencyNeighbourDistances();
 
         }
 
