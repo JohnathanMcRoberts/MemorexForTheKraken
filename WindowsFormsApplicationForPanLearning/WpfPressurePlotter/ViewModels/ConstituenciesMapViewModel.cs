@@ -174,9 +174,10 @@ namespace WpfPressurePlotter.ViewModels
             startPointNorth = centreY;
         }
 
-        private void AddAreaSeriesToPlot(
-            out double minEast, out double minNorth, out double maxEast, out double maxNorth, IGeographicalEntityViewModel constituency,
-            OxyPlot.OxyColor colour, PlotModel plotModel,  int reduction, bool addToLegend = false)
+        private void AddAreaSeriesToPlot(out double minEast, out double minNorth, out double maxEast, 
+            out double maxNorth, IGeographicalEntityViewModel constituency,
+            OxyPlot.OxyColor colour, PlotModel plotModel, int reduction, 
+            bool addToLegend = false, string legendText="")
         {
             minEast = constituency.MinLongitude;
             minNorth = constituency.MinLatitude;
@@ -184,8 +185,8 @@ namespace WpfPressurePlotter.ViewModels
             maxEast = constituency.MaxLongitude;
             maxNorth = constituency.MaxLatitude;
 
-
             int i = 0;
+            bool addedLegend = false;
             foreach (var boundary in constituency.LandBlocks)
             {
                 if (boundary.Points.Count > reduction)
@@ -197,11 +198,10 @@ namespace WpfPressurePlotter.ViewModels
                         StrokeThickness = 1.0
                     };
 
-                    if (addToLegend)
+                    if (addToLegend && legendText !="" && !addedLegend)
                     {
-                        ConstituencyViewModel constVM = constituency as ConstituencyViewModel;
-                        if (constVM != null)
-                            areaSeries.Title = GetNearestCountry(constVM).Name;
+                        areaSeries.Title = legendText;
+                        addedLegend = true;
                     }
 
                     int j = 0;
@@ -217,9 +217,7 @@ namespace WpfPressurePlotter.ViewModels
                         DataPoint dataPoint = new DataPoint(ptX, ptY);
 
                         areaSeries.Points.Add(dataPoint);
-
                     }
-
                     plotModel.Series.Add(areaSeries);
                 }
 
@@ -227,11 +225,24 @@ namespace WpfPressurePlotter.ViewModels
             }
         }
 
+        private string GetStringForNumber(int i)
+        {
+            string ith ="";
+
+            if (i == 1) return ith;
+            if (i == 0) return "0th";
+            if (i > 4 && i < 21) return string.Format("{0}th", i);
+            if ((i % 10) == 2) return string.Format("{0}nd", i);
+            if ((i % 10) == 3) return string.Format("{0}rd", i);
+            return string.Format("{0}th", i);
+        }
+
         private void InitialiseAllConstituenciesChartViewModel()
         {
             _plotModelAllConstuencies = new PlotModel();
             SetUpModel(_plotModelAllConstuencies, _allConstituences);
-
+            _plotModelAllConstuencies.LegendTitle =
+                _allConstituences.Name + " by " + GetStringForNumber(1 + _nearestCountryCount) + " nearest country";
 
             double startPointEast;
             double startPointNorth;
@@ -251,12 +262,13 @@ namespace WpfPressurePlotter.ViewModels
 
                 bool addToLegend = false;
                 OxyColor color;
+                string legendText;
                 GetConstuencyColourAndLegendFlag(constituency,
-                    ref countriesInLegend, out color, out addToLegend);
-
+                    ref countriesInLegend, out color, out addToLegend, out legendText);
+                
                 AddAreaSeriesToPlot(out minEast, out minNorth, out maxEast, out maxNorth,
                     constituency, color, _plotModelAllConstuencies,
-                    UkReduction, addToLegend);
+                    UkReduction, addToLegend, legendText);
             }
 
 
@@ -267,14 +279,18 @@ namespace WpfPressurePlotter.ViewModels
             OnPropertyChanged(() => UkConstituenciesPlot);
         }
 
-        private void GetConstuencyColourAndLegendFlag
-            (ConstituencyViewModel constituency, 
-            ref List<string> countriesInLegend, out OxyColor color, out bool addToLegend)
+        private void GetConstuencyColourAndLegendFlag(ConstituencyViewModel constituency, 
+            ref List<string> countriesInLegend, out OxyColor color, out bool addToLegend,
+            out string legendText)
         {
             // get the nearest country form the list
             IGeographicEntity nearest = GetNearestCountry(constituency);
 
+            color = _defaultColors[0];
+            addToLegend = false;
             int countryColourIndex = -1;
+            legendText = "";
+            if (nearest == null) return;
 
             // see if it is to be added to the legend
             addToLegend = true;
@@ -290,6 +306,7 @@ namespace WpfPressurePlotter.ViewModels
             if (addToLegend)
             {
                 countryColourIndex = countriesInLegend.Count;
+                legendText = nearest.Name;
                 countriesInLegend.Add(nearest.Name);
             }
             if (countryColourIndex < 0)
@@ -301,15 +318,23 @@ namespace WpfPressurePlotter.ViewModels
 
         private IGeographicEntity GetNearestCountry(ConstituencyViewModel constituency)
         {
+            var nearestCountries = _constituenciesModel.NearestCountries[_nearestCountryCount];
             IGeographicEntity nearest = null;
+            int validCountryCount = 0;
             foreach (var neigbour in constituency.Geography.Neighbours)
             {
-                foreach (var country in _constituenciesModel.NearestCountries)
+                foreach (var country in nearestCountries)
+                {
                     if (neigbour.Neighbour.Name == country.Name)
                     {
-                        nearest = country;
-                        break;
+                        validCountryCount++;
+                        if (validCountryCount > _nearestCountryCount)
+                        {
+                            nearest = country;
+                            break;
+                        }
                     }
+                }
 
                 if (nearest != null)
                     break;
@@ -427,6 +452,23 @@ namespace WpfPressurePlotter.ViewModels
             }
         }
 
+        public int NearestCountries
+        {
+            get
+            {
+                return 1 + _nearestCountryCount;
+            }
+            set
+            {
+                if (value < 1 || value >= _constituenciesModel.MaxNearCountrySets) return;
+                _nearestCountryCount = value -1;
+                InitialiseChartViewModel();
+                OnPropertyChanged(() => SelectedConstituency);
+                OnPropertyChanged(() => ConstituencyPlot);
+                InitialiseAllConstituenciesChartViewModel();
+                OnPropertyChanged(() => UkConstituenciesPlot);
+            }
+        }
         #endregion
 
         #region Member variables
@@ -440,7 +482,10 @@ namespace WpfPressurePlotter.ViewModels
         private double _startPointEast = 0;
         private double _startPointNorth = 0;
 
+        private int _nearestCountryCount = 0;
+
         private ICommand _printToPngCommand;
+        private ICommand _printUkToPngCommand;
         private ConstituencyViewModel _selectedConstituency;
         private AllConstituencesViewModel _allConstituences;
 
@@ -486,6 +531,14 @@ namespace WpfPressurePlotter.ViewModels
             }
         }
 
+        public ICommand PrintUkToPngCommand
+        {
+            get
+            {
+                return _printUkToPngCommand ??
+                    (_printUkToPngCommand = new CommandHandler(() => PrintUkToPngCommandAction(), true));
+            }
+        }
         #endregion
 
         #region Command Handlers
@@ -511,6 +564,31 @@ namespace WpfPressurePlotter.ViewModels
                 using (var stream = File.Create(fileDialog.FileName))
                 {
                     OxyPlot.Wpf.PngExporter.Export(_plotModel, stream, 800, 600, OxyColors.White);
+                }
+            }
+        }
+
+        public void PrintUkToPngCommandAction()
+        {
+            SaveFileDialog fileDialog = new SaveFileDialog();
+            fileDialog.FileName = _constituenciesModel.LastPngFile;
+
+            // TODO - get the file types from the available serializers
+            fileDialog.Filter = @"All files (*.*)|*.*|PNG files (*.png)|*.png";
+            fileDialog.FilterIndex = 4;
+            fileDialog.RestoreDirectory = true;
+
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                _constituenciesModel.LastPngFile = fileDialog.FileName;
+
+                Properties.Settings.Default.LastPngFile =
+                    _constituenciesModel.LastPngFile;
+                Properties.Settings.Default.Save();
+
+                using (var stream = File.Create(fileDialog.FileName))
+                {
+                    OxyPlot.Wpf.PngExporter.Export(_plotModelAllConstuencies, stream, 800, 600, OxyColors.White);
                 }
             }
         }

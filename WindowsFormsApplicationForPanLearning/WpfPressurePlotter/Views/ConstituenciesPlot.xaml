@@ -32,6 +32,8 @@
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="10*"/>
                 <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
             <Label  Grid.Row="0" Grid.Column="0"
             Content="Constituencies" HorizontalAlignment="Left" 
@@ -42,9 +44,14 @@
                         VerticalAlignment="Center"  Height="28" Width="180" RenderTransformOrigin="0.5,0.5"/>
 
 
+            
             <Button Grid.Row="0" Grid.Column="4"
-                Content="Print to File" HorizontalAlignment="Left" VerticalAlignment="Center"  MinWidth="185"
+                Content="Print Constuency to File" HorizontalAlignment="Left" VerticalAlignment="Center"  MinWidth="185"
                 Command="{Binding Path=PrintToPngCommand}" Height="22"/>
+            
+            <Button Grid.Row="0" Grid.Column="6"
+                Content="Print UK to File" HorizontalAlignment="Left" VerticalAlignment="Center"  MinWidth="185"
+                Command="{Binding Path=PrintUkToPngCommand}" Height="22"/>
 
         </Grid>
 
@@ -74,6 +81,9 @@
 
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="90"/>
+                
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="140"/>
             </Grid.ColumnDefinitions>
 
 
@@ -88,6 +98,7 @@
 
             <Label Grid.Row="0" Grid.Column="12" Content="# Land Blocks"/>
 
+            <Label Grid.Row="0" Grid.Column="14" Content="nth Nearest Country" />
 
 
             <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding Path=SelectedConstituency.CentralLongitudeDms, Mode=OneWay}" IsReadOnly="True"/>
@@ -100,6 +111,11 @@
             <TextBox Grid.Row="1" Grid.Column="10" Text="{Binding Path=SelectedConstituency.MaxLatitudeDms, Mode=OneWay}" IsReadOnly="True"/>
 
             <TextBox Grid.Row="1" Grid.Column="12" Text="{Binding Path=SelectedConstituency.NumberLandBlocks, Mode=OneWay}" IsReadOnly="True"/>
+
+            <xctk:IntegerUpDown Grid.Row="1" Grid.Column="14" Maximum="10" Minimum="1"  Margin="7,2,2,0"
+                            Value="{Binding NearestCountries, Mode=TwoWay}"  
+                 Height="24"/>
+
 
             <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="18">
 

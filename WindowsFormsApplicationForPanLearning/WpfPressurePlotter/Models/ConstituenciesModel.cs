@@ -41,7 +41,12 @@ namespace WpfPressurePlotter.Models
 
         public bool LoadededNeighbours { get; private set; }
 
-        public List<IGeographicEntity> NearestCountries { get; private set; }
+        public List<List<IGeographicEntity>> NearestCountries { get; private set; }
+
+        public readonly int MaxNearCountrySets = 10;
+
+
+        public readonly string CurrentCountry = "United Kingdom";
 
         #endregion
 
@@ -333,16 +338,13 @@ namespace WpfPressurePlotter.Models
 
         private void SetupNeighbouringDistances()
         {
-            string currentCountry = "United Kingdom";
-
-
             Dictionary<string, CountryTotalDistance> countriesTotalDistances =
                 new Dictionary<string, CountryTotalDistance>();
 
             foreach (var constituency in _constituencies)
             {
                 var neighbours = (from n in constituency.Value.Neighbours
-                                  where ((n.Neighbour.TotalArea > 1) && (n.Neighbour.Name != currentCountry))
+                                  where ((n.Neighbour.TotalArea > 1) && (n.Neighbour.Name != CurrentCountry))
                                   orderby n.EdgeToEdgeDistance
                                   select n).ToList();
 
@@ -372,17 +374,17 @@ namespace WpfPressurePlotter.Models
                     }
                 }
             }
-            var countryTotalDist =
-                (from c in countriesTotalDistances.Values
-                 orderby c.NumberAtPosition(1) descending
-                 select c).ToList();
+            NearestCountries = new List<List<IGeographicEntity>>();
+            for (int i = 0; i < MaxNearCountrySets; i++)
+            {
 
-            NearestCountries = (from c in countriesTotalDistances.Values
-                                where ( (c.NumberAtPosition(1) > 0) ||  (c.NumberAtPosition(2) > 0))
-                                orderby c.NumberAtPosition(1) descending
-                                select c.Country).ToList();
-
-
+               NearestCountries.Add(
+                    (from c in countriesTotalDistances.Values
+                                    where (c.NumberAtPosition(1+i) > 0)
+                                    orderby c.NumberAtPosition(1+i) descending
+                                    select c.Country).ToList());
+            }
+            
         }
 
         #endregion
