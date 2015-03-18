@@ -5,6 +5,11 @@
     xmlns:Views="clr-namespace:RotaMaker.Views">
     <Grid>
         <TabControl>
+            <TabItem Header="Ward Details">
+                <Grid Background="#FFE5E5E5">
+                    <Views:WardDetailsView DataContext="{Binding Path=WardDetailsVM}" />
+                </Grid>
+            </TabItem>
             <TabItem Header="Nurses">
                 <Grid Background="#FFE5E5E5">
                     <Views:AllStaffView  DataContext="{Binding Path=AllStaffVM}"  />

@@ -1,36 +1,26 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Linq.Expressions;
-using System.Windows.Input;
-using System.Windows.Forms;
 using System.Collections.ObjectModel;
 using log4net;
 
 using RotaMaker.Models;
 
-using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
-
 namespace RotaMaker.ViewModels
 {
-    public class RotaMakerViewModel : INotifyPropertyChanged
+    public class AllStaffViewModel : INotifyPropertyChanged
     {
         #region Constructors
 
-        public RotaMakerViewModel(MainWindow mainWindow, ILog log)
+        public AllStaffViewModel(MainWindow mainWindow, ILog log)
         {
             _mainWindow = mainWindow;
             Log = log;
             _mainModel = new WardModel(log);
-
-            AllStaffVM = new AllStaffViewModel(mainWindow, log);
-            WardStaffingVM = new WardStaffingViewModel(mainWindow, log);
-            OffDutyVM = new OffDutyViewModel(mainWindow, log);
-            WardDetailsVM = new WardDetailsViewModel(mainWindow, log);
+            // TODO: Complete member initialization
         }
 
         #endregion
@@ -38,11 +28,6 @@ namespace RotaMaker.ViewModels
         #region Properties
 
         public ILog Log { get; set; }
-
-        public AllStaffViewModel AllStaffVM { get; set; }
-        public WardStaffingViewModel WardStaffingVM { get; set; }
-        public OffDutyViewModel OffDutyVM { get; set; }
-        public WardDetailsViewModel WardDetailsVM { get; set; }
 
         #endregion
 
@@ -77,6 +62,5 @@ namespace RotaMaker.ViewModels
         }
 
         #endregion // INotifyPropertyChanged Members
-
     }
 }

@@ -2,18 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace RotaMaker.Models
 {
+    [XmlType("Nurse")] // define Type
+    [XmlInclude(typeof(ShiftTime)), XmlInclude(typeof(BookedHoliday)), XmlInclude(typeof(WorkedShift))]  
     public class Nurse
     {
+        [XmlElement("Name")]
         public string Name { get; set; }
+        [XmlElement("Band")]
         public int Band { get; set; }
+        [XmlElement("HolidaysPerYear")]
         public int HolidaysPerYear { get; set; }
 
+        [XmlArray("AvailableShifts")]
+        [XmlArrayItem("ShiftTime")]
         public List<ShiftTime> AvailableShifts { get; set; }
+
+        [XmlArray("ForthcomingHolidays")]
+        [XmlArrayItem("BookedHoliday")]
         public List<BookedHoliday> ForthcomingHolidays { get; set; }
+
+        [XmlArray("ShiftsWorked")]
+        [XmlArrayItem("WorkedShift")]
         public List<WorkedShift> ShiftsWorked { get; set; } 
 
         public Nurse()

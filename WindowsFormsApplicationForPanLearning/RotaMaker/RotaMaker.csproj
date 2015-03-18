@@ -66,6 +66,7 @@
     <Compile Include="ViewModels\RotaMakerViewModel.cs" />
     <Compile Include="ViewModels\Utilities\CommandHandler.cs" />
     <Compile Include="ViewModels\Utilities\WaitCursor.cs" />
+    <Compile Include="ViewModels\WardDetailsViewModel.cs" />
     <Compile Include="ViewModels\WardStaffingViewModel.cs" />
     <Compile Include="Views\AllStaffView.xaml.cs">
       <DependentUpon>AllStaffView.xaml</DependentUpon>
@@ -84,6 +85,12 @@
     </Compile>
     <Compile Include="Views\OffDutyView.xaml.cs">
       <DependentUpon>OffDutyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WardDetailsView.xaml.cs">
+      <DependentUpon>WardDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WardShiftsRequirementsView.xaml.cs">
+      <DependentUpon>WardShiftsRequirementsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WardStaffingView.xaml.cs">
       <DependentUpon>WardStaffingView.xaml</DependentUpon>
@@ -121,6 +128,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\OffDutyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\WardDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\WardShiftsRequirementsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace RotaMaker.Models
 {
+    [XmlType("WorkedShift")] // define Type
+    [XmlInclude(typeof(ShiftTime))]  
     public class WorkedShift
     {
+        [XmlElement("DateStarted")]
         public DateTime DateStarted { get; set; }
+        [XmlElement("Time")]
         public ShiftTime.Shift Time { get; set; }
 
         public double HoursWorked
