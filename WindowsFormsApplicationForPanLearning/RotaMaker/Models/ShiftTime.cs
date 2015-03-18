@@ -19,6 +19,24 @@ namespace RotaMaker.Models
             [XmlEnum(Name = "Night")]
             Night
         };
+        [Serializable]
+        public enum ShiftDay
+        {
+            [XmlEnum(Name = "Monday")]
+            Monday = 0,
+            [XmlEnum(Name = "Tuesday")]
+            Tuesday = 1,
+            [XmlEnum(Name = "Wednesday")]
+            Wednesday = 2,
+            [XmlEnum(Name = "Thursday")]
+            Thursday = 3,
+            [XmlEnum(Name = "Friday")]
+            Friday = 4,
+            [XmlEnum(Name = "Saturday")]
+            Saturday = 5,
+            [XmlEnum(Name = "Sunday")]
+            Sunday = 6
+        };
 
         [XmlElement("Time")]
         public Shift Time { get; set; }

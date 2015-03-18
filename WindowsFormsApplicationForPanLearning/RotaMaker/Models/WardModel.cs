@@ -98,5 +98,16 @@ namespace RotaMaker.Models
         {
             Serializers.SerializeToXml<WardModel>(model, fileName);
         }
+
+        public static int GetShiftIndex(ShiftTime.Shift time, int day)
+        {
+            return day * (1 + (int)ShiftTime.Shift.Night) + (int)time;
+
+        }
+        public static int GetShiftIndex(ShiftTime.Shift time, ShiftTime.ShiftDay day)
+        {
+            return GetShiftIndex(time, (int)day);
+
+        }
     }
 }

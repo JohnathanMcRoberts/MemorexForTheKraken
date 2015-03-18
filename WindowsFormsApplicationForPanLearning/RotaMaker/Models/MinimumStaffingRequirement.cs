@@ -18,6 +18,10 @@ namespace RotaMaker.Models
         public MinimumStaffingRequirement()
         {
             MinimumStaffing = new List<ShiftRequirement>();
+        }
+
+        public void InitialiseMinimums()
+        {
             for (int day = 0; day < 7; ++day)
                 for (ShiftTime.Shift time = ShiftTime.Shift.Early; time <= ShiftTime.Shift.Late; time++)
                     MinimumStaffing.Add(new ShiftRequirement(){Time=time,Day= day,MinimumTrained=1, MimimumTotal=5});

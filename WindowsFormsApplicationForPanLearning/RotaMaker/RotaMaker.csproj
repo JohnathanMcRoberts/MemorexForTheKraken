@@ -66,6 +66,7 @@
     <Compile Include="ViewModels\NurseViewModel.cs" />
     <Compile Include="ViewModels\OffDutyViewModel.cs" />
     <Compile Include="ViewModels\RotaMakerViewModel.cs" />
+    <Compile Include="ViewModels\ShiftRequirementViewModel.cs" />
     <Compile Include="ViewModels\Utilities\CommandHandler.cs" />
     <Compile Include="ViewModels\Utilities\WaitCursor.cs" />
     <Compile Include="ViewModels\WardDetailsViewModel.cs" />
@@ -87,6 +88,9 @@
     </Compile>
     <Compile Include="Views\OffDutyView.xaml.cs">
       <DependentUpon>OffDutyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ShiftRequirementButtonView.xaml.cs">
+      <DependentUpon>ShiftRequirementButtonView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WardDetailsView.xaml.cs">
       <DependentUpon>WardDetailsView.xaml</DependentUpon>
@@ -130,6 +134,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\OffDutyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ShiftRequirementButtonView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -57,6 +57,6 @@
         </Grid>
         <Label Grid.Row="2" Content="Shift Requirements" FontSize="16" FontWeight="Bold"/>
 
-        <Views:WardShiftsRequirementsView Grid.Row="3" DataContext="{Binding Path=ShiftsRequirementsVM}" />
+        <Views:WardShiftsRequirementsView Grid.Row="3"/>
     </Grid>
 </UserControl>

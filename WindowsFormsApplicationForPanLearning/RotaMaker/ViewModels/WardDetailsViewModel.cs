@@ -27,7 +27,32 @@ namespace RotaMaker.ViewModels
             _mainWindow = mainWindow;
             Log = log;
             _mainModel = mainModel;
-            // TODO: Complete member initialization
+            InitialiseShiftRequirementsViewModels();
+        }
+
+        private void InitialiseShiftRequirementsViewModels()
+        {
+            _MondayEarlyVM = new ShiftRequirementViewModel(
+                _mainModel.StaffingRequirement.MinimumStaffing[WardModel.GetShiftIndex(ShiftTime.Shift.Early,ShiftTime.ShiftDay.Monday)],
+                Log);
+            _TuesdayEarlyVM = new ShiftRequirementViewModel(
+                _mainModel.StaffingRequirement.MinimumStaffing[WardModel.GetShiftIndex(ShiftTime.Shift.Early,ShiftTime.ShiftDay.Tuesday)],
+                Log);
+            _WednesdayEarlyVM = new ShiftRequirementViewModel(
+                _mainModel.StaffingRequirement.MinimumStaffing[WardModel.GetShiftIndex(ShiftTime.Shift.Early,ShiftTime.ShiftDay.Wednesday)],
+                Log); 
+            _ThursdayEarlyVM = new ShiftRequirementViewModel(
+                _mainModel.StaffingRequirement.MinimumStaffing[WardModel.GetShiftIndex(ShiftTime.Shift.Early,ShiftTime.ShiftDay.Thursday)],
+                Log); 
+            _FridayEarlyVM = new ShiftRequirementViewModel(
+                _mainModel.StaffingRequirement.MinimumStaffing[WardModel.GetShiftIndex(ShiftTime.Shift.Early,ShiftTime.ShiftDay.Friday)],
+                Log); 
+            _SaturdayEarlyVM = new ShiftRequirementViewModel(
+                _mainModel.StaffingRequirement.MinimumStaffing[WardModel.GetShiftIndex(ShiftTime.Shift.Early,ShiftTime.ShiftDay.Saturday)],
+                Log); 
+            _SundayEarlyVM = new ShiftRequirementViewModel(
+                _mainModel.StaffingRequirement.MinimumStaffing[WardModel.GetShiftIndex(ShiftTime.Shift.Early,ShiftTime.ShiftDay.Sunday)],
+                Log);
         }
 
         #endregion
@@ -42,6 +67,18 @@ namespace RotaMaker.ViewModels
 
         public String WardName { get { return _mainModel.WardName; } }
         
+        #region Early Shift Requirement VMs
+
+        public ShiftRequirementViewModel MondayEarlyVM { get {return _MondayEarlyVM;}}
+        public ShiftRequirementViewModel TuesdayEarlyVM { get { return _TuesdayEarlyVM; } }
+        public ShiftRequirementViewModel WednesdayEarlyVM { get { return _WednesdayEarlyVM; } }
+        public ShiftRequirementViewModel ThursdayEarlyVM { get { return _ThursdayEarlyVM; } }
+        public ShiftRequirementViewModel FridayEarlyVM { get { return _FridayEarlyVM; } }
+        public ShiftRequirementViewModel SaturdayEarlyVM { get { return _SaturdayEarlyVM; } }
+        public ShiftRequirementViewModel SundayEarlyVM { get { return _SundayEarlyVM; } }
+
+        #endregion
+
         #endregion
 
         #region Member variables
@@ -49,8 +86,21 @@ namespace RotaMaker.ViewModels
         private RotaMakerViewModel _mainWindow;
         private WardModel _mainModel;
 
+
         private ICommand _loadFromFileCommand;
         private ICommand _saveToFileCommand;
+
+        #region Early Shift Requirements VMs
+
+        private ShiftRequirementViewModel _MondayEarlyVM;
+        private ShiftRequirementViewModel _TuesdayEarlyVM;
+        private ShiftRequirementViewModel _WednesdayEarlyVM;
+        private ShiftRequirementViewModel _ThursdayEarlyVM;
+        private ShiftRequirementViewModel _FridayEarlyVM;
+        private ShiftRequirementViewModel _SaturdayEarlyVM;
+        private ShiftRequirementViewModel _SundayEarlyVM;
+
+        #endregion
 
         #endregion
 
@@ -124,11 +174,11 @@ namespace RotaMaker.ViewModels
                 {
                     _mainModel = WardModel.OpenWardFile(_mainModel.BackupFileName,Log);
 
+                    _mainWindow.RefreshForNewWard();
+
                     OnPropertyChanged(() => IsFileOpened);
                     OnPropertyChanged(() => BackupFileName);
                     OnPropertyChanged(() => WardName);
-
-                    _mainWindow.RefreshForNewWard();
 
                 }
             }
@@ -158,6 +208,8 @@ namespace RotaMaker.ViewModels
                 //{
                 //    OxyPlot.Wpf.PngExporter.Export(_plotModelAllConstuencies, stream, 800, 600, OxyColors.White);
                 //}
+
+                OnPropertyChanged(() => BackupFileName);
             }
         }
 
