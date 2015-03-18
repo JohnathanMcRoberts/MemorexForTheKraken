@@ -13,20 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using RotaMaker.ViewModels;
-
-namespace RotaMaker
+namespace RotaMaker.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for AllStaffView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AllStaffView : UserControl
     {
-        public MainWindow()
+        public AllStaffView()
         {
             InitializeComponent();
-            RotaMakerViewModel mainVieWModel = new RotaMakerViewModel(this, App.Log);
-            DataContext = mainVieWModel;
         }
     }
 }

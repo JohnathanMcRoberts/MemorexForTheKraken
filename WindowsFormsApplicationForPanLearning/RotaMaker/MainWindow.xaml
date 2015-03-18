@@ -1,8 +1,27 @@
 ﻿<Window x:Class="RotaMaker.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Rota Helper" Height="350" Width="525">
+        Title="Rota Helper"
+    xmlns:Views="clr-namespace:RotaMaker.Views">
     <Grid>
-        
+        <TabControl>
+            <TabItem Header="Nurses">
+                <Grid Background="#FFE5E5E5">
+                    <Views:AllStaffView  DataContext="{Binding Path=AllStaffVM}"  />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Ward Staffing">
+                <Grid Background="#FFE5E5E5">
+                    <Views:WardStaffingView  DataContext="{Binding Path=WardStaffingVM}"  />
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Off Duty">
+                <Grid Background="#FFE5E5E5">
+                    <Views:OffDutyView  DataContext="{Binding Path=OffDutyVM}"  />
+                </Grid>
+            </TabItem>
+
+        </TabControl>
     </Grid>
 </Window>
