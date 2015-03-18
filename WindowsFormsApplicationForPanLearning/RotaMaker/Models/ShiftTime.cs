@@ -33,5 +33,10 @@ namespace RotaMaker.Models
                 day %= 7;
             Day = day;
         }
+        public ShiftTime()
+        {
+            Time = Shift.Early;
+            Day = 1;
+        }
     }
 }

@@ -26,6 +26,14 @@ namespace RotaMaker.Models
 
         }
 
+        public RotaShift()
+        {
+            DateStarted = DateTime.Now;
+            Time = ShiftTime.Shift.Early;
+            Requirement = new ShiftRequirement();
+            AssignedStaff = new List<Nurse>();
+        }
+
         public bool IsRequirementMet()
         { 
             // To do

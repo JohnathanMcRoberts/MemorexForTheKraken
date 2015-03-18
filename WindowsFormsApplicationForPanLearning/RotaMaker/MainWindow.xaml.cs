@@ -28,5 +28,6 @@ namespace RotaMaker
             RotaMakerViewModel mainVieWModel = new RotaMakerViewModel(this, App.Log);
             DataContext = mainVieWModel;
         }
+
     }
 }

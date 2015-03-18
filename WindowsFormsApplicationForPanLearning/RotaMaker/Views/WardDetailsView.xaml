@@ -51,7 +51,7 @@
             <Label Grid.Row="0" Grid.Column="0" Content="Ward Name" />
             <TextBox Grid.Row="0" Grid.Column="1"  Margin="5,5,0,0" Grid.ColumnSpan="4"
                      HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" 
-                     Text="{Binding Path=Name, Mode=OneWay}" VerticalAlignment="Top" MinWidth="190" Width="400"
+                     Text="{Binding Path=WardName, Mode=OneWay}" VerticalAlignment="Top" MinWidth="190" Width="400"
                     IsEnabled="{Binding Path=IsFileOpened, Mode=OneWay}"  
                      />
         </Grid>

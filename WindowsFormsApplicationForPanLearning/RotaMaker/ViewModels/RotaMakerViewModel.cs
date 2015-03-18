@@ -23,14 +23,17 @@ namespace RotaMaker.ViewModels
 
         public RotaMakerViewModel(MainWindow mainWindow, ILog log)
         {
-            _mainWindow = mainWindow;
             Log = log;
-            _mainModel = new WardModel(log);
 
-            AllStaffVM = new AllStaffViewModel(mainWindow, log);
-            WardStaffingVM = new WardStaffingViewModel(mainWindow, log);
-            OffDutyVM = new OffDutyViewModel(mainWindow, log);
-            WardDetailsVM = new WardDetailsViewModel(mainWindow, log);
+            _mainWindow = mainWindow;
+            _mainModel = new WardModel(log);
+            if (_mainModel.BackupFileName != "")
+                _mainModel = WardModel.OpenWardFile(_mainModel.BackupFileName, Log);
+
+            AllStaffVM = new AllStaffViewModel(this, _mainModel, log);
+            WardStaffingVM = new WardStaffingViewModel(this, _mainModel, log);
+            OffDutyVM = new OffDutyViewModel(this, _mainModel, log);
+            WardDetailsVM = new WardDetailsViewModel(this, _mainModel, log);
         }
 
         #endregion
@@ -78,5 +81,11 @@ namespace RotaMaker.ViewModels
 
         #endregion // INotifyPropertyChanged Members
 
+        public void RefreshForNewWard()
+        {
+            OnPropertyChanged(() => AllStaffVM);
+            OnPropertyChanged(() => WardStaffingVM);
+            OnPropertyChanged(() => OffDutyVM);
+        }
     }
 }

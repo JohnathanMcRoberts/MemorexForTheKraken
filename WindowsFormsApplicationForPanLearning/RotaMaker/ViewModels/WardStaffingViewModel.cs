@@ -15,11 +15,11 @@ namespace RotaMaker.ViewModels
     {
         #region Constructors
 
-        public WardStaffingViewModel(MainWindow mainWindow, ILog log)
+        public WardStaffingViewModel(RotaMakerViewModel mainWindow, WardModel mainModel, ILog log)
         {
             _mainWindow = mainWindow;
             Log = log;
-            _mainModel = new WardModel(log);
+            _mainModel = mainModel;
             // TODO: Complete member initialization
         }
 
@@ -33,7 +33,7 @@ namespace RotaMaker.ViewModels
 
         #region Member variables
 
-        private MainWindow _mainWindow;
+        private RotaMakerViewModel _mainWindow;
         private WardModel _mainModel;
 
         #endregion
