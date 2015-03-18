@@ -3,9 +3,83 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:xctk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+             xmlns:Views="clr-namespace:RotaMaker.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="600" d:DesignWidth="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="120"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="120"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="120"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+
+            <Grid.RowDefinitions>
+            <RowDefinition Height="30" ></RowDefinition>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="200*"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="120"/>
+
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Content="Name" />
+            <TextBox Grid.Row="0" Grid.Column="1"  Margin="5,5,0,0" Grid.ColumnSpan="4"
+                     HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" 
+                     Text="{Binding Path=Name, Mode=OneWay}" VerticalAlignment="Top" MinWidth="190" Width="400"
+                    IsEnabled="{Binding Path=IsFileOpened, Mode=OneWay}"  
+                     />
             
+            <Label Grid.Row="0" Grid.Column="4" Content="Band" />
+            <xctk:IntegerUpDown Grid.Row="0"  Grid.Column="5"  Maximum="{Binding MaxBand, Mode=OneWay}" Minimum="2"  Margin="7,2,2,0"
+                                Value="{Binding Band, Mode=TwoWay}"  
+                     Height="24"/>
+
+            
+            <Label Grid.Row="1" Grid.Column="0" Content="TTL Annual Leave" />
+            <xctk:IntegerUpDown Grid.Row="1"  Grid.Column="1"  
+                     HorizontalAlignment="Left" Height="23"  Maximum="{Binding MaxBand, Mode=OneWay}" Minimum="2"  
+                                Margin="7,2,2,0" MinWidth="140"
+                                Value="{Binding HolidaysPerYear, Mode=TwoWay}" />
+        
+            <Label Grid.Row="1" Grid.Column="2" Content="Days remaining" />
+            <TextBox Grid.Row="1" Grid.Column="3"   Margin="7,2,2,0"
+                     HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" IsReadOnly="True"
+                     Text="{Binding Path=DaysRemaining, Mode=OneWay}" VerticalAlignment="Top" MinWidth="120" 
+                     />
+            
+            <Label Grid.Row="1" Grid.Column="4" Content="TTL Shifts Worked" />
+            <TextBox Grid.Row="1" Grid.Column="5"   Margin="7,2,2,0"
+                     HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" IsReadOnly="True"
+                     Text="{Binding Path=TotalShiftsWorked, Mode=OneWay}" VerticalAlignment="Top" MinWidth="100"
+                    IsEnabled="{Binding Path=IsFileOpened, Mode=OneWay}"  
+                     />
+
+        </Grid>
+
+        <Label Grid.Row="1" Content="Shift Availabilty" FontSize="16" FontWeight="Bold"/>
+
+        <Views:NurseShiftAvailabilityView Grid.Row="2" DataContext="{Binding Path=ShiftAvailabiltyVM}" />
+
+        <Label Grid.Row="3" Content="Holidays"  FontSize="16" FontWeight="Bold"/>
+
+        <Views:NurseHolidaysView Grid.Row="4" DataContext="{Binding Path=HolidaysVM}" />
+
+        <Label Grid.Row="5" Content="Shifts"  FontSize="16" FontWeight="Bold"/>
+
+        <Views:NurseShiftsView Grid.Row="6" DataContext="{Binding Path=ShiftsVM}" />
     </Grid>
 </UserControl>
