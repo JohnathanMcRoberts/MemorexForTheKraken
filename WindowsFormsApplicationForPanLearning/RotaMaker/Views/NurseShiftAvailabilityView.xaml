@@ -4,8 +4,87 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="120" d:DesignWidth="600">
+
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="100*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="1" Content="Monday" FontSize="12" FontWeight="Bold"  Margin="1" HorizontalAlignment="Center"/>
+        <Label Grid.Row="0" Grid.Column="2" Content="Tuesday" FontSize="12" FontWeight="Bold"  Margin="1" HorizontalAlignment="Center" />
+        <Label Grid.Row="0" Grid.Column="3" Content="Wednesday" FontSize="12" FontWeight="Bold"  Margin="1" HorizontalAlignment="Center" />
+        <Label Grid.Row="0" Grid.Column="4" Content="Thursday" FontSize="12" FontWeight="Bold"  Margin="1"  HorizontalAlignment="Center"/>
+        <Label Grid.Row="0" Grid.Column="5" Content="Friday" FontSize="12" FontWeight="Bold"  Margin="1" HorizontalAlignment="Center" />
+        <Label Grid.Row="0" Grid.Column="6" Content="Saturday" FontSize="12" FontWeight="Bold"  Margin="1" HorizontalAlignment="Center" />
+        <Label Grid.Row="0" Grid.Column="7" Content="Sunday" FontSize="12" FontWeight="Bold"  Margin="1"  HorizontalAlignment="Center"/>
+
+
+        <Label Grid.Row="1" Grid.Column="0" Content="Early" FontSize="12" FontWeight="Bold"  Margin="1" VerticalAlignment="Center" />
+        <Label Grid.Row="2" Grid.Column="0" Content="Late" FontSize="12" FontWeight="Bold"  Margin="1" VerticalAlignment="Center" />
+        <Label Grid.Row="3" Grid.Column="0" Content="Night" FontSize="12" FontWeight="Bold"  Margin="1"  VerticalAlignment="Center"/>
+
+
+
+        <CheckBox  Grid.Row="1" Grid.Column="1" IsChecked="{Binding Path=AvailableMondayEarly}"  
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <CheckBox  Grid.Row="1" Grid.Column="2"  IsChecked="{Binding Path=AvailableTuesdayEarly}"  
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <CheckBox  Grid.Row="1" Grid.Column="3"  IsChecked="{Binding Path=AvailableWednesdayEarly}"  
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <CheckBox  Grid.Row="1" Grid.Column="4"  IsChecked="{Binding Path=AvailableThursdayEarly}"  
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <CheckBox  Grid.Row="1" Grid.Column="5"  IsChecked="{Binding Path=AvailableFridayEarly}"  
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <CheckBox  Grid.Row="1" Grid.Column="6"  IsChecked="{Binding Path=AvailableSaturdayEarly}"  
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <CheckBox  Grid.Row="1" Grid.Column="7"  IsChecked="{Binding Path=AvailableSundayEarly}"  
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+
+        <CheckBox  Grid.Row="2" Grid.Column="1"  IsChecked="{Binding Path=AvailableMondayLate}"  
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <CheckBox  Grid.Row="2" Grid.Column="2"  IsChecked="{Binding Path=AvailableTuesdayLate}"  
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <CheckBox  Grid.Row="2" Grid.Column="3"  IsChecked="{Binding Path=AvailableWednesdayLate}"  
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <CheckBox  Grid.Row="2" Grid.Column="4"  IsChecked="{Binding Path=AvailableThursdayLate}"  
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <CheckBox  Grid.Row="2" Grid.Column="5"  IsChecked="{Binding Path=AvailableFridayLate}"  
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <CheckBox  Grid.Row="2" Grid.Column="6"  IsChecked="{Binding Path=AvailableSaturdayLate}"  
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <CheckBox  Grid.Row="2" Grid.Column="7"  IsChecked="{Binding Path=AvailableSundayLate}"  
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <CheckBox  Grid.Row="3" Grid.Column="1"  IsChecked="{Binding Path=AvailableMondayNight}"  
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <CheckBox  Grid.Row="3" Grid.Column="2"  IsChecked="{Binding Path=AvailableTuesdayNight}"  
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <CheckBox  Grid.Row="3" Grid.Column="3"  IsChecked="{Binding Path=AvailableWednesdayNight}"  
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <CheckBox  Grid.Row="3" Grid.Column="4"  IsChecked="{Binding Path=AvailableThursdayNight}"  
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <CheckBox  Grid.Row="3" Grid.Column="5"  IsChecked="{Binding Path=AvailableFridayNight}"  
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <CheckBox  Grid.Row="3" Grid.Column="6"  IsChecked="{Binding Path=AvailableSaturdayNight}"  
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <CheckBox  Grid.Row="3" Grid.Column="7"  IsChecked="{Binding Path=AvailableSundayNight}"  
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
     </Grid>
 </UserControl>

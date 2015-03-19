@@ -39,33 +39,32 @@
             <Label Grid.Row="0" Grid.Column="0" Content="Name" />
             <TextBox Grid.Row="0" Grid.Column="1"  Margin="5,5,0,0" Grid.ColumnSpan="4"
                      HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" 
-                     Text="{Binding Path=Name, Mode=OneWay}" VerticalAlignment="Top" MinWidth="190" Width="400"
-                    IsEnabled="{Binding Path=IsFileOpened, Mode=OneWay}"  
+                     Text="{Binding Path=Name, Mode=OneWay}" VerticalAlignment="Top" MinWidth="190" Width="400"  
+                     IsReadOnly="True"
                      />
             
             <Label Grid.Row="0" Grid.Column="4" Content="Band" />
-            <xctk:IntegerUpDown Grid.Row="0"  Grid.Column="5"  Maximum="{Binding MaxBand, Mode=OneWay}" Minimum="2"  Margin="7,2,2,0"
-                                Value="{Binding Band, Mode=TwoWay}"  
-                     Height="24"/>
+            <xctk:IntegerUpDown Grid.Row="0"  Grid.Column="5"  Maximum="{Binding MaxBand, Mode=OneWay}" 
+                                Minimum="2"  Margin="7,2,2,0"
+                                Value="{Binding Band, Mode=TwoWay}"   Height="24"/>
 
             
             <Label Grid.Row="1" Grid.Column="0" Content="TTL Annual Leave" />
             <xctk:IntegerUpDown Grid.Row="1"  Grid.Column="1"  
-                     HorizontalAlignment="Left" Height="23"  Maximum="{Binding MaxBand, Mode=OneWay}" Minimum="2"  
+                     HorizontalAlignment="Left" Height="23"  Maximum="{Binding MaxHolidaysPerYear, Mode=OneWay}" Minimum="2"  
                                 Margin="7,2,2,0" MinWidth="140"
                                 Value="{Binding HolidaysPerYear, Mode=TwoWay}" />
         
             <Label Grid.Row="1" Grid.Column="2" Content="Days remaining" />
             <TextBox Grid.Row="1" Grid.Column="3"   Margin="7,2,2,0"
                      HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" IsReadOnly="True"
-                     Text="{Binding Path=DaysRemaining, Mode=OneWay}" VerticalAlignment="Top" MinWidth="120" 
+                     Text="{Binding Path=HolidaysRemaining, Mode=OneWay}" VerticalAlignment="Top" MinWidth="120" 
                      />
             
             <Label Grid.Row="1" Grid.Column="4" Content="TTL Shifts Worked" />
             <TextBox Grid.Row="1" Grid.Column="5"   Margin="7,2,2,0"
                      HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" IsReadOnly="True"
-                     Text="{Binding Path=TotalShiftsWorked, Mode=OneWay}" VerticalAlignment="Top" MinWidth="100"
-                    IsEnabled="{Binding Path=IsFileOpened, Mode=OneWay}"  
+                     Text="{Binding Path=TotalShiftsWorked, Mode=OneWay}" VerticalAlignment="Top" MinWidth="100"                     
                      />
 
         </Grid>

@@ -79,19 +79,34 @@ namespace RotaMaker.Models
 
         public static WardModel OpenWardFile(string fileName, ILog log)
         {
+            WardModel wardModel = null; 
             if (File.Exists(fileName))
             {
-                WardModel model = Serializers.DeserializeFromXML <WardModel>(fileName);
-                if (model != null)
+                wardModel = Serializers.DeserializeFromXML<WardModel>(fileName);
+                if (wardModel != null)
                 {
-                    model.BackupFileName = fileName;
-                    model.IsFileOpened = true;
-                    model.Log = log;
-
-                    return model;
+                    wardModel.BackupFileName = fileName;
+                    wardModel.IsFileOpened = true;
+                    wardModel.Log = log;
                 }
             }
-            return null;
+
+
+            if (wardModel == null)
+            {
+                wardModel = new WardModel(log)
+                {
+                    IsFileOpened = false, 
+                    BackupFileName = fileName, 
+                    WardName = "Dummy Ward"
+                };
+                wardModel.StaffingRequirement.InitialiseMinimums();
+            }
+
+            if (wardModel.Staff.Count == 0)
+                wardModel.Staff.Add(Nurse.CreateDummyNurse());
+
+            return wardModel;
         }
 
         public static void SaveToFile(WardModel model, string fileName)

@@ -49,5 +49,57 @@ namespace RotaMaker.Models
             // To do
             return true;
         }
+
+        public static Nurse CreateDummyNurse()
+        {
+            Nurse newNurse = new Nurse() { Name = "Dummy Nurse" };
+            return newNurse ;
+        }
+
+        public readonly int MaxBand = 8;
+
+        public readonly int MaxHolidaysPerYear = 45;
+
+        public int HolidaysRemaining 
+        {
+            get { return HolidaysPerYear - HolidaysTaken(); }
+        }
+
+        public int HolidaysTaken()
+        {
+            double holidaysTaken = 0;
+            foreach (BookedHoliday holiday in ForthcomingHolidays)
+                if (holiday.StartDate < DateTime.Now)
+                    holidaysTaken += holiday.NumberOfDaysLong();
+
+            return (int)Math.Round(holidaysTaken);
+        }
+
+        public bool GetAvailability(ShiftTime.Shift shiftTime, ShiftTime.ShiftDay shiftDay)
+        {
+            foreach(var shift in AvailableShifts)
+                if (shift.Day == (int)shiftDay &&  shift.Time == shiftTime)
+                    return true;
+            return false;
+        }
+
+        public void SetAvailability(ShiftTime.Shift shiftTime, ShiftTime.ShiftDay shiftDay, bool available)
+        {
+            if (available == true && GetAvailability(shiftTime, shiftDay) == false)
+            {
+                AvailableShifts.Add(new ShiftTime(shiftTime, (int)shiftDay));
+            }
+            else if (available == false && GetAvailability(shiftTime, shiftDay) == true)
+            {
+                for (int i = 0; i < AvailableShifts.Count; ++i)
+                {
+                    if (AvailableShifts[i].Day == (int)shiftDay && AvailableShifts[i].Time == shiftTime)
+                    {
+                        AvailableShifts.RemoveAt(i);
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

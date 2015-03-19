@@ -15,11 +15,13 @@ namespace RotaMaker.ViewModels
     {
         #region Constructors
 
-        public NurseViewModel(RotaMakerViewModel mainWindow, WardModel mainModel, ILog log)
+        public NurseViewModel(Nurse nurse, AllStaffViewModel allStaffViewModel, ILog log)
         {
-            _mainWindow = mainWindow;
+            _nurse = nurse;
+            _allStaffViewModel = allStaffViewModel;
             Log = log;
-            _mainModel = mainModel;
+
+            _shiftAvailabilityVM = new NurseShiftAvailabiltyViewModel(allStaffViewModel, nurse, log);
             // TODO: Complete member initialization
         }
 
@@ -29,13 +31,80 @@ namespace RotaMaker.ViewModels
 
         public ILog Log { get; set; }
 
+        public string Name 
+        { 
+            get { return _nurse.Name; } 
+            set
+            {
+                if (value != _nurse.Name)
+                {
+                    _nurse.Name = value;
+                    OnPropertyChanged(() => Name);
+                }
+            } 
+        }
+
+        public int Band
+        {
+            get { return _nurse.Band; }
+            set
+            {
+                if (value != _nurse.Band)
+                {
+                    _nurse.Band = value;
+                    OnPropertyChanged(() => Band);
+                }
+            }
+        }
+
+        public int HolidaysPerYear
+        {
+            get { return _nurse.HolidaysPerYear; }
+            set
+            {
+                if (value != _nurse.HolidaysPerYear)
+                {
+                    _nurse.HolidaysPerYear = value;
+                    OnPropertyChanged(() => HolidaysPerYear);
+                    OnPropertyChanged(() => HolidaysRemaining);
+                }
+            }
+        }
+
+        public int HolidaysRemaining
+        {
+            get { return _nurse.HolidaysRemaining; }
+        }
+
+        public int TotalShiftsWorked
+        {
+            get { return _nurse.ShiftsWorked.Count(); }
+        }
+
+        public int MaxBand
+        {
+            get { return _nurse.MaxBand; }
+        }
+
+        public int MaxHolidaysPerYear
+        {
+            get { return _nurse.MaxHolidaysPerYear; }
+        }
+
+        public NurseShiftAvailabiltyViewModel ShiftAvailabiltyVM
+        {
+            get { return _shiftAvailabilityVM; }
+        }
+
+
         #endregion
 
         #region Member variables
 
-        private RotaMakerViewModel _mainWindow;
-        private WardModel _mainModel;
+        private Nurse _nurse;
+        private AllStaffViewModel _allStaffViewModel;
 
+        private NurseShiftAvailabiltyViewModel _shiftAvailabilityVM;
         #endregion
 
         #region INotifyPropertyChanged Members

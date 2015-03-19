@@ -10,9 +10,21 @@ namespace RotaMaker.Models
     public class BookedHoliday
     {
         [XmlElement("StartDate")]
-        DateTime StartDate { get; set; }
+        public DateTime StartDate { get; set; }
 
         [XmlElement("EndDate")]
-        DateTime EndDate { get; set; }
+        public DateTime EndDate { get; set; }
+
+        [XmlElement("IsHalf")]
+        public bool IsHalf { get; set; }
+
+        public double NumberOfDaysLong()
+        {
+
+            if (StartDate.DayOfYear == EndDate.DayOfYear && IsHalf)
+                return 0.5;
+            return EndDate.DayOfYear - StartDate.DayOfYear;
+        }
+
     }
 }

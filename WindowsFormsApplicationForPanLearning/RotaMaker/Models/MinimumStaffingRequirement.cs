@@ -22,9 +22,15 @@ namespace RotaMaker.Models
 
         public void InitialiseMinimums()
         {
-            for (int day = 0; day < 7; ++day)
+            for (int day = 0; day < DaysPerWeek; ++day)
                 for (ShiftTime.Shift time = ShiftTime.Shift.Early; time <= ShiftTime.Shift.Late; time++)
                     MinimumStaffing.Add(new ShiftRequirement(){Time=time,Day= day,MinimumTrained=1, MimimumTotal=5});
         }
+
+
+        [XmlIgnoreAttribute]
+        public readonly int DaysPerWeek = 7; 
+        [XmlIgnoreAttribute]
+        public readonly int NumberOfShifts = 21; // 7 * 3
     }
 }

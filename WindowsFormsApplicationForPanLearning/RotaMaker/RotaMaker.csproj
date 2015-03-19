@@ -63,6 +63,7 @@
     <Compile Include="Models\MinimumStaffingRequirement.cs" />
     <Compile Include="Models\Utilities\Serializers.cs" />
     <Compile Include="ViewModels\AllStaffViewModel.cs" />
+    <Compile Include="ViewModels\NurseShiftAvailabiltyViewModel.cs" />
     <Compile Include="ViewModels\NurseViewModel.cs" />
     <Compile Include="ViewModels\OffDutyViewModel.cs" />
     <Compile Include="ViewModels\RotaMakerViewModel.cs" />
