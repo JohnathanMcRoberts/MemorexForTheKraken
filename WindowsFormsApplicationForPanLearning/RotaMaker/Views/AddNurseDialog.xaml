@@ -1,0 +1,84 @@
+﻿<Window x:Class="RotaMaker.Views.AddNurseDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:xctk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+             xmlns:Views="clr-namespace:RotaMaker.Views"
+        Title="Add New Nurse" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
+    <Grid Margin="15">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="120"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="150*"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="150*"/>
+
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Content="First Name" />
+                <TextBox Grid.Row="0" Grid.Column="1"  Margin="5,5,0,0" Grid.ColumnSpan="4"
+                     HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" 
+                     Text="{Binding Path=FirstName, Mode=TwoWay}" VerticalAlignment="Top" MinWidth="140" 
+                     />
+
+                <Label Grid.Row="0" Grid.Column="2" Content="Last Name" />
+                <TextBox Grid.Row="0" Grid.Column="3"  Margin="5,5,0,0" Grid.ColumnSpan="4"
+                     HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" 
+                     Text="{Binding Path=LastName, Mode=TwoWay}" VerticalAlignment="Top" MinWidth="140" 
+                     />
+
+
+
+                <Label Grid.Row="1" Grid.Column="0" Content="TTL Annual Leave" />
+                <xctk:IntegerUpDown Grid.Row="1"  Grid.Column="1"  
+                     HorizontalAlignment="Left" Height="23"  Maximum="{Binding MaxHolidaysPerYear, Mode=OneWay}" Minimum="2"  
+                                Margin="7,2,2,0" MinWidth="140"
+                                Value="{Binding HolidaysPerYear, Mode=TwoWay}" />
+
+                <Label Grid.Row="1" Grid.Column="2" Content="Band" />
+                <xctk:IntegerUpDown Grid.Row="1"  Grid.Column="3"  Maximum="{Binding MaxBand, Mode=OneWay}" 
+                                Minimum="2"  Margin="7,2,2,0" MinWidth="140"
+                                Value="{Binding Band, Mode=TwoWay}"   Height="24"/>
+
+            </Grid>
+
+            <Label Grid.Row="1" Content="Shift Availabilty" FontSize="16" FontWeight="Bold"/>
+
+            <Views:NurseShiftAvailabilityView Grid.Row="2" DataContext="{Binding Path=ShiftAvailabiltyVM}" />
+            
+        </Grid>
+
+
+        <WrapPanel Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,15,0,0">
+            <Button IsDefault="True" Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0">_Ok</Button>
+            <Button IsCancel="True" MinWidth="60">_Cancel</Button>
+        </WrapPanel>
+        
+    </Grid>
+</Window>

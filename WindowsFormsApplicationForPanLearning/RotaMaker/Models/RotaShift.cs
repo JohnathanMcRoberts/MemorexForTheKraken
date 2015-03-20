@@ -23,7 +23,10 @@ namespace RotaMaker.Models
 
         public RotaShift(DateTime date, ShiftTime.Shift time, ShiftRequirement requirement)
         {
-
+            DateStarted = date;
+            Time = time;
+            Requirement = requirement;
+            AssignedStaff = new List<Nurse>();
         }
 
         public RotaShift()
@@ -37,6 +40,8 @@ namespace RotaMaker.Models
         public bool IsRequirementMet()
         { 
             // To do
+            if ((DateStarted.DayOfYear % 2) < 1) return false;
+
             return true; 
         }
 

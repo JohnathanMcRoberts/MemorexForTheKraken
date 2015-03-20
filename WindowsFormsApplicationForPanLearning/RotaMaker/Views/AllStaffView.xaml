@@ -35,7 +35,7 @@
 
         <Button Grid.Row="0" Grid.Column="3" Margin="5,3,0,0" 
                 Content="Remove Selected Nurse" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="185"
-                Command="{Binding Path=RemoveSelectedNurseCommand}" Height="22"/>
+                Command="{Binding Path=RemoveSelectedNurseCommand}" Height="22" IsEnabled="{Binding Path=CanDeleteStaff}"/>
 
         <Views:NurseView  DataContext="{Binding Path=SelectedNurseVM}"  
                           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" />

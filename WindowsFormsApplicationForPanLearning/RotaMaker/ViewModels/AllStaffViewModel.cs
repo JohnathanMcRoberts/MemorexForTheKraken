@@ -6,10 +6,12 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Windows.Forms;
 using log4net;
 
 using RotaMaker.Models;
 using RotaMaker.ViewModels.Utilities;
+using RotaMaker.Views;
 
 namespace RotaMaker.ViewModels
 {
@@ -54,18 +56,10 @@ namespace RotaMaker.ViewModels
                 }
             }
         }
-
-        public int SelectedNurseIndex
+        
+        public Boolean CanDeleteStaff
         {
-            get { return _selectedNurseIndex; }
-            set 
-            { 
-                if (value != _selectedNurseIndex) 
-                { 
-                    _selectedNurseIndex = value; 
-                    OnPropertyChanged(() => SelectedNurseIndex); 
-                } 
-            }
+            get { return Nurses.Count > 1; }
         }
 
         #endregion
@@ -75,14 +69,12 @@ namespace RotaMaker.ViewModels
         private RotaMakerViewModel _mainWindow;
         private WardModel _mainModel;
 
-        private ObservableCollection<string> _nurseNames;
         private ObservableCollection<NurseViewModel> _nurseVMs;
         private NurseViewModel _selectedNurseVM;
-        private int _selectedNurseIndex;
 
 
         private ICommand _addNewNurseCommand;
-        private ICommand _saveToFileCommand;
+        private ICommand _removeSelectedNurseCommand;
 
         #endregion
 
@@ -126,8 +118,8 @@ namespace RotaMaker.ViewModels
         {
             get
             {
-                return _saveToFileCommand ??
-                    (_saveToFileCommand = new CommandHandler(() => SaveToFileCommandAction(), true));
+                return _removeSelectedNurseCommand ??
+                    (_removeSelectedNurseCommand = new CommandHandler(() => RemoveSelectedNurseCommandAction(), true));
             }
         }
 
@@ -137,12 +129,34 @@ namespace RotaMaker.ViewModels
 
         public void AddNewNurseCommandAction()
         {
+            NurseViewModel newNurseVm = new NurseViewModel(Nurse.CreateDummyNurse(), this, Log);
 
+            AddNurseDialog inputDialog = new AddNurseDialog(newNurseVm);
+            if (inputDialog.ShowDialog() == true)
+            {
+                _nurseVMs.Add(newNurseVm);
+                _mainModel.Staff.Add(newNurseVm.Nurse);
+                OnPropertyChanged("");
+            }
         }
 
-        public void SaveToFileCommandAction()
+        public void RemoveSelectedNurseCommandAction()
         {
+            // only get here if more than 1 nurse available
+            DialogResult result = MessageBox.Show(
+                "Are you sure you want to remove " + SelectedNurseVM.Name + "?",
+                "Remove Nurse",
+                MessageBoxButtons.YesNoCancel,
+                MessageBoxIcon.Question);
 
+            if (result == DialogResult.Yes)
+            {
+                _mainModel.Staff.Remove(SelectedNurseVM.Nurse);
+                _nurseVMs.Remove(SelectedNurseVM);
+                SelectedNurseVM = _nurseVMs[0];
+                OnPropertyChanged("");
+
+            }
         }
 
         #endregion

@@ -34,14 +34,33 @@ namespace RotaMaker.ViewModels
         public string Name 
         { 
             get { return _nurse.Name; } 
+        }
+
+        public string FirstName
+        {
+            get { return _nurse.FirstName; }
             set
             {
-                if (value != _nurse.Name)
+                if (value != _nurse.FirstName)
                 {
-                    _nurse.Name = value;
+                    _nurse.FirstName = value;
                     OnPropertyChanged(() => Name);
+                    OnPropertyChanged(() => FirstName);
                 }
-            } 
+            }
+        }
+        public string LastName
+        {
+            get { return _nurse.LastName; }
+            set
+            {
+                if (value != _nurse.LastName)
+                {
+                    _nurse.LastName = value;
+                    OnPropertyChanged(() => Name);
+                    OnPropertyChanged(() => LastName);
+                }
+            }
         }
 
         public int Band
@@ -96,6 +115,7 @@ namespace RotaMaker.ViewModels
             get { return _shiftAvailabilityVM; }
         }
 
+        public Nurse Nurse { get { return _nurse; } }
 
         #endregion
 

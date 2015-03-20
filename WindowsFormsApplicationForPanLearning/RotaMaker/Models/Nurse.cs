@@ -10,8 +10,17 @@ namespace RotaMaker.Models
     [XmlInclude(typeof(ShiftTime)), XmlInclude(typeof(BookedHoliday)), XmlInclude(typeof(WorkedShift))]  
     public class Nurse
     {
-        [XmlElement("Name")]
-        public string Name { get; set; }
+        #region Properties
+
+        [XmlElement("FirstName")]
+        public string FirstName { get; set; }
+
+        [XmlElement("LastName")]
+        public string LastName { get; set; }
+
+        [XmlIgnore]
+        public string Name { get { return FirstName + " " + LastName; } }
+        
         [XmlElement("Band")]
         public int Band { get; set; }
         [XmlElement("HolidaysPerYear")]
@@ -27,7 +36,14 @@ namespace RotaMaker.Models
 
         [XmlArray("ShiftsWorked")]
         [XmlArrayItem("WorkedShift")]
-        public List<WorkedShift> ShiftsWorked { get; set; } 
+        public List<WorkedShift> ShiftsWorked { get; set; }
+
+        [XmlIgnore]
+        public bool IsTrained { get { return (Band >= 5); } }
+
+        #endregion
+
+        #region Constructor
 
         public Nurse()
         {
@@ -35,30 +51,37 @@ namespace RotaMaker.Models
             HolidaysPerYear = 30;
 
             AvailableShifts = new List<ShiftTime>();
-            for(int day =0; day < 7; ++day)
-                for(ShiftTime.Shift time = ShiftTime.Shift.Early; time<= ShiftTime.Shift.Late; time++)
-                    AvailableShifts.Add(new ShiftTime(time, day));
-
             ForthcomingHolidays = new List<BookedHoliday>();
             ShiftsWorked = new List<WorkedShift>();
         }
 
-        bool IsTrained { get { return (Band >= 5); } }
-        bool AvailableForShift(ShiftTime.Shift shiftTime, DateTime date)
-        {
-            // To do
-            return true;
-        }
+        #endregion
 
-        public static Nurse CreateDummyNurse()
-        {
-            Nurse newNurse = new Nurse() { Name = "Dummy Nurse" };
-            return newNurse ;
-        }
+        #region Constants
 
+        [XmlIgnore]
         public readonly int MaxBand = 8;
 
+        [XmlIgnore]
         public readonly int MaxHolidaysPerYear = 45;
+
+        #endregion
+
+        #region Public Functions
+
+        public void InitialiseAllShifts()
+        {
+            AvailableShifts = new List<ShiftTime>();
+            for (int day = 0; day < 7; ++day)
+                for (ShiftTime.Shift time = ShiftTime.Shift.Early; time <= ShiftTime.Shift.Late; time++)
+                    AvailableShifts.Add(new ShiftTime(time, day));
+        }
+
+        public bool AvailableForShift(ShiftTime.Shift shiftTime, DateTime date)
+        {
+            // To do
+            return GetAvailability(shiftTime, ShiftTime.ToShiftDay(date.DayOfWeek));
+        }
 
         public int HolidaysRemaining 
         {
@@ -101,5 +124,27 @@ namespace RotaMaker.Models
                 }
             }
         }
+
+
+        public bool AvailableForShift(RotaShift shift)
+        {
+            // TODO : handle holidays???
+            
+            return AvailableForShift(shift.Time, shift.DateStarted);
+        }
+
+        #endregion
+
+        #region Static Constructor
+
+        public static Nurse CreateDummyNurse()
+        {
+            Nurse newNurse = new Nurse() { FirstName = "Dummy", LastName = "Nurse" };
+            newNurse.InitialiseAllShifts();
+            return newNurse;
+        }
+
+        #endregion
+
     }
 }

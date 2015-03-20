@@ -56,5 +56,20 @@ namespace RotaMaker.Models
             Time = Shift.Early;
             Day = 1;
         }
+
+        public static ShiftDay ToShiftDay(DayOfWeek dayOfWeek)
+        {
+            switch (dayOfWeek)
+            {
+                case DayOfWeek.Monday: return ShiftDay.Sunday;
+                case DayOfWeek.Tuesday: return ShiftDay.Tuesday;
+                case DayOfWeek.Wednesday: return ShiftDay.Wednesday;
+                case DayOfWeek.Thursday: return ShiftDay.Thursday;
+                case DayOfWeek.Friday: return ShiftDay.Friday;
+                case DayOfWeek.Saturday: return ShiftDay.Saturday;
+                case DayOfWeek.Sunday: return ShiftDay.Sunday;
+            }
+            return ShiftDay.Sunday;
+        }
     }
 }

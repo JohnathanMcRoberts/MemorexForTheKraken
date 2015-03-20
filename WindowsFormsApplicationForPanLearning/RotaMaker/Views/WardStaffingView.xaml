@@ -3,9 +3,85 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:xctk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+             xmlns:Views="clr-namespace:RotaMaker.Views"             
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="500" d:DesignWidth="800">
     <Grid>
-            
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="70*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="200*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Content="Week of Shifts" />
+        <DatePicker Grid.Row="0" Grid.Column="1" SelectedDate="{Binding Path=SelectedWeekDate}"  />
+
+
+        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="120*"/>
+                <ColumnDefinition Width="120*"/>
+                <ColumnDefinition Width="120*"/>
+                <ColumnDefinition Width="120*"/>
+                <ColumnDefinition Width="120*"/>
+                <ColumnDefinition Width="120*"/>
+                <ColumnDefinition Width="120*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="1" Content="Monday" FontSize="12" FontWeight="Bold"  Margin="1" HorizontalAlignment="Center"/>
+            <Label Grid.Row="0" Grid.Column="2" Content="Tuesday" FontSize="12" FontWeight="Bold"  Margin="1" HorizontalAlignment="Center" />
+            <Label Grid.Row="0" Grid.Column="3" Content="Wednesday" FontSize="12" FontWeight="Bold"  Margin="1" HorizontalAlignment="Center" />
+            <Label Grid.Row="0" Grid.Column="4" Content="Thursday" FontSize="12" FontWeight="Bold"  Margin="1"  HorizontalAlignment="Center"/>
+            <Label Grid.Row="0" Grid.Column="5" Content="Friday" FontSize="12" FontWeight="Bold"  Margin="1" HorizontalAlignment="Center" />
+            <Label Grid.Row="0" Grid.Column="6" Content="Saturday" FontSize="12" FontWeight="Bold"  Margin="1" HorizontalAlignment="Center" />
+            <Label Grid.Row="0" Grid.Column="7" Content="Sunday" FontSize="12" FontWeight="Bold"  Margin="1"  HorizontalAlignment="Center"/>
+
+
+            <Label Grid.Row="1" Grid.Column="0" Content="Early" FontSize="12" FontWeight="Bold"  Margin="1" VerticalAlignment="Center" />
+            <Label Grid.Row="2" Grid.Column="0" Content="Late" FontSize="12" FontWeight="Bold"  Margin="1" VerticalAlignment="Center" />
+            <Label Grid.Row="3" Grid.Column="0" Content="Night" FontSize="12" FontWeight="Bold"  Margin="1"  VerticalAlignment="Center"/>
+
+            <Views:RotaShiftButtonView  Grid.Row="1" Grid.Column="1"  DataContext="{Binding Path=MondayEarlyVM}"/>
+            <Views:RotaShiftButtonView  Grid.Row="1" Grid.Column="2"  DataContext="{Binding Path=TuesdayEarlyVM}"/>
+            <Views:RotaShiftButtonView  Grid.Row="1" Grid.Column="3"  DataContext="{Binding Path=WednesdayEarlyVM}"/>
+            <Views:RotaShiftButtonView  Grid.Row="1" Grid.Column="4"  DataContext="{Binding Path=ThursdayEarlyVM}"/>
+            <Views:RotaShiftButtonView  Grid.Row="1" Grid.Column="5"  DataContext="{Binding Path=FridayEarlyVM}"/>
+            <Views:RotaShiftButtonView  Grid.Row="1" Grid.Column="6"  DataContext="{Binding Path=SaturdayEarlyVM}"/>
+            <Views:RotaShiftButtonView  Grid.Row="1" Grid.Column="7"  DataContext="{Binding Path=SundayEarlyVM}"/>
+
+
+            <Views:RotaShiftButtonView  Grid.Row="2" Grid.Column="1"  DataContext="{Binding Path=MondayLateVM}"/>
+            <Views:RotaShiftButtonView  Grid.Row="2" Grid.Column="2"  DataContext="{Binding Path=TuesdayLateVM}"/>
+            <Views:RotaShiftButtonView  Grid.Row="2" Grid.Column="3"  DataContext="{Binding Path=WednesdayLateVM}"/>
+            <Views:RotaShiftButtonView  Grid.Row="2" Grid.Column="4"  DataContext="{Binding Path=ThursdayLateVM}"/>
+            <Views:RotaShiftButtonView  Grid.Row="2" Grid.Column="5"  DataContext="{Binding Path=FridayLateVM}"/>
+            <Views:RotaShiftButtonView  Grid.Row="2" Grid.Column="6"  DataContext="{Binding Path=SaturdayLateVM}"/>
+            <Views:RotaShiftButtonView  Grid.Row="2" Grid.Column="7"  DataContext="{Binding Path=SundayLateVM}"/>
+
+            <Views:RotaShiftButtonView  Grid.Row="3" Grid.Column="1"  DataContext="{Binding Path=MondayNightVM}"/>
+            <Views:RotaShiftButtonView  Grid.Row="3" Grid.Column="2"  DataContext="{Binding Path=TuesdayNightVM}"/>
+            <Views:RotaShiftButtonView  Grid.Row="3" Grid.Column="3"  DataContext="{Binding Path=WednesdayNightVM}"/>
+            <Views:RotaShiftButtonView  Grid.Row="3" Grid.Column="4"  DataContext="{Binding Path=ThursdayNightVM}"/>
+            <Views:RotaShiftButtonView  Grid.Row="3" Grid.Column="5"  DataContext="{Binding Path=FridayNightVM}"/>
+            <Views:RotaShiftButtonView  Grid.Row="3" Grid.Column="6"  DataContext="{Binding Path=SaturdayNightVM}"/>
+            <Views:RotaShiftButtonView  Grid.Row="3" Grid.Column="7"  DataContext="{Binding Path=SundayNightVM}"/>
+
+        </Grid>
+
+
     </Grid>
 </UserControl>
