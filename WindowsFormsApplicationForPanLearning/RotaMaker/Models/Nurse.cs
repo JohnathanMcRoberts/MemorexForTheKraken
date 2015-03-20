@@ -101,7 +101,7 @@ namespace RotaMaker.Models
         public bool GetAvailability(ShiftTime.Shift shiftTime, ShiftTime.ShiftDay shiftDay)
         {
             foreach(var shift in AvailableShifts)
-                if (shift.Day == (int)shiftDay &&  shift.Time == shiftTime)
+                if (shift.Time == shiftTime && ShiftTime.ToShiftDay(shift.Day) == shiftDay)
                     return true;
             return false;
         }

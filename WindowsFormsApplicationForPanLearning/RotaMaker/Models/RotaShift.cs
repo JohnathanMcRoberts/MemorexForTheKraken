@@ -39,8 +39,15 @@ namespace RotaMaker.Models
 
         public bool IsRequirementMet()
         { 
-            // To do
-            if ((DateStarted.DayOfYear % 2) < 1) return false;
+            int trained = 0, total =0;
+            foreach (var nurse in AssignedStaff)
+            {
+                total++;
+                if (nurse.IsTrained)
+                    trained++;
+            }
+            if (total < Requirement.MimimumTotal || trained < Requirement.MinimumTrained) 
+                return false;
 
             return true; 
         }

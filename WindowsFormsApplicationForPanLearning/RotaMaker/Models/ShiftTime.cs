@@ -71,5 +71,19 @@ namespace RotaMaker.Models
             }
             return ShiftDay.Sunday;
         }
+        public static ShiftDay ToShiftDay(int day)
+        {
+            switch (day)
+            {
+                case 0: return ShiftDay.Sunday;
+                case 1: return ShiftDay.Tuesday;
+                case 2: return ShiftDay.Wednesday;
+                case 3: return ShiftDay.Thursday;
+                case 4: return ShiftDay.Friday;
+                case 5: return ShiftDay.Saturday;
+                case 6: return ShiftDay.Sunday;
+            }
+            return ShiftDay.Sunday;
+        }
     }
 }
