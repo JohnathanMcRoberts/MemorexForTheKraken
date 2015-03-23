@@ -5,9 +5,11 @@ using System.Text;
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using log4net;
 
 using RotaMaker.Models;
+using RotaMaker.ViewModels.Utilities;
 
 namespace RotaMaker.ViewModels
 {
@@ -40,6 +42,17 @@ namespace RotaMaker.ViewModels
                     _selectedWeekDate = value;
                     InitialiseRotaVms();
                 }
+            }
+        }
+
+        public Boolean AllShiftsAreFilled
+        {
+            get
+            {
+                foreach (var shift in _shiftVMs)
+                    if (!shift.RotaShift.IsRequirementMet())
+                        return false;
+                return true;
             }
         }
 
@@ -79,6 +92,8 @@ namespace RotaMaker.ViewModels
 
         #endregion
 
+        public ObservableCollection<NurseOffDutyViewModel> NurseOffDutyVMs { get { return GetOffDutyViewModels(); } }
+
         #endregion
 
         #region Member variables
@@ -87,6 +102,9 @@ namespace RotaMaker.ViewModels
         private WardModel _mainModel;
         private DateTime _selectedWeekDate ;
         private List<RotaShift> _shiftsForSelectedWeek;
+
+        
+        private List<RotaShiftViewModel> _shiftVMs;
 
         #region Early Shift Requirements VMs
 
@@ -124,16 +142,32 @@ namespace RotaMaker.ViewModels
 
         #endregion
 
+        private ICommand _completeAndPrintCommand;
+
         #endregion
         
         #region Utility functions
         
-        private void InitialiseRotaVms()
+        private  ObservableCollection<NurseOffDutyViewModel> GetOffDutyViewModels()
+        {
+            ObservableCollection<NurseOffDutyViewModel> nurseOffDutyVMs = 
+                new ObservableCollection<NurseOffDutyViewModel>();
+
+            foreach (var nurse in _mainModel.Staff)
+            {
+                NurseOffDutyViewModel nurseOffDuty = new NurseOffDutyViewModel(nurse, _shiftsForSelectedWeek, Log);
+                nurseOffDutyVMs.Add(nurseOffDuty);
+            }
+            return nurseOffDutyVMs;
+        } 
+
+        void InitialiseRotaVms()
         {
             // get this weeks shifts
             _shiftsForSelectedWeek = _mainModel.GetWeeksRotaForDate(_selectedWeekDate);
 
             // reset the VMs
+            _shiftVMs = new List<RotaShiftViewModel>();
             InitialiseEarlyShiftViewModels();
             InitialiseLateShiftViewModels();
             InitialiseNightShiftViewModels();
@@ -145,95 +179,117 @@ namespace RotaMaker.ViewModels
         private void InitialiseEarlyShiftViewModels()
         {
             _mondayEarlyVM = new RotaShiftViewModel(
-                _mainWindowVM, _mainModel, 
+                this, _mainModel, 
                 _shiftsForSelectedWeek[WardModel.GetShiftIndex(ShiftTime.Shift.Early, ShiftTime.ShiftDay.Monday)],
                 Log);
             _tuesdayEarlyVM = new RotaShiftViewModel(
-                _mainWindowVM, _mainModel, 
+                this, _mainModel, 
                 _shiftsForSelectedWeek[WardModel.GetShiftIndex(ShiftTime.Shift.Early, ShiftTime.ShiftDay.Tuesday)],
                 Log);
             _wednesdayEarlyVM = new RotaShiftViewModel(
-                _mainWindowVM, _mainModel, 
+                this, _mainModel, 
                 _shiftsForSelectedWeek[WardModel.GetShiftIndex(ShiftTime.Shift.Early, ShiftTime.ShiftDay.Wednesday)],
                 Log);
             _thursdayEarlyVM = new RotaShiftViewModel(
-                _mainWindowVM, _mainModel, 
+                this, _mainModel, 
                 _shiftsForSelectedWeek[WardModel.GetShiftIndex(ShiftTime.Shift.Early, ShiftTime.ShiftDay.Thursday)],
                 Log);
             _fridayEarlyVM = new RotaShiftViewModel(
-                _mainWindowVM, _mainModel, 
+                this, _mainModel, 
                 _shiftsForSelectedWeek[WardModel.GetShiftIndex(ShiftTime.Shift.Early, ShiftTime.ShiftDay.Friday)],
                 Log);
             _saturdayEarlyVM = new RotaShiftViewModel(
-                _mainWindowVM, _mainModel, 
+                this, _mainModel, 
                 _shiftsForSelectedWeek[WardModel.GetShiftIndex(ShiftTime.Shift.Early, ShiftTime.ShiftDay.Saturday)],
                 Log);
             _sundayEarlyVM = new RotaShiftViewModel(
-                _mainWindowVM, _mainModel, 
+                this, _mainModel, 
                 _shiftsForSelectedWeek[WardModel.GetShiftIndex(ShiftTime.Shift.Early, ShiftTime.ShiftDay.Sunday)],
                 Log);
+            _shiftVMs.Add(_mondayEarlyVM);
+            _shiftVMs.Add(_tuesdayEarlyVM);
+            _shiftVMs.Add(_wednesdayEarlyVM);
+            _shiftVMs.Add(_thursdayEarlyVM);
+            _shiftVMs.Add(_fridayEarlyVM);
+            _shiftVMs.Add(_saturdayEarlyVM);
+            _shiftVMs.Add(_sundayEarlyVM);
         }
         private void InitialiseLateShiftViewModels()
         {
             _mondayLateVM = new RotaShiftViewModel(
-                _mainWindowVM, _mainModel, 
+                this, _mainModel, 
                 _shiftsForSelectedWeek[WardModel.GetShiftIndex(ShiftTime.Shift.Late, ShiftTime.ShiftDay.Monday)],
                 Log);
             _tuesdayLateVM = new RotaShiftViewModel(
-                _mainWindowVM, _mainModel, 
+                this, _mainModel, 
                 _shiftsForSelectedWeek[WardModel.GetShiftIndex(ShiftTime.Shift.Late, ShiftTime.ShiftDay.Tuesday)],
                 Log);
             _wednesdayLateVM = new RotaShiftViewModel(
-                _mainWindowVM, _mainModel,
+                this, _mainModel,
                 _shiftsForSelectedWeek[WardModel.GetShiftIndex(ShiftTime.Shift.Late, ShiftTime.ShiftDay.Wednesday)],
                 Log);
             _thursdayLateVM = new RotaShiftViewModel(
-                _mainWindowVM, _mainModel, 
+                this, _mainModel, 
                 _shiftsForSelectedWeek[WardModel.GetShiftIndex(ShiftTime.Shift.Late, ShiftTime.ShiftDay.Thursday)],
                 Log);
             _fridayLateVM =  new RotaShiftViewModel(
-                _mainWindowVM, _mainModel, 
+                this, _mainModel, 
                 _shiftsForSelectedWeek[WardModel.GetShiftIndex(ShiftTime.Shift.Late, ShiftTime.ShiftDay.Friday)],
                 Log);
             _saturdayLateVM =  new RotaShiftViewModel(
-                _mainWindowVM, _mainModel, 
+                this, _mainModel, 
                 _shiftsForSelectedWeek[WardModel.GetShiftIndex(ShiftTime.Shift.Late, ShiftTime.ShiftDay.Saturday)],
                 Log);
             _sundayLateVM =  new RotaShiftViewModel(
-                _mainWindowVM, _mainModel, 
+                this, _mainModel, 
                 _shiftsForSelectedWeek[WardModel.GetShiftIndex(ShiftTime.Shift.Late, ShiftTime.ShiftDay.Sunday)],
                 Log);
+            
+            _shiftVMs.Add(_mondayLateVM);
+            _shiftVMs.Add(_tuesdayLateVM);
+            _shiftVMs.Add(_wednesdayLateVM);
+            _shiftVMs.Add(_thursdayLateVM);
+            _shiftVMs.Add(_fridayLateVM);
+            _shiftVMs.Add(_saturdayLateVM);
+            _shiftVMs.Add(_sundayLateVM);
         }
         private void InitialiseNightShiftViewModels()
         {
             _mondayNightVM =  new RotaShiftViewModel(
-                _mainWindowVM, _mainModel, 
+                this, _mainModel, 
                 _shiftsForSelectedWeek[WardModel.GetShiftIndex(ShiftTime.Shift.Night, ShiftTime.ShiftDay.Monday)],
                 Log);
             _tuesdayNightVM =  new RotaShiftViewModel(
-                _mainWindowVM, _mainModel, 
+                this, _mainModel, 
                 _shiftsForSelectedWeek[WardModel.GetShiftIndex(ShiftTime.Shift.Night, ShiftTime.ShiftDay.Tuesday)],
                 Log);
             _wednesdayNightVM =  new RotaShiftViewModel(
-                _mainWindowVM, _mainModel, 
+                this, _mainModel, 
                 _shiftsForSelectedWeek[WardModel.GetShiftIndex(ShiftTime.Shift.Night, ShiftTime.ShiftDay.Wednesday)],
                 Log);
             _thursdayNightVM =  new RotaShiftViewModel(
-                _mainWindowVM, _mainModel, 
+                this, _mainModel, 
                 _shiftsForSelectedWeek[WardModel.GetShiftIndex(ShiftTime.Shift.Night, ShiftTime.ShiftDay.Thursday)],
                 Log);
             _fridayNightVM =  new RotaShiftViewModel(
-                _mainWindowVM, _mainModel, 
+                this, _mainModel, 
                 _shiftsForSelectedWeek[WardModel.GetShiftIndex(ShiftTime.Shift.Night, ShiftTime.ShiftDay.Friday)],
                 Log);
             _saturdayNightVM =  new RotaShiftViewModel(
-                _mainWindowVM, _mainModel, 
+                this, _mainModel, 
                 _shiftsForSelectedWeek[WardModel.GetShiftIndex(ShiftTime.Shift.Night, ShiftTime.ShiftDay.Saturday)],
                 Log);
             _sundayNightVM =  new RotaShiftViewModel(
-                _mainWindowVM, _mainModel, 
+                this, _mainModel, 
                 _shiftsForSelectedWeek[WardModel.GetShiftIndex(ShiftTime.Shift.Night, ShiftTime.ShiftDay.Sunday)],
                 Log);
+            _shiftVMs.Add(_mondayNightVM);
+            _shiftVMs.Add(_tuesdayNightVM);
+            _shiftVMs.Add(_wednesdayNightVM);
+            _shiftVMs.Add(_thursdayNightVM);
+            _shiftVMs.Add(_fridayNightVM);
+            _shiftVMs.Add(_saturdayNightVM);
+            _shiftVMs.Add(_sundayNightVM);
         }
 
         #endregion
@@ -262,5 +318,38 @@ namespace RotaMaker.ViewModels
         }
 
         #endregion // INotifyPropertyChanged Members
+
+        #region Public functions 
+
+        public void UpdateNurseOffDuty()
+        {
+            OnPropertyChanged(() => NurseOffDutyVMs);
+            OnPropertyChanged(() => AllShiftsAreFilled);            
+        }
+
+        #endregion
+
+        #region Commands
+
+        public ICommand CompleteAndPrintCommand
+        {
+            get
+            {
+                return _completeAndPrintCommand ??
+                    (_completeAndPrintCommand = new CommandHandler(() => CompleteAndPrintCommandAction(), true));
+            }
+        }
+
+        #endregion
+
+        #region Command Handlers
+
+        public void CompleteAndPrintCommandAction()
+        {
+            
+            // do stuff
+        }
+
+        #endregion
     }
 }

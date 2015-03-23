@@ -49,6 +49,7 @@ namespace RotaMaker.ViewModels
                 }
             }
         }
+
         public string LastName
         {
             get { return _nurse.LastName; }
@@ -116,7 +117,23 @@ namespace RotaMaker.ViewModels
         }
 
         public Nurse Nurse { get { return _nurse; } }
+        
+        public double StandardHoursPerWeek {get {return _nurse.StandardHoursPerWeek;} set {_nurse.StandardHoursPerWeek = value;}}
 
+        public double MaximumHoursPerWeek { get { return _nurse.MaximumHoursPerWeek; } }
+
+        public string AdditionalRules
+        {
+            get { return _nurse.AdditionalRules; }
+            set
+            {
+                if (value != _nurse.AdditionalRules)
+                {
+                    _nurse.AdditionalRules = value;
+                    OnPropertyChanged(() => AdditionalRules);
+                }
+            }
+        }
         #endregion
 
         #region Member variables

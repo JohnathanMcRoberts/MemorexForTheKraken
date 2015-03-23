@@ -17,9 +17,9 @@ namespace RotaMaker.ViewModels
 {
     public class RotaShiftViewModel : INotifyPropertyChanged
     {
-        public RotaShiftViewModel(RotaMakerViewModel mainWindowVM, WardModel mainModel, RotaShift shift, ILog log)
+        public RotaShiftViewModel(WardStaffingViewModel parentVM, WardModel mainModel, RotaShift shift, ILog log)
         {
-            _mainWindowVM = mainWindowVM;
+            _parentVM = parentVM;
             Log = log;
             _mainModel = mainModel;
             _rotaShift = shift;
@@ -191,6 +191,7 @@ namespace RotaMaker.ViewModels
         }
         public Boolean  IsSelectedNurseForShift {get {return (_selectedNurseForShift != null);}}
 
+        public RotaShift RotaShift { get { return _rotaShift; } }
 
         #endregion
         
@@ -203,6 +204,7 @@ namespace RotaMaker.ViewModels
             _availableTrainedNurses.Remove(_selectedAvailableTrainedNurse);
             _selectedAvailableTrainedNurse = null;
             OnPropertyChanged("");
+            _parentVM.UpdateNurseOffDuty();
         }
         public void FreeSelectedTrainedNurseCommandAction()
         {
@@ -212,6 +214,7 @@ namespace RotaMaker.ViewModels
             _availableTrainedNurses.Add(nurseToFree);
             _selectedTrainedNurseForShift = null;
             OnPropertyChanged("");
+            _parentVM.UpdateNurseOffDuty();
         }
         public void AssignSelectedAvailableNurseCommandAction()
         {
@@ -220,6 +223,7 @@ namespace RotaMaker.ViewModels
             _availableNurses.Remove(_selectedAvailableNurse);
             _selectedAvailableNurse = null;
             OnPropertyChanged("");
+            _parentVM.UpdateNurseOffDuty();
         }
         public void FreeSelectedNurseCommandAction()
         {
@@ -229,6 +233,7 @@ namespace RotaMaker.ViewModels
             _availableNurses.Add(nurseToFree);
             _selectedNurseForShift = null;
             OnPropertyChanged("");
+            _parentVM.UpdateNurseOffDuty();
         }
 
         #endregion
@@ -273,7 +278,7 @@ namespace RotaMaker.ViewModels
 
         #region Member variables
 
-        private RotaMakerViewModel _mainWindowVM;
+        private WardStaffingViewModel _parentVM;
         private WardModel _mainModel;
         private RotaShift _rotaShift;
 

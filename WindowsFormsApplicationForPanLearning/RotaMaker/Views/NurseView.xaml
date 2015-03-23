@@ -9,7 +9,7 @@
              d:DesignHeight="600" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="70"/>
+            <RowDefinition Height="100"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="120"/>
             <RowDefinition Height="30"/>
@@ -21,16 +21,19 @@
         <Grid Grid.Row="0">
 
             <Grid.RowDefinitions>
-            <RowDefinition Height="30" ></RowDefinition>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
-        </Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="150"/>
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="200*"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="150"/>
                 <ColumnDefinition Width="120"/>
 
@@ -60,11 +63,24 @@
                      HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" IsReadOnly="True"
                      Text="{Binding Path=HolidaysRemaining, Mode=OneWay}" VerticalAlignment="Top" MinWidth="120" 
                      />
-            
-            <Label Grid.Row="1" Grid.Column="4" Content="TTL Shifts Worked" />
-            <TextBox Grid.Row="1" Grid.Column="5"   Margin="7,2,2,0"
+
+            <Label Grid.Row="1" Grid.Column="4" Content="Standard Weekly Hours" />
+            <xctk:DoubleUpDown Grid.Row="1"  Grid.Column="5"  
+                     HorizontalAlignment="Left" Height="23"  Maximum="{Binding MaximumHoursPerWeek, Mode=OneWay}" Minimum="2"  
+                                Margin="7,2,2,0" MinWidth="110"
+                                Value="{Binding StandardHoursPerWeek, Mode=TwoWay}" />
+
+            <Label Grid.Row="1" Grid.Column="6" Content="TTL Shifts Worked" />
+            <TextBox Grid.Row="1" Grid.Column="7"   Margin="7,2,2,0"
                      HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" IsReadOnly="True"
                      Text="{Binding Path=TotalShiftsWorked, Mode=OneWay}" VerticalAlignment="Top" MinWidth="100"                     
+                     />
+
+
+            <Label Grid.Row="2" Grid.Column="0" Content="Additional Rules" />
+            <TextBox Grid.Row="2" Grid.Column="1"  Margin="5,5,0,0" Grid.ColumnSpan="7"
+                     HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" 
+                     Text="{Binding Path=AdditionalRules, Mode=TwoWay}" VerticalAlignment="Top" MinWidth="410" 
                      />
 
         </Grid>

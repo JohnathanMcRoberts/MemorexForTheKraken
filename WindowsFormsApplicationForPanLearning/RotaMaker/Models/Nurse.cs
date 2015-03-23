@@ -17,14 +17,18 @@ namespace RotaMaker.Models
 
         [XmlElement("LastName")]
         public string LastName { get; set; }
-
-        [XmlIgnore]
-        public string Name { get { return FirstName + " " + LastName; } }
         
         [XmlElement("Band")]
         public int Band { get; set; }
+
         [XmlElement("HolidaysPerYear")]
         public int HolidaysPerYear { get; set; }
+
+        [XmlElement("HoursPerWeek")]
+        public double StandardHoursPerWeek { get; set; }
+
+        [XmlElement("AdditionalRules")]
+        public string AdditionalRules { get; set; }
 
         [XmlArray("AvailableShifts")]
         [XmlArrayItem("ShiftTime")]
@@ -41,6 +45,9 @@ namespace RotaMaker.Models
         [XmlIgnore]
         public bool IsTrained { get { return (Band >= 5); } }
 
+        [XmlIgnore]
+        public string Name { get { return FirstName + " " + LastName; } }
+
         #endregion
 
         #region Constructor
@@ -49,6 +56,7 @@ namespace RotaMaker.Models
         {
             Band = 2;
             HolidaysPerYear = 30;
+            StandardHoursPerWeek = 37.5;
 
             AvailableShifts = new List<ShiftTime>();
             ForthcomingHolidays = new List<BookedHoliday>();
@@ -64,6 +72,9 @@ namespace RotaMaker.Models
 
         [XmlIgnore]
         public readonly int MaxHolidaysPerYear = 45;
+
+        [XmlIgnore]
+        public readonly double MaximumHoursPerWeek = 105;
 
         #endregion
 
@@ -125,7 +136,6 @@ namespace RotaMaker.Models
             }
         }
 
-
         public bool AvailableForShift(RotaShift shift)
         {
             // TODO : handle holidays???
@@ -145,6 +155,5 @@ namespace RotaMaker.Models
         }
 
         #endregion
-
     }
 }

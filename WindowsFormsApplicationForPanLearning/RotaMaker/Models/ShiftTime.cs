@@ -61,7 +61,7 @@ namespace RotaMaker.Models
         {
             switch (dayOfWeek)
             {
-                case DayOfWeek.Monday: return ShiftDay.Sunday;
+                case DayOfWeek.Monday: return ShiftDay.Monday;
                 case DayOfWeek.Tuesday: return ShiftDay.Tuesday;
                 case DayOfWeek.Wednesday: return ShiftDay.Wednesday;
                 case DayOfWeek.Thursday: return ShiftDay.Thursday;
@@ -75,7 +75,7 @@ namespace RotaMaker.Models
         {
             switch (day)
             {
-                case 0: return ShiftDay.Sunday;
+                case 0: return ShiftDay.Monday;
                 case 1: return ShiftDay.Tuesday;
                 case 2: return ShiftDay.Wednesday;
                 case 3: return ShiftDay.Thursday;
@@ -84,6 +84,13 @@ namespace RotaMaker.Models
                 case 6: return ShiftDay.Sunday;
             }
             return ShiftDay.Sunday;
+        }
+
+
+        public static double GetHoursForShift(ShiftTime.Shift shift)
+        {
+            if (shift == Shift.Night) return 10.25;
+            return 7.5;
         }
     }
 }

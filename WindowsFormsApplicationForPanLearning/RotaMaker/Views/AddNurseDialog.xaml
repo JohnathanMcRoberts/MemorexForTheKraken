@@ -20,7 +20,7 @@
 
         <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="70"/>
+                <RowDefinition Height="130"/>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="120"/>
             </Grid.RowDefinitions>
@@ -31,30 +31,31 @@
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="10"/>
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120"/>
-                    <ColumnDefinition Width="150*"/>
-                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="150*"/>
 
                 </Grid.ColumnDefinitions>
 
                 <Label Grid.Row="0" Grid.Column="0" Content="First Name" />
-                <TextBox Grid.Row="0" Grid.Column="1"  Margin="5,5,0,0" Grid.ColumnSpan="4"
+                <TextBox Grid.Row="0" Grid.Column="1"  Margin="5,5,0,0"
                      HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" 
                      Text="{Binding Path=FirstName, Mode=TwoWay}" VerticalAlignment="Top" MinWidth="140" 
                      />
 
                 <Label Grid.Row="0" Grid.Column="2" Content="Last Name" />
-                <TextBox Grid.Row="0" Grid.Column="3"  Margin="5,5,0,0" Grid.ColumnSpan="4"
+                <TextBox Grid.Row="0" Grid.Column="3"  Margin="5,5,0,0" 
                      HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" 
                      Text="{Binding Path=LastName, Mode=TwoWay}" VerticalAlignment="Top" MinWidth="140" 
                      />
 
-
-
+                
                 <Label Grid.Row="1" Grid.Column="0" Content="TTL Annual Leave" />
                 <xctk:IntegerUpDown Grid.Row="1"  Grid.Column="1"  
                      HorizontalAlignment="Left" Height="23"  Maximum="{Binding MaxHolidaysPerYear, Mode=OneWay}" Minimum="2"  
@@ -65,6 +66,20 @@
                 <xctk:IntegerUpDown Grid.Row="1"  Grid.Column="3"  Maximum="{Binding MaxBand, Mode=OneWay}" 
                                 Minimum="2"  Margin="7,2,2,0" MinWidth="140"
                                 Value="{Binding Band, Mode=TwoWay}"   Height="24"/>
+
+
+                <Label Grid.Row="2" Grid.Column="0" Content="Standard Weekly Hours" />
+                <xctk:DoubleUpDown Grid.Row="2"  Grid.Column="1"  
+                     HorizontalAlignment="Left" Height="23"  Maximum="{Binding MaximumHoursPerWeek, Mode=OneWay}" Minimum="2"  
+                                Margin="7,2,2,0" MinWidth="140"
+                                Value="{Binding StandardHoursPerWeek, Mode=TwoWay}" />
+
+
+                <Label Grid.Row="3" Grid.Column="0" Content="Additional Rules" />
+                <TextBox Grid.Row="3" Grid.Column="1"  Margin="5,5,0,0" Grid.ColumnSpan="3"
+                     HorizontalAlignment="Left" Height="23" TextWrapping="WrapWithOverflow" 
+                     Text="{Binding Path=AdditionalRules, Mode=TwoWay}" VerticalAlignment="Top" MinWidth="390" 
+                     />
 
             </Grid>
 

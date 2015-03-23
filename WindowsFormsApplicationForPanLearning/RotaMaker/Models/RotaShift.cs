@@ -51,6 +51,5 @@ namespace RotaMaker.Models
 
             return true; 
         }
-
     }
 }
