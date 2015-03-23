@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace RotaMaker.Views
 {
     /// <summary>
-    /// Interaction logic for OffDutyView.xaml
+    /// Interaction logic for MonthlySummaryView.xaml
     /// </summary>
-    public partial class OffDutyView : UserControl
+    public partial class MonthlySummaryView : UserControl
     {
-        public OffDutyView()
+        public MonthlySummaryView()
         {
             InitializeComponent();
         }

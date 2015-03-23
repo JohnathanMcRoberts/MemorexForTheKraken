@@ -21,9 +21,9 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Off Duty">
+            <TabItem Header="Monthly Summary">
                 <Grid Background="#FFE5E5E5">
-                    <Views:OffDutyView  DataContext="{Binding Path=OffDutyVM}"  />
+                    <Views:MonthlySummaryView  DataContext="{Binding Path=MonthlySummaryVM}"  />
                 </Grid>
             </TabItem>
 

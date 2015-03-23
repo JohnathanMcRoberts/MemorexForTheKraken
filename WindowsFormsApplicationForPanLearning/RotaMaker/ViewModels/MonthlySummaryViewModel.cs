@@ -11,11 +11,11 @@ using RotaMaker.Models;
 
 namespace RotaMaker.ViewModels
 {
-    public class OffDutyViewModel : INotifyPropertyChanged
+    public class MonthlySummaryViewModel : INotifyPropertyChanged
     {
         #region Constructors
 
-        public OffDutyViewModel(RotaMakerViewModel mainWindow, WardModel mainModel, ILog log)
+        public MonthlySummaryViewModel(RotaMakerViewModel mainWindow, WardModel mainModel, ILog log)
         {
             _mainWindow = mainWindow;
             Log = log;

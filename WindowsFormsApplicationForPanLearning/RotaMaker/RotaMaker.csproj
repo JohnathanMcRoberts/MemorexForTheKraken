@@ -97,7 +97,7 @@
     <Compile Include="ViewModels\NurseOffDutyViewModel.cs" />
     <Compile Include="ViewModels\NurseShiftAvailabiltyViewModel.cs" />
     <Compile Include="ViewModels\NurseViewModel.cs" />
-    <Compile Include="ViewModels\OffDutyViewModel.cs" />
+    <Compile Include="ViewModels\MonthlySummaryViewModel.cs" />
     <Compile Include="ViewModels\RotaMakerViewModel.cs" />
     <Compile Include="ViewModels\RotaShiftViewModel.cs" />
     <Compile Include="ViewModels\ShiftRequirementViewModel.cs" />
@@ -111,6 +111,9 @@
     <Compile Include="Views\AllStaffView.xaml.cs">
       <DependentUpon>AllStaffView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MonthlySummaryView.xaml.cs">
+      <DependentUpon>MonthlySummaryView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\NurseHolidaysView.xaml.cs">
       <DependentUpon>NurseHolidaysView.xaml</DependentUpon>
     </Compile>
@@ -122,9 +125,6 @@
     </Compile>
     <Compile Include="Views\NurseView.xaml.cs">
       <DependentUpon>NurseView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\OffDutyView.xaml.cs">
-      <DependentUpon>OffDutyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RotaShiftButtonView.xaml.cs">
       <DependentUpon>RotaShiftButtonView.xaml</DependentUpon>
@@ -164,6 +164,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\MonthlySummaryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\NurseHolidaysView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -177,10 +181,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NurseView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\OffDutyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

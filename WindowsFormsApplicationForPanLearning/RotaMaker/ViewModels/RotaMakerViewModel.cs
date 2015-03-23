@@ -32,7 +32,7 @@ namespace RotaMaker.ViewModels
 
             AllStaffVM = new AllStaffViewModel(this, _mainModel, log);
             WardStaffingVM = new WardStaffingViewModel(this, _mainModel, log);
-            OffDutyVM = new OffDutyViewModel(this, _mainModel, log);
+            OffDutyVM = new MonthlySummaryViewModel(this, _mainModel, log);
             WardDetailsVM = new WardDetailsViewModel(this, _mainModel, log);
         }
 
@@ -44,7 +44,7 @@ namespace RotaMaker.ViewModels
 
         public AllStaffViewModel AllStaffVM { get; set; }
         public WardStaffingViewModel WardStaffingVM { get; set; }
-        public OffDutyViewModel OffDutyVM { get; set; }
+        public MonthlySummaryViewModel OffDutyVM { get; set; }
         public WardDetailsViewModel WardDetailsVM { get; set; }
 
         #endregion
