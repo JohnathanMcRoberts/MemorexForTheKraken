@@ -15,77 +15,13 @@ namespace RotaMaker.ViewModels
     public class NurseOffDutyViewModel : INotifyPropertyChanged
     {
         #region Constructors
-        
+
         public NurseOffDutyViewModel(Nurse nurse, List<RotaShift> shiftsForSelectedWeek, ILog log)
         {
-            // TODO: Complete member initialization
             _nurse = nurse;
             _shiftsForSelectedWeek = shiftsForSelectedWeek;
             Log = log;
-
-            InitialiseDisplayParameters();
-        }
-
-        private void InitialiseDisplayParameters()
-        {
-            ExpectedHours = _nurse.StandardHoursPerWeek;
-            TotalWorkedForWeek = 0;
-
-            MondayShifts = "";
-            TuesdayShifts = "";
-            WednesdayShifts = "";
-            ThursdayShifts = "";
-            FridayShifts = "";
-            SaturdayShifts = "";
-            SundayShifts = "";
-
-            // loop through the roat shifts and update shifts strings & hours accordingly
-            foreach (var shift in _shiftsForSelectedWeek)
-            {
-                foreach (var nurse in shift.AssignedStaff)
-                {
-                    if (nurse.Name != _nurse.Name) continue;
-
-                    string shiftName = shift.Time.ToString();
-                    TotalWorkedForWeek += ShiftTime.GetHoursForShift(shift.Time);
-
-                    // get the day for this shift and append the shift
-                    switch (shift.DateStarted.DayOfWeek)
-                    {
-                        case DayOfWeek.Monday:
-                            if (MondayShifts != "") MondayShifts += ", ";
-                            MondayShifts += shiftName;
-                            break;
-                        case DayOfWeek.Tuesday:
-                            if (TuesdayShifts != "") TuesdayShifts += ", ";
-                            TuesdayShifts += shiftName;
-                            break;
-                        case DayOfWeek.Wednesday:
-                            if (WednesdayShifts != "") WednesdayShifts += ", ";
-                            WednesdayShifts += shiftName;
-                            break;
-                        case DayOfWeek.Thursday:
-                            if (ThursdayShifts != "") ThursdayShifts += ", ";
-                            ThursdayShifts += shiftName;
-                            break;
-                        case DayOfWeek.Friday:
-                            if (FridayShifts != "") FridayShifts += ", ";
-                            FridayShifts += shiftName;
-                            break;
-                        case DayOfWeek.Saturday:
-                            if (SaturdayShifts != "") SaturdayShifts += ", ";
-                            SaturdayShifts += shiftName;
-                            break;
-                        case DayOfWeek.Sunday:
-                            if (SundayShifts != "") SundayShifts += ", ";
-                            SundayShifts += shiftName;
-                            break;
-                    }
-                    // finally get the balance
-
-                }
-                BalanceHours = TotalWorkedForWeek - ExpectedHours;
-            }
+            _nurseOffDuty = new NurseOffDuty(nurse, shiftsForSelectedWeek);
         }
 
         #endregion
@@ -109,17 +45,17 @@ namespace RotaMaker.ViewModels
             get { return _nurse.Band.ToString(); }
         }
 
-        public string MondayShifts { get; private set; }
-        public string TuesdayShifts { get; private set; }
-        public string WednesdayShifts { get; private set; }
-        public string ThursdayShifts { get; private set; }
-        public string FridayShifts { get; private set; }
-        public string SaturdayShifts { get; private set; }
-        public string SundayShifts { get; private set; }
+        public string MondayShifts { get { return _nurseOffDuty.MondayShifts; } }
+        public string TuesdayShifts { get { return _nurseOffDuty.TuesdayShifts; } }
+        public string WednesdayShifts { get { return _nurseOffDuty.WednesdayShifts; } }
+        public string ThursdayShifts { get { return _nurseOffDuty.ThursdayShifts; } }
+        public string FridayShifts { get { return _nurseOffDuty.FridayShifts; } }
+        public string SaturdayShifts { get { return _nurseOffDuty.SaturdayShifts; } }
+        public string SundayShifts { get { return _nurseOffDuty.SundayShifts; } }
 
-        public double TotalWorkedForWeek { get; private set; }
-        public double ExpectedHours { get; private set; }
-        public double BalanceHours { get; private set; }
+        public double TotalWorkedForWeek { get { return _nurseOffDuty.TotalWorkedForWeek; } }
+        public double ExpectedHours { get { return _nurseOffDuty.ExpectedHours; } }
+        public double BalanceHours { get { return _nurseOffDuty.BalanceHours; } }
         
         #endregion
 
@@ -127,6 +63,7 @@ namespace RotaMaker.ViewModels
 
         private List<RotaShift> _shiftsForSelectedWeek;
         private Nurse _nurse;
+        private NurseOffDuty _nurseOffDuty;
 
         #endregion
 

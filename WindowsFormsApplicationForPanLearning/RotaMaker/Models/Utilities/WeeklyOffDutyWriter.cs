@@ -35,7 +35,8 @@ namespace RotaMaker.Models.Utilities
 
         #endregion
 
-        #region Private Data
+        #region Public Functions
+
         public void WriteToFile()
         {
             // create the workbook and worksheet
@@ -47,13 +48,11 @@ namespace RotaMaker.Models.Utilities
 
             // write out the nurse's shifts
             WriteOutNurseShifts(ws);
-
-            // write out the totals
-            WriteOutTotals(ws);
-
+            
             // save the file 
             wb.SaveAs(_outputFileName);
         }
+        
         #endregion
 
         #region Utility Functions
@@ -73,7 +72,6 @@ namespace RotaMaker.Models.Utilities
 
         private static void WriteGradeAnadDayNamesRow(xl.Worksheet ws)
         {
-
             ws.Range["A3"].Value = "GRADE";
             ws.Range["C3"].Value = "Name";
             ws.Range["D3"].Value = "MON";
@@ -86,9 +84,7 @@ namespace RotaMaker.Models.Utilities
             ws.Range["K3"].Value = "Wk HRS";
 
             // set the font to small and bold
-            ws.get_Range("A3", "K3").Font.Size = 8;
-            ws.get_Range("A3", "K3").Font.Bold = true;
-            ws.get_Range("A3", "K3").Font.Name = "Arial";
+            SetCellRangeFonts(ws, "A3", "K3", 8, true, "Arial");
 
             AddBordersAroundCellsForRow(ws,3);
         }
@@ -104,6 +100,14 @@ namespace RotaMaker.Models.Utilities
                 ws.get_Range(cellName, cellName).BorderAround2();
             }
 
+        }
+
+        private static void SetCellRangeFonts(xl.Worksheet ws, string start, string end,
+            int size, bool bold, string fontName)
+        {
+            ws.get_Range(start, end).Font.Size = size;
+            ws.get_Range(start, end).Font.Bold = bold;
+            ws.get_Range(start, end).Font.Name = fontName;
         }
 
         private void WriteMonthAndDatesHeaderRow(xl.Worksheet ws)
@@ -132,24 +136,16 @@ namespace RotaMaker.Models.Utilities
             ws.Range["H2"].Value = friday.Day.ToString();
             ws.Range["I2"].Value = saturday.Day.ToString();
             ws.Range["J2"].Value = sunday.Day.ToString();
-
             ws.Range["L2"].Value = "WEEK";
 
-
             // set Month cell to big & bold
-            ws.get_Range("C2", "C2").Font.Size = 14;
-            ws.get_Range("C2", "C2").Font.Bold = true;
-            ws.get_Range("C2", "C2").Font.Name = "Arial";
+            SetCellRangeFonts(ws, "C2", "C2", 14, true, "Arial");
 
             // set the other numbers to small and bold
-            ws.get_Range("D2", "J2").Font.Size = 7;
-            ws.get_Range("D2", "J2").Font.Bold = true;
-            ws.get_Range("D2", "J2").Font.Name = "Arial";
+            SetCellRangeFonts(ws, "D2", "J2", 7, true, "Arial");
 
             // set the Week to Medium and bold
-            ws.get_Range("L2", "L2").Font.Size = 10;
-            ws.get_Range("L2", "L2").Font.Bold = true;
-            ws.get_Range("L2", "L2").Font.Name = "Arial";
+            SetCellRangeFonts(ws, "L2", "L2", 10, true, "Arial");
 
             // put a border around the cells
             AddBordersAroundCellsForRow(ws, 2);
@@ -157,12 +153,63 @@ namespace RotaMaker.Models.Utilities
 
         private void WriteOutNurseShifts(xl.Worksheet ws)
         {
-            //throw new NotImplementedException();
+            // get this weeks shifts nurses off off duty
+            var shiftsForSelectedWeek = _model.GetWeeksRotaForDate(_startDate);
+            List<NurseOffDuty> nursesOffDuty = new List<NurseOffDuty>();
+
+            foreach (var nurse in _model.Staff.OrderByDescending(x => x.Band))
+            {
+                NurseOffDuty nurseOffDuty = new NurseOffDuty(nurse, shiftsForSelectedWeek);
+                nursesOffDuty.Add(nurseOffDuty);
+            }
+
+            int outputRow = 4;
+            for (int i = 0; i < nursesOffDuty.Count; ++i)
+            {
+                if (i > 1 && nursesOffDuty[i].Band != nursesOffDuty[i - 1].Band)
+                    outputRow++;
+
+                WriteOutNurseOffDuty(ws, outputRow, nursesOffDuty[i]);
+                outputRow++;
+            }
+
+            // write out the totals
+            WriteOutTotals(ws, 1+ outputRow);
         }
 
-        private void WriteOutTotals(xl.Worksheet ws)
+        private void WriteOutNurseOffDuty(xl.Worksheet ws, int outputRow, NurseOffDuty nurseOffDuty)
         {
-            //throw new NotImplementedException();
+            ws.Range["A" + outputRow.ToString()].Value = nurseOffDuty.Band;
+            ws.Range["C" + outputRow.ToString()].Value = nurseOffDuty.Name;
+            ws.Range["D" + outputRow.ToString()].Value = nurseOffDuty.MondayShifts;
+            ws.Range["E" + outputRow.ToString()].Value = nurseOffDuty.TuesdayShifts;
+            ws.Range["F" + outputRow.ToString()].Value = nurseOffDuty.WednesdayShifts;
+            ws.Range["G" + outputRow.ToString()].Value = nurseOffDuty.ThursdayShifts;
+            ws.Range["H" + outputRow.ToString()].Value = nurseOffDuty.FridayShifts;
+            ws.Range["I" + outputRow.ToString()].Value = nurseOffDuty.SaturdayShifts;
+            ws.Range["J" + outputRow.ToString()].Value = nurseOffDuty.SundayShifts;
+            ws.Range["K" + outputRow.ToString()].Value = nurseOffDuty.ExpectedHours.ToString();
+
+            // set the font to small and bold
+            SetCellRangeFonts(ws, "A" + outputRow.ToString(), "K" + outputRow.ToString(), 8, true, "Arial");
+
+            AddBordersAroundCellsForRow(ws, outputRow);
+        }
+
+        private void WriteOutTotals(xl.Worksheet ws, int startTotalsRow)
+        {
+            ws.Range["C" + startTotalsRow.ToString()].Value = "Total";
+            // What goes here???
+            startTotalsRow++;
+            ws.Range["C" + startTotalsRow.ToString()].Value = "Nights";
+            // What goes here???
+            startTotalsRow++;
+            ws.Range["C" + startTotalsRow.ToString()].Value = "Annual Leave 15%";
+            // What goes here???
+            startTotalsRow++;
+            ws.Range["C" + startTotalsRow.ToString()].Value = "Bank";
+            // What goes here???
+            startTotalsRow++;
         }
 
         #endregion
