@@ -6,10 +6,14 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Windows.Forms;
 using log4net;
 
 using RotaMaker.Models;
+using RotaMaker.Models.Utilities;
 using RotaMaker.ViewModels.Utilities;
+
+using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 
 namespace RotaMaker.ViewModels
 {
@@ -345,9 +349,31 @@ namespace RotaMaker.ViewModels
         #region Command Handlers
 
         public void CompleteAndPrintCommandAction()
-        {
-            
+        {            
             // do stuff
+
+            SaveFileDialog fileDialog = new SaveFileDialog();
+            fileDialog.FileName = _mainModel.WeeklyOffDutyFileName;
+
+            // TODO - get the file types from the available serializers
+            fileDialog.Filter = @"All files (*.*)|*.*|Excel files (*.xls)|*.xls";
+            fileDialog.FilterIndex = 4;
+            fileDialog.RestoreDirectory = true;
+
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                // store the selected filename
+                _mainModel.WeeklyOffDutyFileName = fileDialog.FileName;
+                Properties.Settings.Default.WeeklyOffDutyFileName =
+                    _mainModel.WeeklyOffDutyFileName;
+                Properties.Settings.Default.Save();
+
+                // write out the file for printing
+                WeeklyOffDutyWriter excelWriter =
+                    new WeeklyOffDutyWriter(_mainModel, _mainModel.WeeklyOffDutyFileName, SelectedWeekDate);
+                excelWriter.WriteToFile();
+
+            }
         }
 
         #endregion

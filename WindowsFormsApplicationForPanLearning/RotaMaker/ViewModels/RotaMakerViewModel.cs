@@ -30,10 +30,10 @@ namespace RotaMaker.ViewModels
             if (_mainModel.BackupFileName != "")
                 _mainModel = WardModel.OpenWardFile(_mainModel.BackupFileName, Log);
 
-            AllStaffVM = new AllStaffViewModel(this, _mainModel, log);
-            WardStaffingVM = new WardStaffingViewModel(this, _mainModel, log);
-            MonthlySummaryVM = new MonthlySummaryViewModel(this, _mainModel, log);
-            WardDetailsVM = new WardDetailsViewModel(this, _mainModel, log);
+            _allStaffVM = new AllStaffViewModel(this, _mainModel, log);
+            _wardStaffingVM = new WardStaffingViewModel(this, _mainModel, log);
+            _monthlySummaryVM = new MonthlySummaryViewModel(this, _mainModel, log);
+            _wardDetailsVM = new WardDetailsViewModel(this, _mainModel, log);
         }
 
         #endregion
@@ -42,10 +42,10 @@ namespace RotaMaker.ViewModels
 
         public ILog Log { get; set; }
 
-        public AllStaffViewModel AllStaffVM { get; set; }
-        public WardStaffingViewModel WardStaffingVM { get; set; }
-        public MonthlySummaryViewModel MonthlySummaryVM { get; set; }
-        public WardDetailsViewModel WardDetailsVM { get; set; }
+        public AllStaffViewModel AllStaffVM { get {return _allStaffVM;} }
+        public WardStaffingViewModel WardStaffingVM { get { return _wardStaffingVM; } }
+        public MonthlySummaryViewModel MonthlySummaryVM { get { return _monthlySummaryVM; } }
+        public WardDetailsViewModel WardDetailsVM { get { return _wardDetailsVM; } }
 
         #endregion
 
@@ -53,6 +53,12 @@ namespace RotaMaker.ViewModels
 
         private MainWindow _mainWindow;
         private WardModel _mainModel;
+
+
+        private AllStaffViewModel _allStaffVM;
+        private WardStaffingViewModel _wardStaffingVM;
+        private MonthlySummaryViewModel _monthlySummaryVM;
+        private WardDetailsViewModel _wardDetailsVM;
 
         #endregion
 
@@ -81,11 +87,19 @@ namespace RotaMaker.ViewModels
 
         #endregion // INotifyPropertyChanged Members
 
-        public void RefreshForNewWard()
+        public void RefreshForNewWard(WardModel model)
         {
+            _mainModel = model;
+
+            _allStaffVM = new AllStaffViewModel(this, _mainModel, Log);
+            _wardStaffingVM = new WardStaffingViewModel(this, _mainModel, Log);
+            _monthlySummaryVM = new MonthlySummaryViewModel(this, _mainModel, Log);
+            _wardDetailsVM = new WardDetailsViewModel(this, _mainModel, Log);
+
             OnPropertyChanged(() => AllStaffVM);
             OnPropertyChanged(() => WardStaffingVM);
             OnPropertyChanged(() => MonthlySummaryVM);
+            OnPropertyChanged(() => WardDetailsVM);
         }
     }
 }

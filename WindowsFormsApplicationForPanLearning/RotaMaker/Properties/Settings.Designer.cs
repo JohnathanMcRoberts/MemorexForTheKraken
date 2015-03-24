@@ -34,5 +34,17 @@ namespace RotaMaker.Properties {
                 this["BackupFileName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\E142890\\Documents\\Rotas\\CommistonMarch23.xml")]
+        public string WeeklyOffDutyFileName {
+            get {
+                return ((string)(this["WeeklyOffDutyFileName"]));
+            }
+            set {
+                this["WeeklyOffDutyFileName"] = value;
+            }
+        }
     }
 }

@@ -5,5 +5,8 @@
     <Setting Name="BackupFileName" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Users\E142890\Documents\Rotas\WardRotas.xml</Value>
     </Setting>
+    <Setting Name="WeeklyOffDutyFileName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\E142890\Documents\Rotas\CommistonMarch23.xml</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

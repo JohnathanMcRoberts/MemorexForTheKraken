@@ -5,6 +5,9 @@ using System.Text;
 using System.Xml.Serialization;
 using System.IO;
 using log4net;
+
+using Microsoft.Office.Interop.Excel;
+
 using RotaMaker.Models.Utilities;
 
 namespace RotaMaker.Models
@@ -35,6 +38,9 @@ namespace RotaMaker.Models
 
         [XmlIgnoreAttribute]
         public string BackupFileName { get; set; }
+
+        [XmlIgnoreAttribute]
+        public string WeeklyOffDutyFileName { get; set; }
 
         [XmlIgnoreAttribute]
         public bool IsFileOpened { get; set; }
@@ -73,6 +79,7 @@ namespace RotaMaker.Models
             RotaShifts = new List<RotaShift>();
 
             BackupFileName = Properties.Settings.Default.BackupFileName;
+            WeeklyOffDutyFileName = Properties.Settings.Default.WeeklyOffDutyFileName;
         }
 
         #endregion
@@ -237,6 +244,7 @@ namespace RotaMaker.Models
         }
 
         #endregion
+
 
     }
 }

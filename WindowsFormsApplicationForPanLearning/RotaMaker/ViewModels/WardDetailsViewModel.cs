@@ -209,9 +209,7 @@ namespace RotaMaker.ViewModels
 
                     if (_mainModel.Staff.Count == 0)                        
                         _mainModel.Staff.Add( Nurse.CreateDummyNurse() );
-
-                    _mainWindow.RefreshForNewWard();
-
+                    
                     OnPropertyChanged(() => IsFileOpened);
                     OnPropertyChanged(() => BackupFileName);
                     OnPropertyChanged(() => WardName);
@@ -219,6 +217,7 @@ namespace RotaMaker.ViewModels
                     InitialiseShiftRequirementsViewModels();
 
                     OnPropertyChanged("");
+                    _mainWindow.RefreshForNewWard(_mainModel);
                 }
             }
         }
