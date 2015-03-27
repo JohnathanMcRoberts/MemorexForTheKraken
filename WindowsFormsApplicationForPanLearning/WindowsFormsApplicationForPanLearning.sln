@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqliteReader", "SqliteReade
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RotaMaker", "RotaMaker\RotaMaker.csproj", "{9C9D9FE1-F8B3-45EB-B20C-80E1FBFB49C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfPressureViewer", "WpfPressureViewer\WpfPressureViewer.csproj", "{89FC23C7-F596-44C9-AEEE-CC467B071E66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogDataInterface", "LogDataInterface\LogDataInterface.csproj", "{A9551F71-BD19-4970-AC82-F7A8760EB9BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +53,14 @@ Global
 		{9C9D9FE1-F8B3-45EB-B20C-80E1FBFB49C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C9D9FE1-F8B3-45EB-B20C-80E1FBFB49C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C9D9FE1-F8B3-45EB-B20C-80E1FBFB49C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89FC23C7-F596-44C9-AEEE-CC467B071E66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89FC23C7-F596-44C9-AEEE-CC467B071E66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89FC23C7-F596-44C9-AEEE-CC467B071E66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89FC23C7-F596-44C9-AEEE-CC467B071E66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9551F71-BD19-4970-AC82-F7A8760EB9BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9551F71-BD19-4970-AC82-F7A8760EB9BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9551F71-BD19-4970-AC82-F7A8760EB9BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9551F71-BD19-4970-AC82-F7A8760EB9BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
