@@ -76,7 +76,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\IFileDataReader.cs" />
+    <Compile Include="Models\LasDataReader.cs" />
     <Compile Include="Models\MainPressureModel.cs" />
+    <Compile Include="Utilities\DebugLoggingUtilities.cs" />
     <Compile Include="ViewModels\LogLogViewModel.cs" />
     <Compile Include="ViewModels\MainPressureViewModel.cs" />
     <Compile Include="ViewModels\ReadDataViewModel.cs" />

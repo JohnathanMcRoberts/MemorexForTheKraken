@@ -11,6 +11,8 @@ using System.Windows.Forms;
 
 using log4net;
 
+using WpfPressureViewer.Models;
+
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 
 namespace WpfPressureViewer.ViewModels
@@ -45,12 +47,14 @@ namespace WpfPressureViewer.ViewModels
 
         private MainWindow mainWindow;
         private log4net.ILog log;
+        private MainPressureModel _mainModel;
 
         public MainPressureViewModel(MainWindow mainWindow, log4net.ILog log)
         {
             // TODO: Complete member initialization
             this.mainWindow = mainWindow;
             this.log = log;
+            _mainModel = new MainPressureModel();
         }
         
         public ReadDataViewModel ReadDataVM {get;set;}

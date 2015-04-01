@@ -9,6 +9,7 @@ using log4net;
 
 using Logger;
 using WpfPressureViewer.Models;
+using WpfPressureViewer.Utilities;
 
 namespace WpfPressureViewer
 {
@@ -17,11 +18,7 @@ namespace WpfPressureViewer
     /// </summary>
     public partial class App : Application
     {
-        private static readonly ILog _log =
-            Logger.Logger.Create(
-           System.IO.Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName));
-
-        public static ILog Log { get { return _log; } }
+        public static ILog Log { get { return DebugLoggingUtilities.Log; } }
         protected override void OnStartup(StartupEventArgs e)
         {
             // hook on error before app really starts
@@ -31,11 +28,11 @@ namespace WpfPressureViewer
             {
                 log4net.Config.XmlConfigurator.Configure();
 
-                _log.Info("Start up");
+                DebugLoggingUtilities.Log.Info("Start up");
             }
             catch (Exception ex)
             {
-                _log.Error(ex);
+                DebugLoggingUtilities.Log.Error(ex);
             }
 
             base.OnStartup(e);
@@ -43,7 +40,7 @@ namespace WpfPressureViewer
 
         public void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            _log.Error("Unhandled Exception:" + e.ExceptionObject);
+            Log.Error("Unhandled Exception:" + e.ExceptionObject);
             MessageBox.Show(e.ExceptionObject.ToString());
         }
     }

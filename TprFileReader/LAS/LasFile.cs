@@ -16,9 +16,11 @@ namespace TprFileReader.LAS
         public List<LasWellInfoItem> WellInfoItems { get; set; }
         public List<LasWellInfoItem> WellParameters { get; set; }
         public List<LasCurve> DataCurves { get; set; }
+        public bool ReadSuccessfully { get; private set; }
 
         public LasFile(string fileName, ILog log)
         {
+            ReadSuccessfully = false;
             FileName = fileName;
             Log = log;
 
@@ -38,6 +40,7 @@ namespace TprFileReader.LAS
             {
                 System.IO.StreamReader file = new System.IO.StreamReader(fileName);
                 ParseLasStream(file);
+                ReadSuccessfully = true;
             }
             catch (Exception e)
             {

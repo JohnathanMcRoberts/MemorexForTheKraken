@@ -8,5 +8,8 @@ namespace WpfPressureViewer.Models
 {
     public class MainPressureModel
     {
+        public MainPressureModel()
+        {
+        }
     }
 }
