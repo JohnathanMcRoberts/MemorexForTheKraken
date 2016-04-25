@@ -1,0 +1,84 @@
+﻿<UserControl x:Class="ElectionScotlandSwingWpfApp.Views.DataGridsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"       
+             d:DesignHeight="800" d:DesignWidth="1000">
+    <Grid>
+
+        <TabControl Margin="10,10,0,0" Grid.Row="1" MinHeight="700" MinWidth="800"
+                       HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
+
+
+            <TabItem Header="Constituency Results">
+                <ScrollViewer>
+                    <DataGrid AutoGenerateColumns="False" 
+                                    ItemsSource="{Binding Path=ConstituencySeats, Mode=OneWay}"
+                                    MinHeight="280" IsReadOnly="True" HorizontalScrollBarVisibility="Auto">
+
+
+                        <DataGrid.Columns>
+
+
+                            <DataGridTextColumn Header="Region" 
+                                                Binding="{Binding Region}" 
+                                                Width="Auto"/>
+
+                            <DataGridTextColumn Header="Constituency" 
+                                                Binding="{Binding Constituency}" 
+                                                Width="Auto"/>
+
+                            <DataGridTextColumn Header="Total Electorate" 
+                                                Binding="{Binding Electorate}" 
+                                                Width="Auto"/>
+
+                            <DataGridTextColumn Header="Turnout %" 
+                                                Binding="{Binding TurnoutPercentage, StringFormat=N2}" 
+                                                Width="Auto"/>
+
+                            <DataGridTextColumn Header="Winning Party" 
+                                                Binding="{Binding WinningParty}" 
+                                                Width="Auto"/>
+
+                            <DataGridTextColumn Header="Majority" 
+                                                Binding="{Binding Majority}" 
+                                                Width="Auto"/>
+
+                            <DataGridTextColumn Header="Majority %" 
+                                                Binding="{Binding MajorityPercentage, StringFormat=N2}" 
+                                                Width="Auto"/>
+
+
+                            <DataGridTemplateColumn Header="Parties">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ListBox ItemsSource="{Binding Parties }">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+
+                                                        <TextBlock Text="{Binding Path=Name}" />
+                                                        <TextBlock Text=" : "  />
+                                                        <TextBlock Text="{Binding Path=Votes}"  />
+                                                        <TextBlock Text=" (" />
+                                                        <TextBlock Text="{Binding Path=Percentage, StringFormat=N2}" />
+                                                        <TextBlock Text=" %)"  />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+
+
+    </Grid>
+</UserControl>
