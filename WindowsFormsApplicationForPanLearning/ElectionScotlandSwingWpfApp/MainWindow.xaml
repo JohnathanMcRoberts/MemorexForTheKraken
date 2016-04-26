@@ -57,6 +57,25 @@
             <TabControl>
                 <TabItem Header="Predictions">
 
+                    <Grid Background="#FFE5E5E5">
+                        
+                        <StackPanel Orientation="Vertical">
+
+                            <Label Content="Constituency Predictions"  Margin="10,10,10,10"/>
+
+                            <Views:MajorPartyForecastsView 
+                                DataContext="{Binding Path=ConstituencyMajorPartyForecastsVM}"  />
+
+
+                            <Label Content="List Predictions"  Margin="10,10,10,10"/>
+
+                            <Views:MajorPartyForecastsView 
+                                DataContext="{Binding Path=ListMajorPartyForecastsVM}"  />
+
+                        </StackPanel>
+                        
+                    </Grid>
+
                 </TabItem>
 
                 <TabItem Header="Grids">

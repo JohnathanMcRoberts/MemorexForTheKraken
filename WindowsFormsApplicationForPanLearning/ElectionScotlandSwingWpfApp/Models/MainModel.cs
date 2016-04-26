@@ -19,6 +19,8 @@ namespace ElectionScotlandSwingWpfApp.Models
         {
             // TODO: Complete member initialization
             this.Log = log;
+
+            PopulatePartyForecasts();
         }
 
         #endregion
@@ -90,6 +92,7 @@ namespace ElectionScotlandSwingWpfApp.Models
                 }
             }
             UpdateElectionResultWithRegionalListVotes(filename);
+            PopulatePartyForecasts();
         }
 
         public void WriteElectionResultToFile(string filename)
@@ -105,6 +108,31 @@ namespace ElectionScotlandSwingWpfApp.Models
             sw.Close();
         }
 
+        public void OpenElectoralResults(string filePath)
+        {
+            try
+            {
+                string xml;
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    xml = reader.ReadToEnd();
+                }
+
+                var textReader = new StringReader(xml);
+                var serializer = new XmlSerializer(typeof(ElectionResult));
+
+                CurrentResult =
+                    (ElectionResult)serializer.Deserialize(textReader);
+            }
+            catch (Exception e)
+            {
+                Log.Error("error reading xml file " + filePath);
+                Log.Error(e.ToString());
+                throw e;
+            }
+            PopulatePartyForecasts();
+        }
+
         #endregion
 
         #region Public Data
@@ -112,6 +140,34 @@ namespace ElectionScotlandSwingWpfApp.Models
         public log4net.ILog Log { get; private set; }
 
         public ElectionResult CurrentResult { get; private set; }
+
+        public List<PartyForecast> PartyConstituencyForecasts { get; private set; }
+
+        public List<PartyForecast> PartyListForecasts { get; private set; }
+
+        #endregion
+
+        #region Constant Data
+
+        public enum MajorNamePartyLookup
+        {
+            SNP = 0,
+            Labour = 1,
+            Conservative=2,
+            LiberalDemocrat=3,
+            Green=4,
+            UKIP=5
+        }
+
+        public readonly static string[] MajorPartyNames = new string[] 
+        {        
+            "SNP", 
+            "Labour", 
+            "Conservative", 
+            "Liberal Democrat", 
+            "Green", 
+            "UK Independence Party"
+        };
 
         #endregion
 
@@ -394,33 +450,47 @@ namespace ElectionScotlandSwingWpfApp.Models
 
         #endregion
 
-        #region XML
+        #region Party Forecasts
 
-        internal void OpenElectoralResults(string filePath)
+        private void PopulatePartyForecasts()
         {
-            try
+            PartyConstituencyForecasts = new List<PartyForecast>();
+            PartyListForecasts = new List<PartyForecast>();
+
+            if (CurrentResult != null && CurrentResult.Regions.Count > 0)
             {
-                string xml;
-                using (StreamReader reader = new StreamReader(filePath))
+                foreach (var name in MajorPartyNames)
                 {
-                    xml = reader.ReadToEnd();
+                    double listPercentage = 
+                        CurrentResult.ListPercentagesByParty.ContainsKey(name) ?
+                        CurrentResult.ListPercentagesByParty[name] : 0.0;
+
+                    PartyForecast listForecast = 
+                        new PartyForecast(name, listPercentage);
+                    PartyListForecasts.Add(listForecast);
+
+                    double constituencyPercentage =
+                        CurrentResult.ConstituencyPercentagesByParty.ContainsKey(name) ?
+                        CurrentResult.ConstituencyPercentagesByParty[name] : 0.0;
+
+                    PartyForecast constituencyForecast = 
+                        new PartyForecast(name, constituencyPercentage);
+                    PartyConstituencyForecasts.Add(constituencyForecast);
                 }
-
-                var textReader = new StringReader(xml);
-                var serializer = new XmlSerializer(typeof(ElectionResult));
-
-                CurrentResult =
-                    (ElectionResult)serializer.Deserialize(textReader);
             }
-            catch (Exception e)
+            else
             {
-                Log.Error("error reading xml file " + filePath);
-                Log.Error(e.ToString());
-                throw e;
+                foreach(var name in MajorPartyNames)
+                {
+                    PartyForecast forecast = new PartyForecast(name, 0.0);
+                    PartyConstituencyForecasts.Add(forecast);
+                    PartyListForecasts.Add(forecast);                
+                }
             }
 
         }
 
         #endregion
+
     }
 }

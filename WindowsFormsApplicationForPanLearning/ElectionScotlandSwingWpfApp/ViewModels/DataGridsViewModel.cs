@@ -61,6 +61,9 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
 
             ConstituencySeats = new ObservableCollection<ConstituencySeatResult>();
             ListSeats = new ObservableCollection<ListSeatResult>();
+
+            PartyConstituencyResults = new ObservableCollection<NationalPartyResult>();
+            PartyListResults = new ObservableCollection<NationalPartyResult>();
         }
 
         #endregion
@@ -105,6 +108,14 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
 
         }
 
+        public class NationalPartyResult
+        {
+            public string Name { get; set; }
+            public double Percentage { get; set; }
+            public int Votes { get; set; }
+            public int Seats { get; set; }
+        }
+
         #endregion
 
         #region Public Data
@@ -112,7 +123,10 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
         public ObservableCollection<ConstituencySeatResult> ConstituencySeats { get; set; }
 
         public ObservableCollection<ListSeatResult> ListSeats { get; set; }
-        
+
+        public ObservableCollection<NationalPartyResult> PartyConstituencyResults { get; set; }
+
+        public ObservableCollection<NationalPartyResult> PartyListResults { get; set; }
 
         #endregion
 
@@ -124,8 +138,53 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
 
             UpdateListSeats();
 
+            UpdateNationalSeats();
+
             OnPropertyChanged("");
 
+        }
+
+        private void UpdateNationalSeats()
+        {
+            List<NationalPartyResult> results = new List<NationalPartyResult>();
+            PartyConstituencyResults.Clear();
+            foreach (var party in _mainModel.CurrentResult.ConstituencyVotesByParty.Keys)
+            {
+                NationalPartyResult constituencyResult = new NationalPartyResult()
+                {
+                    Name = party,
+                    Percentage = _mainModel.CurrentResult.ConstituencyPercentagesByParty[party],
+                    Votes = _mainModel.CurrentResult.ConstituencyVotesByParty[party],
+                    Seats = _mainModel.CurrentResult.ConstituencySeatsByParty.ContainsKey(party) ?
+                                _mainModel.CurrentResult.ConstituencySeatsByParty[party] : 0
+                };
+
+                results.Add(constituencyResult);
+            }
+            
+            foreach(var result in 
+                (from res in results orderby res.Percentage descending select res).ToList())
+                PartyConstituencyResults.Add(result);
+
+            PartyListResults.Clear();
+
+            results = new List<NationalPartyResult>();
+            foreach (var party in _mainModel.CurrentResult.ListVotesByParty.Keys)
+            {
+                NationalPartyResult listResult = new NationalPartyResult()
+                {
+                    Name = party,
+                    Percentage = _mainModel.CurrentResult.ListPercentagesByParty[party],
+                    Votes = _mainModel.CurrentResult.ListVotesByParty[party],
+                    Seats = _mainModel.CurrentResult.ListSeatsByParty.ContainsKey(party) ?
+                     _mainModel.CurrentResult.ListSeatsByParty[party] : 0
+                };
+                results.Add(listResult);
+            }
+
+            foreach(var result in 
+                (from res in results orderby res.Percentage descending select res).ToList())
+                PartyListResults.Add(result);
         }
 
         private void UpdateListSeats()

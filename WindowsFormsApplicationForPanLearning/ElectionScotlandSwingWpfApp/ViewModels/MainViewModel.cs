@@ -45,6 +45,9 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
         private DataLoaderViewModel _dataLoaderVM;
         private DataGridsViewModel _dataGridsVM;
 
+        private MajorPartyForecastsViewModel _listMajorPartyForecastsVM;
+        private MajorPartyForecastsViewModel _constituencyMajorPartyForecastsVM;
+
         #endregion
 
         #region Public Properties
@@ -61,6 +64,16 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
             get { return _dataGridsVM; }
         }
 
+        public MajorPartyForecastsViewModel ListMajorPartyForecastsVM
+        {
+            get { return _listMajorPartyForecastsVM; }
+        }
+
+        public MajorPartyForecastsViewModel ConstituencyMajorPartyForecastsVM
+        {
+            get { return _constituencyMajorPartyForecastsVM; }
+        }
+
         #endregion
 
         #region Constructor
@@ -74,15 +87,31 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
 
             _dataLoaderVM = new DataLoaderViewModel(_mainWindow, log, _mainModel, this);
             _dataGridsVM = new DataGridsViewModel(_mainWindow, log, _mainModel, this);
+            InitialiseMajorPartyForecasts(log);
+        }
+
+        private void InitialiseMajorPartyForecasts(log4net.ILog log)
+        {
+            _listMajorPartyForecastsVM =
+                new MajorPartyForecastsViewModel(_mainWindow, log, _mainModel,
+                    _mainModel.PartyListForecasts, this);
+            _constituencyMajorPartyForecastsVM =
+                new MajorPartyForecastsViewModel(_mainWindow, log, _mainModel,
+                    _mainModel.PartyConstituencyForecasts, this);
         }
 
         #endregion
 
-
         internal void UpdateData()
         {
             _dataGridsVM.UpdateData();
+
+            _listMajorPartyForecastsVM.UpdateData(_mainModel.PartyListForecasts);
+            _constituencyMajorPartyForecastsVM.UpdateData(_mainModel.PartyConstituencyForecasts);
+
             OnPropertyChanged("");
+            OnPropertyChanged(() => ListMajorPartyForecastsVM);
+            OnPropertyChanged(() => ConstituencyMajorPartyForecastsVM);
             //throw new NotImplementedException();
         }
     }

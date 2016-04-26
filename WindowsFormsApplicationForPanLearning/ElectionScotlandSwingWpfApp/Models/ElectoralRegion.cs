@@ -37,6 +37,175 @@ namespace ElectionScotlandSwingWpfApp.Models
 
         #endregion
 
+        #region Derived get only properties
+
+        #region Seats By Party
+
+        [XmlIgnore]
+        public Dictionary<string,int> ConstituencySeatsByParty
+        {
+            get 
+            {
+                Dictionary<string, int> constSeats = new Dictionary<string, int>();
+
+                foreach (var seat in ConstituencySeats)
+                {
+                    if (constSeats.ContainsKey(seat.Victor.Party))
+                        constSeats[seat.Victor.Party]++;
+                    else
+                        constSeats.Add(seat.Victor.Party, 1);
+                }
+
+                return constSeats; 
+            }
+        }
+
+        [XmlIgnore]
+        public Dictionary<string, int> ListSeatsByParty
+        {
+            get
+            {
+                Dictionary<string, int> addSeats = new Dictionary<string, int>();
+
+                foreach (var seat in ListSeats)
+                {
+                    if (addSeats.ContainsKey(seat.Victor.Party))
+                        addSeats[seat.Victor.Party]++;
+                    else
+                        addSeats.Add(seat.Victor.Party, 1);
+                }
+
+                return addSeats;
+            }
+        }
+
+        [XmlIgnore]
+        public Dictionary<string, int> SeatsByParty
+        {
+            get
+            {
+                Dictionary<string, int> seatsByParty = 
+                    new Dictionary<string, int>(ListSeatsByParty);
+
+                foreach (var party in ConstituencySeatsByParty.Keys)
+                {
+                    if (seatsByParty.ContainsKey(party))
+                        seatsByParty[party] += ConstituencySeatsByParty[party];
+                    else
+                        seatsByParty.Add(party, ConstituencySeatsByParty[party]);
+
+                }
+
+                return seatsByParty;
+            }
+        }
+
+        #endregion
+
+        #region Votes By Party and overall
+
+        [XmlIgnore]
+        public Dictionary<string, int> ConstituencyVotesByParty
+        {
+            get
+            {
+                Dictionary<string, int> constVotes = new Dictionary<string, int>();
+
+                foreach (var seat in ConstituencySeats)
+                {
+                    foreach(var candidate in seat.Candidates)
+                    {
+                        if (constVotes.ContainsKey(candidate.Party))
+                            constVotes[candidate.Party] += candidate.VotesFor;
+                        else
+                            constVotes.Add(candidate.Party, candidate.VotesFor);                    
+                    }
+                }
+
+                return constVotes;
+            }
+        }
+
+        [XmlIgnore]
+        public int TotalConstituencyVotes
+        {
+            get
+            {
+                int total = 0;
+                foreach (var party in ConstituencyVotesByParty.Keys)
+                    total += ConstituencyVotesByParty[party];
+                return total;
+            }
+        }
+
+        [XmlIgnore]
+        public Dictionary<string, double> ConstituencyPercentagesByParty
+        {
+            get
+            {
+                double multiplier = 100.0 / (double)TotalConstituencyVotes;
+                Dictionary<string, double> constPercentages = new Dictionary<string, double>();
+
+                foreach (var party in ConstituencyVotesByParty.Keys)
+                    constPercentages.Add(party, ConstituencyVotesByParty[party] * multiplier);
+
+                return constPercentages;
+            }
+        }
+
+        [XmlIgnore]
+        public Dictionary<string, int> ListVotesByParty
+        {
+            get
+            {
+                Dictionary<string, int> listVotes = new Dictionary<string, int>();
+
+                foreach (var seat in ConstituencySeats)
+                {
+                    foreach (var party in seat.PartyListVotes.Keys)
+                    {
+                        if (listVotes.ContainsKey(party))
+                            listVotes[party] += seat.PartyListVotes[party];
+                        else
+                            listVotes.Add(party, seat.PartyListVotes[party]);
+                    }
+                }
+
+                return listVotes;
+            }
+        }
+
+        [XmlIgnore]
+        public int TotalListVotes
+        {
+            get
+            {
+                int total = 0;
+                foreach (var party in ListVotesByParty.Keys)
+                    total += ListVotesByParty[party];
+                return total;
+            }
+        }
+
+        [XmlIgnore]
+        public Dictionary<string, double> ListPercentagesByParty
+        {
+            get
+            {
+                double multiplier = 100.0 / (double)TotalListVotes;
+                Dictionary<string, double> listPercentages = new Dictionary<string, double>();
+
+                foreach (var party in ListVotesByParty.Keys)
+                    listPercentages.Add(party, ListVotesByParty[party] * multiplier);
+
+                return listPercentages;
+            }
+        }
+
+        #endregion
+
+        #endregion
+
         #region Constructor
 
         public ElectoralRegion()

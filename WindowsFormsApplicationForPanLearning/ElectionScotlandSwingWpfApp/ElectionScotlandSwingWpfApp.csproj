@@ -64,15 +64,21 @@
     </ApplicationDefinition>
     <Compile Include="Models\AdditionalListSeat.cs" />
     <Compile Include="Models\ParliamentarySeat.cs" />
+    <Compile Include="Models\PartyForecast.cs" />
+    <Compile Include="Models\PollingPrediction.cs" />
     <Compile Include="Utilities\Logger.cs" />
     <Compile Include="Utilities\SerializableDictionary.cs" />
     <Compile Include="ViewModels\DataGridsViewModel.cs" />
     <Compile Include="ViewModels\DataLoaderViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\MajorPartyForecastsViewModel.cs" />
     <Compile Include="ViewModels\Utilities\CommandHandler.cs" />
     <Compile Include="ViewModels\Utilities\WaitCursor.cs" />
     <Compile Include="Views\DataGridsView.xaml.cs">
       <DependentUpon>DataGridsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MajorPartyForecastsView.xaml.cs">
+      <DependentUpon>MajorPartyForecastsView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -87,6 +93,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\DataGridsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MajorPartyForecastsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

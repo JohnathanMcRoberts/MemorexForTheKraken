@@ -136,7 +136,76 @@
                     </DataGrid>
                 </ScrollViewer>
             </TabItem>
-            
+
+            <TabItem Header="National Results">
+                <ScrollViewer>
+                    <StackPanel Orientation="Vertical">
+
+                        <Label Content="Constituency Results"  Margin="10,10,10,10"/>
+
+                        <ScrollViewer MaxHeight="300">
+                            <DataGrid AutoGenerateColumns="False" 
+                                    ItemsSource="{Binding Path=PartyConstituencyResults, Mode=OneWay}"
+                                    MinHeight="280" IsReadOnly="True" HorizontalScrollBarVisibility="Auto">
+
+
+                                <DataGrid.Columns>
+
+                                    <DataGridTextColumn Header="Party Name" 
+                                                Binding="{Binding Name }" 
+                                                Width="Auto"/>
+
+                                    <DataGridTextColumn Header="Vote Share %" 
+                                                Binding="{Binding Percentage, StringFormat=N2}" 
+                                                Width="Auto"/>
+
+                                    <DataGridTextColumn Header="Votes" 
+                                                Binding="{Binding Votes }" 
+                                                Width="Auto"/>
+
+                                    <DataGridTextColumn Header="Seats" 
+                                                Binding="{Binding Seats}" 
+                                                Width="Auto"/>
+                                    
+                                </DataGrid.Columns>
+
+                            </DataGrid>
+                        </ScrollViewer>
+                        <Label Content="List Results"  Margin="10,10,10,10"/>
+
+                        <ScrollViewer MaxHeight="300">
+                        <DataGrid AutoGenerateColumns="False" 
+                                    ItemsSource="{Binding Path=PartyListResults, Mode=OneWay}"
+                                    MinHeight="280" IsReadOnly="True" HorizontalScrollBarVisibility="Auto">
+
+
+                            <DataGrid.Columns>
+
+
+                                    <DataGridTextColumn Header="Party Name" 
+                                                Binding="{Binding Name }" 
+                                                Width="Auto"/>
+
+                                    <DataGridTextColumn Header="Vote Share %" 
+                                                Binding="{Binding Percentage, StringFormat=N2}" 
+                                                Width="Auto"/>
+
+                                    <DataGridTextColumn Header="Votes" 
+                                                Binding="{Binding Votes }" 
+                                                Width="Auto"/>
+
+                                    <DataGridTextColumn Header="Seats" 
+                                                Binding="{Binding Seats}" 
+                                                Width="Auto"/>
+
+                                </DataGrid.Columns>
+
+                            </DataGrid>
+                        </ScrollViewer>
+                    </StackPanel>
+                    
+                </ScrollViewer>
+            </TabItem>
         </TabControl>
 
 
