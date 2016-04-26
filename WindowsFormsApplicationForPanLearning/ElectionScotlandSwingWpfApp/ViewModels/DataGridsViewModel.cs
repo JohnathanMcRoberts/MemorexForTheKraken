@@ -60,6 +60,7 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
             _parent = mainViewModel;
 
             ConstituencySeats = new ObservableCollection<ConstituencySeatResult>();
+            ListSeats = new ObservableCollection<ListSeatResult>();
         }
 
         #endregion
@@ -76,23 +77,31 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
 
         }
         
-        public class ConstituencySeatResult
+        public class SeatResult
+        {
+            public string Region { get; set; }
+
+            public string WinningParty { get; set; }
+
+            public int Majority { get; set; }
+
+            public double MajorityPercentage { get; set; }
+
+            public ObservableCollection<ConstituencySeatPartyResult> Parties { get; set; }
+        }
+
+        public class ConstituencySeatResult : SeatResult
         {
             public string Constituency {get;set;}
-        
-            public string Region {get;set;}
         
             public int Electorate {get;set;}
             
             public double TurnoutPercentage {get;set;}
+        }
 
-            public string WinningParty {get;set;}
-
-            public int  Majority {get;set;}
-            
-            public double  MajorityPercentage{get;set;}
-
-            public ObservableCollection<ConstituencySeatPartyResult> Parties { get; set; }
+        public class ListSeatResult : SeatResult
+        {
+            public string Name { get; set; }
 
         }
 
@@ -102,11 +111,66 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
 
         public ObservableCollection<ConstituencySeatResult> ConstituencySeats { get; set; }
 
+        public ObservableCollection<ListSeatResult> ListSeats { get; set; }
+        
+
         #endregion
 
         #region Public Methods
 
         public void UpdateData()
+        {
+            UpdateConstituencySeats();
+
+            UpdateListSeats();
+
+            OnPropertyChanged("");
+
+        }
+
+        private void UpdateListSeats()
+        {
+            ListSeats.Clear();
+
+            foreach (var region in _mainModel.CurrentResult.Regions)
+            {
+                foreach (var seat in region.ListSeats)
+                {
+                    var result = new ListSeatResult()
+                    {
+                        Name = seat.Name,
+                        Region = region.Name,
+                        Majority = seat.MajorityVotes,
+                        MajorityPercentage = seat.MajorityPercentage,
+                        WinningParty = seat.Victor.Party,
+                        Parties = new ObservableCollection<ConstituencySeatPartyResult>()
+
+                    };
+
+                    // sort the candidates
+                    var candidates =
+                        (from c in seat.Candidates orderby c.VotesFor descending select c).ToList();
+
+                    // then add them
+                    foreach (var candidate in candidates)
+                    {
+                        if (candidate.VotesFor < 1) continue;
+
+                        result.Parties.Add(
+                            new ConstituencySeatPartyResult()
+                            {
+                                Name = candidate.Party,
+                                Votes = candidate.VotesFor,
+                                Percentage = candidate.PercentageVote
+                            });
+                    }
+                    ListSeats.Add(result);
+
+                }
+            }
+        }
+
+        private void UpdateConstituencySeats()
         {
             ConstituencySeats.Clear();
 
@@ -135,20 +199,17 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
                     foreach (var candidate in seat.Candidates)
                     {
                         result.Parties.Add(
-                            new ConstituencySeatPartyResult() 
-                            { 
-                                Name = candidate.Party, 
-                                Votes = candidate.VotesFor, 
-                                Percentage = candidate.PercentageVote 
+                            new ConstituencySeatPartyResult()
+                            {
+                                Name = candidate.Party,
+                                Votes = candidate.VotesFor,
+                                Percentage = candidate.PercentageVote
                             });
                     }
                     ConstituencySeats.Add(result);
 
                 }
             }
-
-            OnPropertyChanged("");
-
         }
 
         #endregion

@@ -62,7 +62,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\AdditionalListSeat.cs" />
+    <Compile Include="Models\ParliamentarySeat.cs" />
     <Compile Include="Utilities\Logger.cs" />
+    <Compile Include="Utilities\SerializableDictionary.cs" />
     <Compile Include="ViewModels\DataGridsViewModel.cs" />
     <Compile Include="ViewModels\DataLoaderViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
