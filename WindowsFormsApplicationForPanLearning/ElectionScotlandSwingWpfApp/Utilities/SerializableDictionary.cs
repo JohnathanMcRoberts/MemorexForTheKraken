@@ -9,7 +9,7 @@ using System.Globalization;
 
 namespace ElectionScotlandSwingWpfApp.Utilities
 {
-    [XmlRoot("Dictionary")]
+    [XmlRoot("dictionary")]
     public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IXmlSerializable
     {
         #region IXmlSerializable Members

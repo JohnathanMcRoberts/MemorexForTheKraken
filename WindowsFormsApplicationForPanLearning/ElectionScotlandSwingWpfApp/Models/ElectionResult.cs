@@ -12,6 +12,7 @@ namespace ElectionScotlandSwingWpfApp.Models
     [XmlInclude(typeof(ElectoralRegion))] // include type class AdditionalListSeat
     public class ElectionResult
     {
+        #region Public Properties
         [XmlElement]
         public string Name { get; set; }
 
@@ -19,9 +20,30 @@ namespace ElectionScotlandSwingWpfApp.Models
         [XmlArrayItem("ElectoralRegion")]
         public List<ElectoralRegion> Regions { get; set; }
 
+        #endregion
+        
+        #region Constructor
+
         public ElectionResult()
         {
             Regions = new List<ElectoralRegion>();
         }
+
+        #endregion
+
+        #region Public Methods
+
+        public string SerializeObject()
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(this.GetType());
+
+            using (StringWriter textWriter = new StringWriter())
+            {
+                xmlSerializer.Serialize(textWriter, this);
+                return textWriter.ToString();
+            }
+        }
+
+        #endregion
     }
 }

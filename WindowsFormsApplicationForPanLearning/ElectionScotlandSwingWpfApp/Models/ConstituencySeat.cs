@@ -15,8 +15,8 @@ namespace ElectionScotlandSwingWpfApp.Models
     public class ConstituencySeat : ParliamentarySeat
     {
         #region Public Properties
-        
-        public Dictionary<string, int> PartyListVotes { get; set; }
+
+        public SerializableDictionary<string, int> PartyListVotes { get; set; }
 
         #endregion
 
@@ -24,7 +24,7 @@ namespace ElectionScotlandSwingWpfApp.Models
         
         public ConstituencySeat()
         {
-            PartyListVotes = new Dictionary<string, int>();
+            PartyListVotes = new SerializableDictionary<string, int>();
         }
         
         #endregion

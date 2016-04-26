@@ -7,15 +7,21 @@
         <Menu DockPanel.Dock="Top">
 
             <MenuItem Header="_Data">
-                <MenuItem Header="Open _Constituencies csv"  
+                <MenuItem Header="Open _Constituencies .CSV"  
                           Command="{Binding Path=DataLoaderVM.OpenConstituenciesResultsCommand}">
                     <MenuItem.Icon>
                         <Image Source="C:\src\Trunk\Cerberus\Play\Johnathan\CerberusWpfTestApplications\BookReaderWpfApp\Resources\File_Open_16.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Open _RegionsText csv"  
+                <MenuItem Header="Open _RegionsText .CSV"  
                           Command="{Binding Path=DataLoaderVM.OpenRegionsResultsCommand}" 
                           IsEnabled="{Binding Path=DataLoaderVM.ConstituenciesDataLoaded}" >
+                    <MenuItem.Icon>
+                        <Image Source="C:\src\Trunk\Cerberus\Play\Johnathan\CerberusWpfTestApplications\BookReaderWpfApp\Resources\File_Open_16.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Open _Electoral results .XML"  
+                          Command="{Binding Path=DataLoaderVM.OpenElectoralResultsCommand}" >
                     <MenuItem.Icon>
                         <Image Source="C:\src\Trunk\Cerberus\Play\Johnathan\CerberusWpfTestApplications\BookReaderWpfApp\Resources\File_Open_16.png" />
                     </MenuItem.Icon>

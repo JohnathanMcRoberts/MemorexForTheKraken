@@ -25,7 +25,7 @@ namespace ElectionScotlandSwingWpfApp.Models
 
         #region Public Functions
 
-        internal void OpenConstituenciesResults(string filename)
+        public void OpenConstituenciesResults(string filename)
         {
             using (var sr = new StreamReader(filename, Encoding.Default))
             {
@@ -60,7 +60,7 @@ namespace ElectionScotlandSwingWpfApp.Models
             //Properties.Settings.Default.Save();
         }
 
-        internal void OpenRegionsResults(string filename)
+        public void OpenRegionsResults(string filename)
         {
             using (var sr = new StreamReader(filename, Encoding.Default))
             {
@@ -92,11 +92,18 @@ namespace ElectionScotlandSwingWpfApp.Models
             UpdateElectionResultWithRegionalListVotes(filename);
         }
 
-        internal void WriteElectionResultToFile(string filename)
+        public void WriteElectionResultToFile(string filename)
         {
-            throw new NotImplementedException();
-        }
+            var asXML = CurrentResult.SerializeObject();
 
+            StreamWriter sw = new StreamWriter(filename, false, Encoding.Default); //overwrite original file
+
+            // write the XML
+            sw.WriteLine(asXML);
+
+            // tidy up
+            sw.Close();
+        }
 
         #endregion
 
@@ -387,5 +394,33 @@ namespace ElectionScotlandSwingWpfApp.Models
 
         #endregion
 
+        #region XML
+
+        internal void OpenElectoralResults(string filePath)
+        {
+            try
+            {
+                string xml;
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    xml = reader.ReadToEnd();
+                }
+
+                var textReader = new StringReader(xml);
+                var serializer = new XmlSerializer(typeof(ElectionResult));
+
+                CurrentResult =
+                    (ElectionResult)serializer.Deserialize(textReader);
+            }
+            catch (Exception e)
+            {
+                Log.Error("error reading xml file " + filePath);
+                Log.Error(e.ToString());
+                throw e;
+            }
+
+        }
+
+        #endregion
     }
 }

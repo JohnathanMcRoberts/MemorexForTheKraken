@@ -50,7 +50,8 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
 
         private ICommand _openConstituenciesResultsCommand;
         private ICommand _openRegionsResultsCommand;
-        private ICommand _saveTextCommand;
+        private ICommand _openElectoralResultsCommand;
+        private ICommand _saveElectionAsXmlCommand;
         private ICommand _connectToDatabaseCommand;
 
         private bool _regionsDataLoaded;
@@ -96,13 +97,13 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
             }
         }
 
-        public ICommand SaveTextCommand
+        public ICommand SaveElectionAsXmlCommand
         {
             get
             {
-                return _saveTextCommand ??
-                    (_saveTextCommand =
-                        new CommandHandler(() => SaveTextCommandAction(), true));
+                return _saveElectionAsXmlCommand ??
+                    (_saveElectionAsXmlCommand =
+                        new CommandHandler(() => SaveElectionAsXmlCommandAction(), true));
             }
         }
 
@@ -115,6 +116,18 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
                         new CommandHandler(() => ConnectToDatabaseCommandAction(), true));
             }
         }
+
+        public ICommand OpenElectoralResultsCommand
+        {
+            get
+            {
+                return _openElectoralResultsCommand ??
+                    (_openElectoralResultsCommand =
+                        new CommandHandler(() => OpenElectoralResultsCommandAction(), true));
+            }
+        }
+
+        
 
         #endregion
 
@@ -161,13 +174,13 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
             }
         }
 
-        public void SaveTextCommandAction()
+        public void SaveElectionAsXmlCommandAction()
         {
             SaveFileDialog fileDialog = new SaveFileDialog();
             //fileDialog.FileName = _mainModel.OutputFilePath;
 
             // TODO - get the file types from the available serializers
-            fileDialog.Filter = @"All files (*.*)|*.*|CSV files (*.csv)|*.csv";
+            fileDialog.Filter = @"All files (*.*)|*.*|XML files (*.XML)|*.xml";
             fileDialog.FilterIndex = 4;
             fileDialog.RestoreDirectory = true;
 
@@ -182,6 +195,27 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
                     MessageBox.Show(e.ToString());
                 }
 
+            }
+        }
+
+        public void OpenElectoralResultsCommandAction()
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            //fileDialog.FileName = _mainModel.InputFilePath;
+
+            fileDialog.Title = "Open Electoral Results XML";
+
+            fileDialog.Filter = @"All files (*.*)|*.*|XML files (*.XML)|*.xml";
+            fileDialog.FilterIndex = 4;
+            fileDialog.RestoreDirectory = true;
+
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                _mainModel.OpenElectoralResults(fileDialog.FileName);
+
+                RegionsDataLoaded = true;
+                _parent.UpdateData();
+                OnPropertyChanged("");
             }
         }
 
