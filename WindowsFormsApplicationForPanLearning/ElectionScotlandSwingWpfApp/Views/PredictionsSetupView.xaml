@@ -18,17 +18,29 @@
                         <Button Content="Generate Results" MinWidth="185"
                                             Command="{Binding Path=PredictFromUniformNationalSwingCommand}" Height="22"/>
 
-                        <Label Content="Constituency Predictions"  Margin="10,10,10,10"/>
+                        <StackPanel Orientation="Horizontal">
+                            
+                        <StackPanel Orientation="Vertical">
+                            <Label Content="Constituency Predictions"  Margin="10,10,10,10"/>
 
-                        <Views:MajorPartyForecastsView 
+                            <Views:MajorPartyForecastsView 
                                 DataContext="{Binding Path=ConstituencyMajorPartyForecastsVM}"  />
 
 
-                        <Label Content="List Predictions"  Margin="10,10,10,10"/>
+                            <Label Content="List Predictions"  Margin="10,10,10,10"/>
 
-                        <Views:MajorPartyForecastsView 
+                            <Views:MajorPartyForecastsView 
                                 DataContext="{Binding Path=ListMajorPartyForecastsVM}"  />
+                            </StackPanel>
 
+                            <StackPanel Orientation="Vertical">
+                                <Label Content="Overall Predictions"  Margin="10,10,10,10"/>
+                                <Views:OverallPredictionsView 
+                                    DataContext="{Binding Path=OverallPredictionsVM}"   />
+
+                            </StackPanel>
+
+                        </StackPanel>
                     </StackPanel>
 
                 </Grid>

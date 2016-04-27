@@ -49,6 +49,7 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
 
         private MajorPartyForecastsViewModel _listMajorPartyForecastsVM;
         private MajorPartyForecastsViewModel _constituencyMajorPartyForecastsVM;
+        private OverallPredictionsViewModel _overallPredictionsVM;
 
         private ICommand _predictFromUniformNationalSwingCommand;
 
@@ -66,9 +67,13 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
 
             _listMajorPartyForecastsVM =
                 new MajorPartyForecastsViewModel(_mainWindow, log, _mainModel,
-                    _mainModel.PartyListForecasts, mainViewModel);
+                    _mainModel.PartyListForecasts, mainViewModel) { IsConstutencyForecasts = false };
             _constituencyMajorPartyForecastsVM =
                 new MajorPartyForecastsViewModel(_mainWindow, log, _mainModel,
+                    _mainModel.PartyConstituencyForecasts, mainViewModel) { IsConstutencyForecasts = true };
+
+            _overallPredictionsVM = 
+                new OverallPredictionsViewModel(_mainWindow, log, _mainModel,
                     _mainModel.PartyConstituencyForecasts, mainViewModel);
         }
 
@@ -86,14 +91,24 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
             get { return _constituencyMajorPartyForecastsVM; }
         }
 
+        public OverallPredictionsViewModel OverallPredictionsVM
+        {
+            get { return _overallPredictionsVM; }
+        }
+
         #endregion
 
         #region Public Methods
 
-        internal void UpdateData()
+        public void UpdateData()
         {
+            _listMajorPartyForecastsVM.IsConstutencyForecasts = false;
+            _constituencyMajorPartyForecastsVM.IsConstutencyForecasts = true;
+
             _listMajorPartyForecastsVM.UpdateData(_mainModel.PartyListForecasts);
             _constituencyMajorPartyForecastsVM.UpdateData(_mainModel.PartyConstituencyForecasts);
+            _overallPredictionsVM.UpdateData(_mainModel.PartyOverallForecasts);
+
             OnPropertyChanged(() => ListMajorPartyForecastsVM);
             OnPropertyChanged(() => ConstituencyMajorPartyForecastsVM);
         }
@@ -124,10 +139,14 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
                 );
 
             _parent.UpdateData();
+
             OnPropertyChanged("");
 
         }
 
+        #endregion
+
+        #region Utility Methods
 
         #endregion
     }

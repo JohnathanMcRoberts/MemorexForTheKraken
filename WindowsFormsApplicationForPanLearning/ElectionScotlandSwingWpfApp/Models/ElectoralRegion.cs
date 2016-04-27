@@ -288,16 +288,16 @@ namespace ElectionScotlandSwingWpfApp.Models
         public void ApplyPartySwings(Dictionary<string, double> partyListSwings, 
             Dictionary<string, double> partyConstituencySwings)
         {
-            foreach (var partySwing in partyListSwings)
-            {
-                foreach (var seat in ConstituencySeats)
-                    seat.ApplyPartySwingToList(partySwing.Key, partySwing.Value);
-            }
-
             foreach (var partySwing in partyConstituencySwings)
             {
                 foreach (var seat in ConstituencySeats)
                     seat.ApplyPartySwingToConstituencyCandidates(partySwing.Key, partySwing.Value);
+            }
+
+            foreach (var partySwing in partyListSwings)
+            {
+                foreach (var seat in ConstituencySeats)
+                    seat.ApplyPartySwingToList(partySwing.Key, partySwing.Value);
             }
 
             SetupListSeats();

@@ -161,6 +161,33 @@ namespace ElectionScotlandSwingWpfApp.Models
 
         public List<PartyForecast> PartyListForecasts { get; private set; }
 
+        public List<PartyForecast> PartyOverallForecasts 
+        { 
+            get
+            {
+                List<PartyForecast> overallForecasts = new List<PartyForecast>();
+                if (PartyListForecasts != null && PartyConstituencyForecasts != null)
+                {
+                    for (int i = 0; i < PartyListForecasts.Count; i++)
+                    {
+                        string name = PartyListForecasts[i].Name;
+                        int prevSeats = 
+                            PartyListForecasts[i].PreviousSeats + PartyConstituencyForecasts[i].PreviousSeats;
+                        int predictedSeats = 
+                            PartyListForecasts[i].PredictedSeats + PartyConstituencyForecasts[i].PredictedSeats;
+
+                        overallForecasts.Add(
+                            new PartyForecast(name, 0.0)
+                            {
+                                PreviousSeats = prevSeats,
+                                PredictedSeats = predictedSeats
+                            });                    
+                    }
+                }
+                return overallForecasts;
+            }
+        }
+
         #endregion
 
         #region Constant Data
@@ -519,7 +546,6 @@ namespace ElectionScotlandSwingWpfApp.Models
         }
 
         #endregion
-
 
         #region Party Predictions
 

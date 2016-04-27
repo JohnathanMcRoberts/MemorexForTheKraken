@@ -72,6 +72,7 @@
     <Compile Include="ViewModels\DataLoaderViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MajorPartyForecastsViewModel.cs" />
+    <Compile Include="ViewModels\OverallPredictionsViewModel.cs" />
     <Compile Include="ViewModels\PredictionsSetupViewModel.cs" />
     <Compile Include="ViewModels\Utilities\CommandHandler.cs" />
     <Compile Include="ViewModels\Utilities\WaitCursor.cs" />
@@ -80,6 +81,9 @@
     </Compile>
     <Compile Include="Views\MajorPartyForecastsView.xaml.cs">
       <DependentUpon>MajorPartyForecastsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OverallPredictionsView.xaml.cs">
+      <DependentUpon>OverallPredictionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PredictionsSetupView.xaml.cs">
       <DependentUpon>PredictionsSetupView.xaml</DependentUpon>
@@ -101,6 +105,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MajorPartyForecastsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OverallPredictionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

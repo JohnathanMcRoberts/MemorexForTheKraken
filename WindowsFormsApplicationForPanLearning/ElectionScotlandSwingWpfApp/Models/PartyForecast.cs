@@ -56,5 +56,9 @@ namespace ElectionScotlandSwingWpfApp.Models
         private double _predictedSwing;
         
         #endregion
+
+        public int PreviousSeats { get; set; }
+        public int PredictedSeats { get; set; }
+        public int SeatsSwing { get { return PredictedSeats - PreviousSeats; } }
     }
 }

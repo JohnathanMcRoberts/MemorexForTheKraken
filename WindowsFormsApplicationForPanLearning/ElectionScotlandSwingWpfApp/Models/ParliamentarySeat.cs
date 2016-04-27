@@ -161,6 +161,8 @@ namespace ElectionScotlandSwingWpfApp.Models
                     break;
                 }
             }
+
+            _victor = null;
         }
 
         #endregion

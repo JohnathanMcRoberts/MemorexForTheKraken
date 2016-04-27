@@ -117,6 +117,30 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
             }
         }
 
+        public int PreviousSeatsSNP
+        {
+            get
+            {
+                return _partyForecasts[(int)MainModel.MajorNamePartyLookup.SNP].PreviousSeats;
+            }
+        }
+
+        public int PredictedSeatsSNP
+        {
+            get
+            {
+                return _partyForecasts[(int)MainModel.MajorNamePartyLookup.SNP].PredictedSeats;
+            }
+        }
+
+        public int SwingSeatsSNP
+        {
+            get
+            {
+                return _partyForecasts[(int)MainModel.MajorNamePartyLookup.SNP].SeatsSwing;
+            }
+        }
+
         #endregion
 
         #region Labour
@@ -167,6 +191,30 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
                 OnPropertyChanged(() => SwingLabour);
                 OnPropertyChanged(() => PredictedTotal);
                 OnPropertyChanged(() => SwingTotal);
+            }
+        }
+
+        public int PreviousSeatsLabour
+        {
+            get
+            {
+                return _partyForecasts[(int)MainModel.MajorNamePartyLookup.Labour].PreviousSeats;
+            }
+        }
+
+        public int PredictedSeatsLabour
+        {
+            get
+            {
+                return _partyForecasts[(int)MainModel.MajorNamePartyLookup.Labour].PredictedSeats;
+            }
+        }
+
+        public int SwingSeatsLabour
+        {
+            get
+            {
+                return _partyForecasts[(int)MainModel.MajorNamePartyLookup.Labour].SeatsSwing;
             }
         }
 
@@ -223,6 +271,30 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
             }
         }
 
+        public int PreviousSeatsConservative
+        {
+            get
+            {
+                return _partyForecasts[(int)MainModel.MajorNamePartyLookup.Conservative].PreviousSeats;
+            }
+        }
+
+        public int PredictedSeatsConservative
+        {
+            get
+            {
+                return _partyForecasts[(int)MainModel.MajorNamePartyLookup.Conservative].PredictedSeats;
+            }
+        }
+
+        public int SwingSeatsConservative
+        {
+            get
+            {
+                return _partyForecasts[(int)MainModel.MajorNamePartyLookup.Conservative].SeatsSwing;
+            }
+        }
+
         #endregion
 
         #region LiberalDemocrat
@@ -276,6 +348,30 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
             }
         }
 
+        public int PreviousSeatsLiberalDemocrat
+        {
+            get
+            {
+                return _partyForecasts[(int)MainModel.MajorNamePartyLookup.LiberalDemocrat].PreviousSeats;
+            }
+        }
+
+        public int PredictedSeatsLiberalDemocrat
+        {
+            get
+            {
+                return _partyForecasts[(int)MainModel.MajorNamePartyLookup.LiberalDemocrat].PredictedSeats;
+            }
+        }
+
+        public int SwingSeatsLiberalDemocrat
+        {
+            get
+            {
+                return _partyForecasts[(int)MainModel.MajorNamePartyLookup.LiberalDemocrat].SeatsSwing;
+            }
+        }
+
         #endregion
 
         #region Green
@@ -326,6 +422,30 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
                 OnPropertyChanged(() => SwingGreen);
                 OnPropertyChanged(() => PredictedTotal);
                 OnPropertyChanged(() => SwingTotal);
+            }
+        }
+
+        public int PreviousSeatsGreen
+        {
+            get
+            {
+                return _partyForecasts[(int)MainModel.MajorNamePartyLookup.Green].PreviousSeats;
+            }
+        }
+
+        public int PredictedSeatsGreen
+        {
+            get
+            {
+                return _partyForecasts[(int)MainModel.MajorNamePartyLookup.Green].PredictedSeats;
+            }
+        }
+
+        public int SwingSeatsGreen
+        {
+            get
+            {
+                return _partyForecasts[(int)MainModel.MajorNamePartyLookup.Green].SeatsSwing;
             }
         }
 
@@ -383,6 +503,30 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
             }
         }
 
+        public int PreviousSeatsUKIP
+        {
+            get
+            {
+                return _partyForecasts[(int)MainModel.MajorNamePartyLookup.UKIP].PreviousSeats;
+            }
+        }
+
+        public int PredictedSeatsUKIP
+        {
+            get
+            {
+                return _partyForecasts[(int)MainModel.MajorNamePartyLookup.UKIP].PredictedSeats;
+            }
+        }
+
+        public int SwingSeatsUKIP
+        {
+            get
+            {
+                return _partyForecasts[(int)MainModel.MajorNamePartyLookup.UKIP].SeatsSwing;
+            }
+        }
+
         #endregion
 
         #region Totals
@@ -413,6 +557,33 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
                     SwingLiberalDemocrat + SwingSNP + SwingUKIP;
             }
         }
+
+        public int PreviousSeatsTotal
+        {
+            get
+            {
+                return PreviousSeatsConservative + PreviousSeatsGreen + PreviousSeatsLabour +
+                    PreviousSeatsLiberalDemocrat + PreviousSeatsSNP + PreviousSeatsUKIP;
+            }
+        }
+
+        public int PredictedSeatsTotal
+        {
+            get
+            {
+                return PredictedSeatsConservative + PredictedSeatsGreen + PredictedSeatsLabour +
+                    PredictedSeatsLiberalDemocrat + PredictedSeatsSNP + PredictedSeatsUKIP;
+            }
+        }
+
+        public int SwingSeatsTotal
+        {
+            get
+            {
+                return SwingSeatsConservative + SwingSeatsGreen + SwingSeatsLabour +
+                    SwingSeatsLiberalDemocrat + SwingSeatsSNP + SwingSeatsUKIP;
+            }
+        }
         #endregion
 
         public Dictionary<string,double> PartySwings
@@ -430,6 +601,14 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
             }
         }
 
+        public List<PartyForecast> PartyForecasts
+        {
+            get { return _partyForecasts; }
+            set { _partyForecasts = value; }
+        }
+
+        public bool IsConstutencyForecasts { get; set; }
+
         #endregion
 
         #region Public Methods
@@ -437,6 +616,33 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
         public void UpdateData(List<PartyForecast> partyForecasts)
         {
             _partyForecasts = partyForecasts;
+
+            if (IsConstutencyForecasts)
+            {
+
+                foreach (var party in _partyForecasts)
+                {
+                    party.PreviousSeats =
+                        _mainModel.CurrentResult.ConstituencySeatsByParty.ContainsKey(party.Name) ?
+                        _mainModel.CurrentResult.ConstituencySeatsByParty[party.Name] : 0;
+                    party.PredictedSeats =
+                        _mainModel.PredictedResult.ConstituencySeatsByParty.ContainsKey(party.Name) ?
+                        _mainModel.PredictedResult.ConstituencySeatsByParty[party.Name] : 0;
+                }
+            }
+            else
+            {
+                foreach (var party in _partyForecasts)
+                {
+                    party.PreviousSeats =
+                        _mainModel.CurrentResult.ListSeatsByParty.ContainsKey(party.Name) ?
+                        _mainModel.CurrentResult.ListSeatsByParty[party.Name] : 0;
+                    party.PredictedSeats =
+                        _mainModel.PredictedResult.ListSeatsByParty.ContainsKey(party.Name) ?
+                        _mainModel.PredictedResult.ListSeatsByParty[party.Name] : 0;
+                }
+            }
+
             OnPropertyChanged("");
         }
 
