@@ -5,52 +5,187 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
-    <Grid>
+
+    <Border BorderBrush="Black" BorderThickness="2" Margin="10,10,10,10">
+
+        <Grid Height="260" Margin="10,10,10,10">
 
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="100"/>
-        </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="5"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"  Content="Party" FontWeight="Bold"></Label>
-        <Label Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"  Content="Previous %" FontWeight="Bold"></Label>
-        <Label Grid.Row="0" Grid.Column="2" VerticalAlignment="Center"  Content="Predidicted %" FontWeight="Bold"></Label>
-        <Label Grid.Row="0" Grid.Column="3" VerticalAlignment="Center"  Content="Swing %" FontWeight="Bold"></Label>
+            <!-- Row 0 : Headers-->
+
+            <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"  Content="Party" FontWeight="Bold"></Label>
+            <Label Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"  Content="Previous %" FontWeight="Bold"></Label>
+            <Label Grid.Row="0" Grid.Column="2" VerticalAlignment="Center"  Content="Predicted %" FontWeight="Bold"></Label>
+            <Label Grid.Row="0" Grid.Column="3" VerticalAlignment="Center"  Content="Swing %" FontWeight="Bold"></Label>
 
 
-        <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"  
+            <!-- Row 1 : SNP -->
+
+            <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"  
                Content="{Binding NameSNP, Mode=OneWay}"></Label>
 
-        <TextBox Grid.Row="1" Grid.Column="1"  Margin="5,5,0,0"
+            <TextBox Grid.Row="1" Grid.Column="1"  Margin="5,5,0,0"
                  HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"
                  Text="{Binding PreviousSNP, Mode=OneWay, StringFormat=F2}" 
                  IsReadOnly="True"
                  VerticalAlignment="Center" Width="70" />
 
-        <TextBox Grid.Row="1" Grid.Column="2"  Margin="5,5,0,0"
+            <TextBox Grid.Row="1" Grid.Column="2"  Margin="5,5,0,0"
                  HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"
                  Text="{Binding PredictedSNP, Mode=TwoWay, StringFormat=F2}" 
                  VerticalAlignment="Center" Width="70" />
 
-        <!--
-        <xctk:DecimalUpDown Value="{Binding Path=SomeDecimal, UpdateSourceTrigger=PropertyChanged}" FormatString="F2" />
-
-        -->
-        
-        <TextBox Grid.Row="1" Grid.Column="3"  Margin="5,5,0,0"
+            <TextBox Grid.Row="1" Grid.Column="3"  Margin="5,5,0,0"
                  HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"
                  Text="{Binding SwingSNP, Mode=TwoWay, StringFormat=F2}" 
                  VerticalAlignment="Center" Width="70" />
-    </Grid>
+
+            <!-- Row 2 : Labour -->
+
+            <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"  
+               Content="{Binding NameLabour, Mode=OneWay}"></Label>
+
+            <TextBox Grid.Row="2" Grid.Column="1"  Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"
+                 Text="{Binding PreviousLabour, Mode=OneWay, StringFormat=F2}" 
+                 IsReadOnly="True"
+                 VerticalAlignment="Center" Width="70" />
+
+            <TextBox Grid.Row="2" Grid.Column="2"  Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"
+                 Text="{Binding PredictedLabour, Mode=TwoWay, StringFormat=F2}" 
+                 VerticalAlignment="Center" Width="70" />
+
+            <TextBox Grid.Row="2" Grid.Column="3"  Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"
+                 Text="{Binding SwingLabour, Mode=TwoWay, StringFormat=F2}" 
+                 VerticalAlignment="Center" Width="70" />
+
+            <!-- Row 3 : Conservative -->
+
+            <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"  
+               Content="{Binding NameConservative, Mode=OneWay}"></Label>
+
+            <TextBox Grid.Row="3" Grid.Column="1"  Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"
+                 Text="{Binding PreviousConservative, Mode=OneWay, StringFormat=F2}" 
+                 IsReadOnly="True"
+                 VerticalAlignment="Center" Width="70" />
+
+            <TextBox Grid.Row="3" Grid.Column="2"  Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"
+                 Text="{Binding PredictedConservative, Mode=TwoWay, StringFormat=F2}" 
+                 VerticalAlignment="Center" Width="70" />
+
+            <TextBox Grid.Row="3" Grid.Column="3"  Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"
+                 Text="{Binding SwingConservative, Mode=TwoWay, StringFormat=F2}" 
+                 VerticalAlignment="Center" Width="70" />
+
+            <!-- Row 4 : LiberalDemocrat -->
+
+            <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"  
+               Content="{Binding NameLiberalDemocrat, Mode=OneWay}"></Label>
+
+            <TextBox Grid.Row="4" Grid.Column="1"  Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"
+                 Text="{Binding PreviousLiberalDemocrat, Mode=OneWay, StringFormat=F2}" 
+                 IsReadOnly="True"
+                 VerticalAlignment="Center" Width="70" />
+
+            <TextBox Grid.Row="4" Grid.Column="2"  Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"
+                 Text="{Binding PredictedLiberalDemocrat, Mode=TwoWay, StringFormat=F2}" 
+                 VerticalAlignment="Center" Width="70" />
+
+            <TextBox Grid.Row="4" Grid.Column="3"  Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"
+                 Text="{Binding SwingLiberalDemocrat, Mode=TwoWay, StringFormat=F2}" 
+                 VerticalAlignment="Center" Width="70" />
+
+            <!-- Row 5 : Green -->
+
+            <Label Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"  
+               Content="{Binding NameGreen, Mode=OneWay}"></Label>
+
+            <TextBox Grid.Row="5" Grid.Column="1"  Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"
+                 Text="{Binding PreviousGreen, Mode=OneWay, StringFormat=F2}" 
+                 IsReadOnly="True"
+                 VerticalAlignment="Center" Width="70" />
+
+            <TextBox Grid.Row="5" Grid.Column="2"  Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"
+                 Text="{Binding PredictedGreen, Mode=TwoWay, StringFormat=F2}" 
+                 VerticalAlignment="Center" Width="70" />
+
+            <TextBox Grid.Row="5" Grid.Column="3"  Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"
+                 Text="{Binding SwingGreen, Mode=TwoWay, StringFormat=F2}" 
+                 VerticalAlignment="Center" Width="70" />
+
+            <!-- Row 6 : UKIP -->
+
+            <Label Grid.Row="6" Grid.Column="0" VerticalAlignment="Center"  
+               Content="{Binding NameUKIP, Mode=OneWay}"></Label>
+
+            <TextBox Grid.Row="6" Grid.Column="1"  Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"
+                 Text="{Binding PreviousUKIP, Mode=OneWay, StringFormat=F2}" 
+                 IsReadOnly="True"
+                 VerticalAlignment="Center" Width="70" />
+
+            <TextBox Grid.Row="6" Grid.Column="2"  Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"
+                 Text="{Binding PredictedUKIP, Mode=TwoWay, StringFormat=F2}" 
+                 VerticalAlignment="Center" Width="70" />
+
+            <TextBox Grid.Row="6" Grid.Column="3"  Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"
+                 Text="{Binding SwingUKIP, Mode=TwoWay, StringFormat=F2}" 
+                 VerticalAlignment="Center" Width="70" />
+
+            <!-- Row 8 : Total -->
+
+            <Label Grid.Row="8" Grid.Column="0" VerticalAlignment="Center"  
+               Content="Total" FontWeight="Bold"></Label>
+
+            <TextBox Grid.Row="8" Grid.Column="1"  Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"
+                 Text="{Binding PreviousTotal, Mode=OneWay, StringFormat=F2}" 
+                 IsReadOnly="True"
+                 VerticalAlignment="Center" Width="70" />
+
+            <TextBox Grid.Row="8" Grid.Column="2"  Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"
+                 Text="{Binding PredictedTotal, Mode=OneWay, StringFormat=F2}" 
+                 IsReadOnly="True"
+                 VerticalAlignment="Center" Width="70" />
+
+            <TextBox Grid.Row="8" Grid.Column="3"  Margin="5,5,0,0"
+                 HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap"
+                 Text="{Binding SwingTotal, Mode=OneWay, StringFormat=F2}" 
+                 IsReadOnly="True"
+                 VerticalAlignment="Center" Width="70" />
+        </Grid>
+
+    </Border>
 </UserControl>

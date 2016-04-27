@@ -10,7 +10,7 @@ namespace ElectionScotlandSwingWpfApp.Models
 {
     [XmlType("ParliamentarySeat")] // define Type
     [XmlInclude(typeof(ConstituencyCandidate))] 
-    public class ParliamentarySeat
+    public class ParliamentarySeat : ICloneable
     {
         #region Public Properties
 
@@ -124,5 +124,45 @@ namespace ElectionScotlandSwingWpfApp.Models
         
         #endregion
 
+        #region ICloneable
+
+        public virtual object Clone()
+        {
+            var cloned = new ParliamentarySeat()
+            {
+                Name = this.Name,
+                TotalVotesCast = this.TotalVotesCast,
+                TotalElectorate = this.TotalElectorate,
+                Candidates = new List<ConstituencyCandidate>()
+            };
+
+            foreach (var candidate in Candidates)
+                cloned.Candidates.Add((ConstituencyCandidate)candidate.Clone());
+
+            return cloned;
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public void ApplyPartySwingToConstituencyCandidates(
+            string party, double percentageSwing)
+        {
+            int voteSwing = (int)Math.Round(((double)TotalVotesCast * percentageSwing) / 100.0);
+
+            foreach (var candidate in Candidates)
+            {
+                if (candidate.Party == party)
+                {
+                    int newTotal = candidate.VotesFor + voteSwing;
+                    if (newTotal < 0) newTotal = 0;
+                    candidate.VotesFor = newTotal;
+                    break;
+                }
+            }
+        }
+
+        #endregion
     }
 }

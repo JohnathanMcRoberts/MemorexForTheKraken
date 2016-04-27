@@ -9,7 +9,7 @@ using System.Globalization;
 namespace ElectionScotlandSwingWpfApp.Models
 {
     [XmlType("ConstituencyCandidate")]
-    public class ConstituencyCandidate
+    public class ConstituencyCandidate : ICloneable
     {
         #region Public Properties
 
@@ -31,6 +31,22 @@ namespace ElectionScotlandSwingWpfApp.Models
             VotesFor = 0;
             PercentageVote = 0.0;
             Name = Party = "Not set";
+        }
+        
+        #endregion
+
+        #region ICloneable
+
+        public object Clone()
+        {
+            var cloned = new ConstituencyCandidate() 
+            { 
+                Name = this.Name, 
+                VotesFor = this.VotesFor, 
+                Party = this.Party, 
+                PercentageVote = this.PercentageVote 
+            };
+            return cloned;
         }
         
         #endregion

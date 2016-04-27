@@ -13,7 +13,7 @@ namespace ElectionScotlandSwingWpfApp.Models
     [XmlType("ElectoralRegion")] // define Type
     [XmlInclude(typeof(ConstituencySeat))] // include type class ConstituencySeat
     [XmlInclude(typeof(AdditionalListSeat))] // include type class AdditionalListSeat
-    public class ElectoralRegion
+    public class ElectoralRegion : ICloneable
     {
         #region Public Properties
 
@@ -248,6 +248,60 @@ namespace ElectionScotlandSwingWpfApp.Models
             for (int i = 0; i < NumberListSeats; i++ )
                 CalculateListSeat(i, ref votesPerParty, ref seatsPerParty);
         }
+      
+        public void ApplyPartySwingToList(string party, double percentageSwing)
+        {
+            foreach (var seat in ConstituencySeats)
+                seat.ApplyPartySwingToList(party, percentageSwing);
+            SetupListSeats();
+        }
+
+        public void ApplyPartySwingsToList(Dictionary<string,double> partySwings)
+        {
+            foreach (var partySwing in partySwings)
+            {
+                foreach (var seat in ConstituencySeats)
+                    seat.ApplyPartySwingToList(partySwing.Key, partySwing.Value);
+            }
+
+            SetupListSeats();
+        }
+
+        public void ApplyPartySwingToConstituencyCandidates(string party, double percentageSwing)
+        {
+            foreach (var seat in ConstituencySeats)
+                seat.ApplyPartySwingToConstituencyCandidates(party, percentageSwing);
+            SetupListSeats();
+        }
+
+        public void ApplyPartySwingsToConstituencyCandidates(Dictionary<string, double> partySwings)
+        {
+            foreach (var partySwing in partySwings)
+            {
+                foreach (var seat in ConstituencySeats)
+                    seat.ApplyPartySwingToConstituencyCandidates(partySwing.Key, partySwing.Value);
+            }
+
+            SetupListSeats();
+        }
+
+        public void ApplyPartySwings(Dictionary<string, double> partyListSwings, 
+            Dictionary<string, double> partyConstituencySwings)
+        {
+            foreach (var partySwing in partyListSwings)
+            {
+                foreach (var seat in ConstituencySeats)
+                    seat.ApplyPartySwingToList(partySwing.Key, partySwing.Value);
+            }
+
+            foreach (var partySwing in partyConstituencySwings)
+            {
+                foreach (var seat in ConstituencySeats)
+                    seat.ApplyPartySwingToConstituencyCandidates(partySwing.Key, partySwing.Value);
+            }
+
+            SetupListSeats();
+        }
 
         #endregion
 
@@ -282,5 +336,27 @@ namespace ElectionScotlandSwingWpfApp.Models
         }
 
         #endregion
+
+        #region ICloneable
+
+        public object Clone()
+        {
+            var cloned = new ElectoralRegion()
+            {
+                Name = this.Name,
+                TotalNumberOfSeats = this.TotalNumberOfSeats,
+                ConstituencySeats = new List<ConstituencySeat>(),
+                ListSeats = new List<AdditionalListSeat>()
+            };
+            foreach (var constituencySeat in ConstituencySeats)
+                cloned.ConstituencySeats.Add((ConstituencySeat)constituencySeat.Clone());
+            foreach (var listSeat in ListSeats)
+                cloned.ListSeats.Add((AdditionalListSeat)listSeat.Clone());
+
+            return cloned;
+        }
+
+        #endregion
+
     }
 }

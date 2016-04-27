@@ -7,206 +7,422 @@
              d:DesignHeight="800" d:DesignWidth="1000">
     <Grid>
 
-        <TabControl Margin="10,10,0,0" Grid.Row="1" MinHeight="700" MinWidth="800"
+
+        <TabControl>
+
+            <TabItem Header="Previous Election">
+
+                <TabControl Margin="10,10,0,0" Grid.Row="1" MinHeight="800" MinWidth="800"
                        HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
 
 
-            <TabItem Header="Constituency Results">
-                <ScrollViewer>
-                    <DataGrid AutoGenerateColumns="False" 
-                                    ItemsSource="{Binding Path=ConstituencySeats, Mode=OneWay}"
-                                    MinHeight="280" IsReadOnly="True" HorizontalScrollBarVisibility="Auto">
-
-
-                        <DataGrid.Columns>
-
-
-                            <DataGridTextColumn Header="Region" 
-                                                Binding="{Binding Region}" 
-                                                Width="Auto"/>
-
-                            <DataGridTextColumn Header="Constituency" 
-                                                Binding="{Binding Constituency}" 
-                                                Width="Auto"/>
-
-                            <DataGridTextColumn Header="Total Electorate" 
-                                                Binding="{Binding Electorate}" 
-                                                Width="Auto"/>
-
-                            <DataGridTextColumn Header="Turnout %" 
-                                                Binding="{Binding TurnoutPercentage, StringFormat=N2}" 
-                                                Width="Auto"/>
-
-                            <DataGridTextColumn Header="Winning Party" 
-                                                Binding="{Binding WinningParty}" 
-                                                Width="Auto"/>
-
-                            <DataGridTextColumn Header="Majority" 
-                                                Binding="{Binding Majority}" 
-                                                Width="Auto"/>
-
-                            <DataGridTextColumn Header="Majority %" 
-                                                Binding="{Binding MajorityPercentage, StringFormat=N2}" 
-                                                Width="Auto"/>
-
-
-                            <DataGridTemplateColumn Header="Parties">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <ListBox ItemsSource="{Binding Parties }">
-                                            <ListBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal">
-
-                                                        <TextBlock Text="{Binding Path=Name}" />
-                                                        <TextBlock Text=" : "  />
-                                                        <TextBlock Text="{Binding Path=Votes}"  />
-                                                        <TextBlock Text=" (" />
-                                                        <TextBlock Text="{Binding Path=Percentage, StringFormat=N2}" />
-                                                        <TextBlock Text=" %)"  />
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </ListBox.ItemTemplate>
-                                        </ListBox>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-
-                        </DataGrid.Columns>
-
-                    </DataGrid>
-                </ScrollViewer>
-            </TabItem>
-
-            <TabItem Header="Regional List Results">
-                <ScrollViewer>
-                    <DataGrid AutoGenerateColumns="False" 
-                                    ItemsSource="{Binding Path=ListSeats, Mode=OneWay}"
-                                    MinHeight="280" IsReadOnly="True" HorizontalScrollBarVisibility="Auto">
-
-
-                        <DataGrid.Columns>
-
-
-                            <DataGridTextColumn Header="Region" 
-                                                Binding="{Binding Region}" 
-                                                Width="Auto"/>
-
-                            <DataGridTextColumn Header="Name" 
-                                                Binding="{Binding Name}" 
-                                                Width="Auto"/>
-
-                            <DataGridTextColumn Header="Winning Party" 
-                                                Binding="{Binding WinningParty}" 
-                                                Width="Auto"/>
-
-                            <DataGridTextColumn Header="Majority" 
-                                                Binding="{Binding Majority}" 
-                                                Width="Auto"/>
-
-                            <DataGridTextColumn Header="Majority %" 
-                                                Binding="{Binding MajorityPercentage, StringFormat=N2}" 
-                                                Width="Auto"/>
-
-
-                            <DataGridTemplateColumn Header="Parties">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <ListBox ItemsSource="{Binding Parties }">
-                                            <ListBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal">
-
-                                                        <TextBlock Text="{Binding Path=Name}" />
-                                                        <TextBlock Text=" : "  />
-                                                        <TextBlock Text="{Binding Path=Votes}"  />
-                                                        <TextBlock Text=" (" />
-                                                        <TextBlock Text="{Binding Path=Percentage, StringFormat=N2}" />
-                                                        <TextBlock Text=" %)"  />
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </ListBox.ItemTemplate>
-                                        </ListBox>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-
-                        </DataGrid.Columns>
-
-                    </DataGrid>
-                </ScrollViewer>
-            </TabItem>
-
-            <TabItem Header="National Results">
-                <ScrollViewer>
-                    <StackPanel Orientation="Vertical">
-
-                        <Label Content="Constituency Results"  Margin="10,10,10,10"/>
-
-                        <ScrollViewer MaxHeight="300">
+                    <TabItem Header="Constituency Results">
+                        <ScrollViewer>
                             <DataGrid AutoGenerateColumns="False" 
-                                    ItemsSource="{Binding Path=PartyConstituencyResults, Mode=OneWay}"
+                                    ItemsSource="{Binding Path=ConstituencySeats, Mode=OneWay}"
                                     MinHeight="280" IsReadOnly="True" HorizontalScrollBarVisibility="Auto">
 
 
                                 <DataGrid.Columns>
 
-                                    <DataGridTextColumn Header="Party Name" 
-                                                Binding="{Binding Name }" 
+
+                                    <DataGridTextColumn Header="Region" 
+                                                Binding="{Binding Region}" 
                                                 Width="Auto"/>
 
-                                    <DataGridTextColumn Header="Vote Share %" 
-                                                Binding="{Binding Percentage, StringFormat=N2}" 
+                                    <DataGridTextColumn Header="Constituency" 
+                                                Binding="{Binding Constituency}" 
                                                 Width="Auto"/>
 
-                                    <DataGridTextColumn Header="Votes" 
-                                                Binding="{Binding Votes }" 
+                                    <DataGridTextColumn Header="Total Electorate" 
+                                                Binding="{Binding Electorate}" 
                                                 Width="Auto"/>
 
-                                    <DataGridTextColumn Header="Seats" 
-                                                Binding="{Binding Seats}" 
+                                    <DataGridTextColumn Header="Turnout %" 
+                                                Binding="{Binding TurnoutPercentage, StringFormat=N2}" 
                                                 Width="Auto"/>
-                                    
+
+                                    <DataGridTextColumn Header="Winning Party" 
+                                                Binding="{Binding WinningParty}" 
+                                                Width="Auto"/>
+
+                                    <DataGridTextColumn Header="Majority" 
+                                                Binding="{Binding Majority}" 
+                                                Width="Auto"/>
+
+                                    <DataGridTextColumn Header="Majority %" 
+                                                Binding="{Binding MajorityPercentage, StringFormat=N2}" 
+                                                Width="Auto"/>
+
+
+                                    <DataGridTemplateColumn Header="Parties">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ListBox ItemsSource="{Binding Parties }">
+                                                    <ListBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+
+                                                                <TextBlock Text="{Binding Path=Name}" />
+                                                                <TextBlock Text=" : "  />
+                                                                <TextBlock Text="{Binding Path=Votes}"  />
+                                                                <TextBlock Text=" (" />
+                                                                <TextBlock Text="{Binding Path=Percentage, StringFormat=N2}" />
+                                                                <TextBlock Text=" %)"  />
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ListBox.ItemTemplate>
+                                                </ListBox>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
                                 </DataGrid.Columns>
 
                             </DataGrid>
                         </ScrollViewer>
-                        <Label Content="List Results"  Margin="10,10,10,10"/>
+                    </TabItem>
 
-                        <ScrollViewer MaxHeight="300">
-                        <DataGrid AutoGenerateColumns="False" 
+                    <TabItem Header="Regional List Results">
+                        <ScrollViewer>
+                            <DataGrid AutoGenerateColumns="False" 
+                                    ItemsSource="{Binding Path=ListSeats, Mode=OneWay}"
+                                    MinHeight="280" IsReadOnly="True" HorizontalScrollBarVisibility="Auto">
+
+
+                                <DataGrid.Columns>
+
+
+                                    <DataGridTextColumn Header="Region" 
+                                                Binding="{Binding Region}" 
+                                                Width="Auto"/>
+
+                                    <DataGridTextColumn Header="Name" 
+                                                Binding="{Binding Name}" 
+                                                Width="Auto"/>
+
+                                    <DataGridTextColumn Header="Winning Party" 
+                                                Binding="{Binding WinningParty}" 
+                                                Width="Auto"/>
+
+                                    <DataGridTextColumn Header="Majority" 
+                                                Binding="{Binding Majority}" 
+                                                Width="Auto"/>
+
+                                    <DataGridTextColumn Header="Majority %" 
+                                                Binding="{Binding MajorityPercentage, StringFormat=N2}" 
+                                                Width="Auto"/>
+
+
+                                    <DataGridTemplateColumn Header="Parties">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ListBox ItemsSource="{Binding Parties }">
+                                                    <ListBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+
+                                                                <TextBlock Text="{Binding Path=Name}" />
+                                                                <TextBlock Text=" : "  />
+                                                                <TextBlock Text="{Binding Path=Votes}"  />
+                                                                <TextBlock Text=" (" />
+                                                                <TextBlock Text="{Binding Path=Percentage, StringFormat=N2}" />
+                                                                <TextBlock Text=" %)"  />
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ListBox.ItemTemplate>
+                                                </ListBox>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                </DataGrid.Columns>
+
+                            </DataGrid>
+                        </ScrollViewer>
+                    </TabItem>
+
+                    <TabItem Header="National Results">
+                        <ScrollViewer>
+                            <StackPanel Orientation="Vertical">
+
+                                <Label Content="Constituency Results"  Margin="10,10,10,10"/>
+
+                                <ScrollViewer MaxHeight="300">
+                                    <DataGrid AutoGenerateColumns="False" 
+                                    ItemsSource="{Binding Path=PartyConstituencyResults, Mode=OneWay}"
+                                    MinHeight="280" IsReadOnly="True" HorizontalScrollBarVisibility="Auto">
+
+
+                                        <DataGrid.Columns>
+
+                                            <DataGridTextColumn Header="Party Name" 
+                                                Binding="{Binding Name }" 
+                                                Width="Auto"/>
+
+                                            <DataGridTextColumn Header="Vote Share %" 
+                                                Binding="{Binding Percentage, StringFormat=N2}" 
+                                                Width="Auto"/>
+
+                                            <DataGridTextColumn Header="Votes" 
+                                                Binding="{Binding Votes }" 
+                                                Width="Auto"/>
+
+                                            <DataGridTextColumn Header="Seats" 
+                                                Binding="{Binding Seats}" 
+                                                Width="Auto"/>
+
+                                        </DataGrid.Columns>
+
+                                    </DataGrid>
+                                </ScrollViewer>
+                                <Label Content="List Results"  Margin="10,10,10,10"/>
+
+                                <ScrollViewer MaxHeight="300">
+                                    <DataGrid AutoGenerateColumns="False" 
                                     ItemsSource="{Binding Path=PartyListResults, Mode=OneWay}"
                                     MinHeight="280" IsReadOnly="True" HorizontalScrollBarVisibility="Auto">
 
 
-                            <DataGrid.Columns>
+                                        <DataGrid.Columns>
 
 
-                                    <DataGridTextColumn Header="Party Name" 
+                                            <DataGridTextColumn Header="Party Name" 
                                                 Binding="{Binding Name }" 
                                                 Width="Auto"/>
 
-                                    <DataGridTextColumn Header="Vote Share %" 
+                                            <DataGridTextColumn Header="Vote Share %" 
                                                 Binding="{Binding Percentage, StringFormat=N2}" 
                                                 Width="Auto"/>
 
-                                    <DataGridTextColumn Header="Votes" 
+                                            <DataGridTextColumn Header="Votes" 
                                                 Binding="{Binding Votes }" 
                                                 Width="Auto"/>
 
-                                    <DataGridTextColumn Header="Seats" 
+                                            <DataGridTextColumn Header="Seats" 
                                                 Binding="{Binding Seats}" 
                                                 Width="Auto"/>
+
+                                        </DataGrid.Columns>
+
+                                    </DataGrid>
+                                </ScrollViewer>
+                            </StackPanel>
+
+                        </ScrollViewer>
+                    </TabItem>
+                </TabControl>
+
+            </TabItem>
+
+            <TabItem Header="Predicted Results">
+
+                <TabControl Margin="10,10,0,0" Grid.Row="1" MinHeight="700" MinWidth="800"
+                       HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
+
+
+                    <TabItem Header="Constituency Results">
+                        <ScrollViewer>
+                            <DataGrid AutoGenerateColumns="False" 
+                                    ItemsSource="{Binding Path=PredictedConstituencySeats, Mode=OneWay}"
+                                    MinHeight="280" IsReadOnly="True" HorizontalScrollBarVisibility="Auto">
+
+
+                                <DataGrid.Columns>
+
+
+                                    <DataGridTextColumn Header="Region" 
+                                                Binding="{Binding Region}" 
+                                                Width="Auto"/>
+
+                                    <DataGridTextColumn Header="Constituency" 
+                                                Binding="{Binding Constituency}" 
+                                                Width="Auto"/>
+
+                                    <DataGridTextColumn Header="Total Electorate" 
+                                                Binding="{Binding Electorate}" 
+                                                Width="Auto"/>
+
+                                    <DataGridTextColumn Header="Turnout %" 
+                                                Binding="{Binding TurnoutPercentage, StringFormat=N2}" 
+                                                Width="Auto"/>
+
+                                    <DataGridTextColumn Header="Winning Party" 
+                                                Binding="{Binding WinningParty}" 
+                                                Width="Auto"/>
+
+                                    <DataGridTextColumn Header="Majority" 
+                                                Binding="{Binding Majority}" 
+                                                Width="Auto"/>
+
+                                    <DataGridTextColumn Header="Majority %" 
+                                                Binding="{Binding MajorityPercentage, StringFormat=N2}" 
+                                                Width="Auto"/>
+
+
+                                    <DataGridTemplateColumn Header="Parties">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ListBox ItemsSource="{Binding Parties }">
+                                                    <ListBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+
+                                                                <TextBlock Text="{Binding Path=Name}" />
+                                                                <TextBlock Text=" : "  />
+                                                                <TextBlock Text="{Binding Path=Votes}"  />
+                                                                <TextBlock Text=" (" />
+                                                                <TextBlock Text="{Binding Path=Percentage, StringFormat=N2}" />
+                                                                <TextBlock Text=" %)"  />
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ListBox.ItemTemplate>
+                                                </ListBox>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
 
                                 </DataGrid.Columns>
 
                             </DataGrid>
                         </ScrollViewer>
-                    </StackPanel>
-                    
-                </ScrollViewer>
+                    </TabItem>
+
+                    <TabItem Header="Regional List Results">
+                        <ScrollViewer>
+                            <DataGrid AutoGenerateColumns="False" 
+                                    ItemsSource="{Binding Path=PredictedListSeats, Mode=OneWay}"
+                                    MinHeight="280" IsReadOnly="True" HorizontalScrollBarVisibility="Auto">
+
+
+                                <DataGrid.Columns>
+
+
+                                    <DataGridTextColumn Header="Region" 
+                                                Binding="{Binding Region}" 
+                                                Width="Auto"/>
+
+                                    <DataGridTextColumn Header="Name" 
+                                                Binding="{Binding Name}" 
+                                                Width="Auto"/>
+
+                                    <DataGridTextColumn Header="Winning Party" 
+                                                Binding="{Binding WinningParty}" 
+                                                Width="Auto"/>
+
+                                    <DataGridTextColumn Header="Majority" 
+                                                Binding="{Binding Majority}" 
+                                                Width="Auto"/>
+
+                                    <DataGridTextColumn Header="Majority %" 
+                                                Binding="{Binding MajorityPercentage, StringFormat=N2}" 
+                                                Width="Auto"/>
+
+
+                                    <DataGridTemplateColumn Header="Parties">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ListBox ItemsSource="{Binding Parties }">
+                                                    <ListBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+
+                                                                <TextBlock Text="{Binding Path=Name}" />
+                                                                <TextBlock Text=" : "  />
+                                                                <TextBlock Text="{Binding Path=Votes}"  />
+                                                                <TextBlock Text=" (" />
+                                                                <TextBlock Text="{Binding Path=Percentage, StringFormat=N2}" />
+                                                                <TextBlock Text=" %)"  />
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ListBox.ItemTemplate>
+                                                </ListBox>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                </DataGrid.Columns>
+
+                            </DataGrid>
+                        </ScrollViewer>
+                    </TabItem>
+
+                    <TabItem Header="National Results">
+                        <ScrollViewer>
+                            <StackPanel Orientation="Vertical">
+
+                                <Label Content="Constituency Results"  Margin="10,10,10,10"/>
+
+                                <ScrollViewer MaxHeight="300">
+                                    <DataGrid AutoGenerateColumns="False" 
+                                    ItemsSource="{Binding Path=PredictedPartyConstituencyResults, Mode=OneWay}"
+                                    MinHeight="280" IsReadOnly="True" HorizontalScrollBarVisibility="Auto">
+
+
+                                        <DataGrid.Columns>
+
+                                            <DataGridTextColumn Header="Party Name" 
+                                                Binding="{Binding Name }" 
+                                                Width="Auto"/>
+
+                                            <DataGridTextColumn Header="Vote Share %" 
+                                                Binding="{Binding Percentage, StringFormat=N2}" 
+                                                Width="Auto"/>
+
+                                            <DataGridTextColumn Header="Votes" 
+                                                Binding="{Binding Votes }" 
+                                                Width="Auto"/>
+
+                                            <DataGridTextColumn Header="Seats" 
+                                                Binding="{Binding Seats}" 
+                                                Width="Auto"/>
+
+                                        </DataGrid.Columns>
+
+                                    </DataGrid>
+                                </ScrollViewer>
+                                <Label Content="List Results"  Margin="10,10,10,10"/>
+
+                                <ScrollViewer MaxHeight="300">
+                                    <DataGrid AutoGenerateColumns="False" 
+                                    ItemsSource="{Binding Path=PredictedPartyListResults, Mode=OneWay}"
+                                    MinHeight="280" IsReadOnly="True" HorizontalScrollBarVisibility="Auto">
+
+
+                                        <DataGrid.Columns>
+
+
+                                            <DataGridTextColumn Header="Party Name" 
+                                                Binding="{Binding Name }" 
+                                                Width="Auto"/>
+
+                                            <DataGridTextColumn Header="Vote Share %" 
+                                                Binding="{Binding Percentage, StringFormat=N2}" 
+                                                Width="Auto"/>
+
+                                            <DataGridTextColumn Header="Votes" 
+                                                Binding="{Binding Votes }" 
+                                                Width="Auto"/>
+
+                                            <DataGridTextColumn Header="Seats" 
+                                                Binding="{Binding Seats}" 
+                                                Width="Auto"/>
+
+                                        </DataGrid.Columns>
+
+                                    </DataGrid>
+                                </ScrollViewer>
+                            </StackPanel>
+
+                        </ScrollViewer>
+                    </TabItem>
+                </TabControl>
+
             </TabItem>
+
+
         </TabControl>
+
 
 
     </Grid>

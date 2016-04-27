@@ -21,6 +21,9 @@ namespace ElectionScotlandSwingWpfApp.Models
             this.Log = log;
 
             PopulatePartyForecasts();
+
+            CurrentResult = new ElectionResult();
+            _predictedResult = new ElectionResult();
         }
 
         #endregion
@@ -93,6 +96,7 @@ namespace ElectionScotlandSwingWpfApp.Models
             }
             UpdateElectionResultWithRegionalListVotes(filename);
             PopulatePartyForecasts();
+            ResetPredictedResultToCurrent();
         }
 
         public void WriteElectionResultToFile(string filename)
@@ -130,16 +134,28 @@ namespace ElectionScotlandSwingWpfApp.Models
                 Log.Error(e.ToString());
                 throw e;
             }
+
             PopulatePartyForecasts();
+
+            ResetPredictedResultToCurrent();
         }
 
         #endregion
 
-        #region Public Data
+        #region Private Fields
+
+        private ElectionResult _predictedResult;
+
+        #endregion
+
+        #region Public Properties
 
         public log4net.ILog Log { get; private set; }
 
         public ElectionResult CurrentResult { get; private set; }
+
+        public ElectionResult PredictedResult { get { return _predictedResult; } }
+
 
         public List<PartyForecast> PartyConstituencyForecasts { get; private set; }
 
@@ -446,8 +462,20 @@ namespace ElectionScotlandSwingWpfApp.Models
                 region.SetupListSeats();
             }
 
+            ResetPredictedResultToCurrent();
         }
 
+
+        #endregion
+
+        #region Predicted Result Setup
+
+        private void ResetPredictedResultToCurrent()
+        {
+            _predictedResult = (ElectionResult)CurrentResult.Clone();
+            _predictedResult.Name = "Predicted:" + CurrentResult.Name;
+        }
+        
         #endregion
 
         #region Party Forecasts
@@ -492,5 +520,19 @@ namespace ElectionScotlandSwingWpfApp.Models
 
         #endregion
 
+
+        #region Party Predictions
+
+        public void PredictUsingUniformNationalSwing(
+            Dictionary<string, double> partyListSwings,
+            Dictionary<string, double> partyConstituencySwings)
+        {
+            foreach (var region in _predictedResult.Regions)
+            {
+                region.ApplyPartySwings(partyListSwings, partyConstituencySwings);
+            }            
+        }
+
+        #endregion
     }
 }

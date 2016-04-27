@@ -10,7 +10,7 @@ namespace ElectionScotlandSwingWpfApp.Models
 {
     [XmlType("ElectionResult")] // define Type
     [XmlInclude(typeof(ElectoralRegion))] // include type class AdditionalListSeat
-    public class ElectionResult
+    public class ElectionResult : ICloneable
     {
         #region Public Properties
         [XmlElement]
@@ -194,6 +194,19 @@ namespace ElectionScotlandSwingWpfApp.Models
                 xmlSerializer.Serialize(textWriter, this);
                 return textWriter.ToString();
             }
+        }
+
+        #endregion
+
+        #region ICloneable
+        
+        public object Clone()
+        {
+            var cloned = new ElectionResult() { Name = this.Name, Regions = new List<ElectoralRegion>() };
+            foreach (var region in Regions)
+                cloned.Regions.Add((ElectoralRegion)region.Clone());
+
+            return cloned;
         }
 
         #endregion
