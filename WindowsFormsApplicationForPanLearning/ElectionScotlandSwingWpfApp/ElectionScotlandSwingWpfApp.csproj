@@ -42,6 +42,18 @@
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="OxyPlot, Version=1.0.0.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Core.1.0.0-unstable2100\lib\net45\OxyPlot.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OxyPlot.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=75e952ba404cdbb0, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Wpf.1.0.0-unstable2100\lib\net45\OxyPlot.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OxyPlot.Xps, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Wpf.1.0.0-unstable2100\lib\net45\OxyPlot.Xps.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
@@ -70,6 +82,7 @@
     <Compile Include="Utilities\SerializableDictionary.cs" />
     <Compile Include="ViewModels\DataGridsViewModel.cs" />
     <Compile Include="ViewModels\DataLoaderViewModel.cs" />
+    <Compile Include="ViewModels\MainChartsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MajorPartyForecastsViewModel.cs" />
     <Compile Include="ViewModels\OverallPredictionsViewModel.cs" />
@@ -78,6 +91,9 @@
     <Compile Include="ViewModels\Utilities\WaitCursor.cs" />
     <Compile Include="Views\DataGridsView.xaml.cs">
       <DependentUpon>DataGridsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainChartsView.xaml.cs">
+      <DependentUpon>MainChartsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MajorPartyForecastsView.xaml.cs">
       <DependentUpon>MajorPartyForecastsView.xaml</DependentUpon>
@@ -101,6 +117,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\DataGridsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainChartsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

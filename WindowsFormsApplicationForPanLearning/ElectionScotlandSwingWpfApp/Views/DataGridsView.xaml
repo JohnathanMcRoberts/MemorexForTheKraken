@@ -220,7 +220,6 @@
                 <TabControl Margin="10,10,0,0" Grid.Row="1" MinHeight="700" MinWidth="800"
                        HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
 
-
                     <TabItem Header="Constituency Results">
                         <ScrollViewer>
                             <DataGrid AutoGenerateColumns="False" 
@@ -416,6 +415,7 @@
 
                         </ScrollViewer>
                     </TabItem>
+                    
                 </TabControl>
 
             </TabItem>

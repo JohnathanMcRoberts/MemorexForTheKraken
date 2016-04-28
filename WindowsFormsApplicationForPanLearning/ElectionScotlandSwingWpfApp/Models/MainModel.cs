@@ -553,6 +553,10 @@ namespace ElectionScotlandSwingWpfApp.Models
             Dictionary<string, double> partyListSwings,
             Dictionary<string, double> partyConstituencySwings)
         {
+            // reset the prediction to the previous
+            ResetPredictedResultToCurrent();
+
+            // apply the swings & recaclulate the regions
             foreach (var region in _predictedResult.Regions)
             {
                 region.ApplyPartySwings(partyListSwings, partyConstituencySwings);

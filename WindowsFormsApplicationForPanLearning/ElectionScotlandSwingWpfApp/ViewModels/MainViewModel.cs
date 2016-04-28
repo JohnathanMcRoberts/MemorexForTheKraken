@@ -46,9 +46,7 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
         private DataGridsViewModel _dataGridsVM;
 
         private PredictionsSetupViewModel _predictionsSetupVM;
-
-        //private MajorPartyForecastsViewModel _listMajorPartyForecastsVM;
-        //private MajorPartyForecastsViewModel _constituencyMajorPartyForecastsVM;
+        private MainChartsViewModel _mainChartsVM;
 
         #endregion
 
@@ -71,6 +69,10 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
             get { return _predictionsSetupVM; }
         }
 
+        public MainChartsViewModel MainChartsVM
+        {
+            get { return _mainChartsVM; }
+        }
 
         #endregion
 
@@ -86,6 +88,7 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
             _dataLoaderVM = new DataLoaderViewModel(_mainWindow, log, _mainModel, this);
             _dataGridsVM = new DataGridsViewModel(_mainWindow, log, _mainModel, this);
             _predictionsSetupVM = new PredictionsSetupViewModel(_mainWindow, log, _mainModel, this);
+            _mainChartsVM = new MainChartsViewModel(_mainWindow, log, _mainModel, this);
         }
 
 

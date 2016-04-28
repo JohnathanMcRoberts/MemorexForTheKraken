@@ -305,7 +305,7 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
             PredictedConstituencySeats.Clear();
             constituencySeatResults =
                 new List<ConstituencySeatResult>();
-            regions = _mainModel.CurrentResult.Regions;
+            regions = _mainModel.PredictedResult.Regions;
             GetConstituencySeatsFromRegions(constituencySeatResults, regions);
             foreach (var res in constituencySeatResults)
                 PredictedConstituencySeats.Add(res);

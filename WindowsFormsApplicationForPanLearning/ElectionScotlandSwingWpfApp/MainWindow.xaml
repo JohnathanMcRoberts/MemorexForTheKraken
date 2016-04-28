@@ -68,6 +68,8 @@
                 </TabItem>
                 <TabItem Header="Charts">
 
+                    <Views:MainChartsView DataContext="{Binding Path=MainChartsVM}"  />
+
                 </TabItem>
             </TabControl>
         </Grid>
