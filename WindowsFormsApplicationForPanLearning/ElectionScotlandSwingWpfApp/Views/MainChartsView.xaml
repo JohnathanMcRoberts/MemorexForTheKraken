@@ -19,20 +19,20 @@
                         <StackPanel Orientation="Horizontal">
 
                             <Border BorderBrush="Black" BorderThickness="2" Margin="10,10,10,10">
-                                <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Vertical" MinWidth="550">
                                     <Label Content="Previous Results" />
 
-                                    <oxy:PlotView MinHeight="430" MinWidth="500"
+                                    <oxy:PlotView MinHeight="400" MinWidth="450" Margin="10,10,10,10"
                                     Model="{Binding Path=PlotPreviousOverallSeatsModel}"
                                     Controller="{Binding Path=PlotPreviousOverallSeatsViewController}" />
                                 </StackPanel>
                             </Border>
 
                             <Border BorderBrush="Black" BorderThickness="2" Margin="10,10,10,10">
-                                <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Vertical" MinWidth="550">
                                     <Label Content="Predicted Results" />
 
-                                    <oxy:PlotView MinHeight="430" MinWidth="500"
+                                    <oxy:PlotView MinHeight="400" MinWidth="450" Margin="10,10,10,10"
                                     Model="{Binding Path=PlotPredictedOverallSeatsModel}"
                                     Controller="{Binding Path=PlotPredictedOverallSeatsViewController}" />
                                 </StackPanel>

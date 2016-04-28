@@ -102,8 +102,9 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
 
             _predictionsSetupVM.UpdateData();
 
+            _mainChartsVM.Refresh();
+
             OnPropertyChanged("");
-            //throw new NotImplementedException();
         }
 
         #endregion
