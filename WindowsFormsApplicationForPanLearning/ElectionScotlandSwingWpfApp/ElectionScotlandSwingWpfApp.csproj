@@ -80,9 +80,9 @@
     <Compile Include="Models\PollingPrediction.cs" />
     <Compile Include="Utilities\Logger.cs" />
     <Compile Include="Utilities\SerializableDictionary.cs" />
+    <Compile Include="ViewModels\ChartsViewModel.cs" />
     <Compile Include="ViewModels\DataGridsViewModel.cs" />
     <Compile Include="ViewModels\DataLoaderViewModel.cs" />
-    <Compile Include="ViewModels\MainChartsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MajorPartyForecastsViewModel.cs" />
     <Compile Include="ViewModels\OverallPredictionsViewModel.cs" />
