@@ -11,7 +11,6 @@ using OxyPlot;
 using OxyPlot.Series;
 using OxyPlot.Axes;
 
-
 using ElectionScotlandSwingWpfApp.ViewModels.Utilities;
 using ElectionScotlandSwingWpfApp.Models;
 
@@ -50,11 +49,6 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
         private log4net.ILog _log;
         private Models.MainModel _mainModel;
         private MainViewModel _parent;
-
-        private Dictionary<string, OxyColor> _partyNameToColorLookup = null;
-
-        private PlotModel _plotPreviousOverallSeat;
-        private PlotModel _plotPredictedOverallSeat;
         
         #endregion
 
@@ -68,38 +62,10 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
             _mainModel = mainModel;
             _parent = mainViewModel;
 
-            CreatePreviousOverallPlotModel();
-            CreatePredictedOverallPlotModel();
-        }
-
-        private void CreatePredictedOverallPlotModel()
-        {
-            // Create the plot model & controller 
-            var tmp =
-                new PlotModel
-                {
-                    Title = "Predicted Election seats distribution",
-                    Subtitle = "using OxyPlot only"
-                };
-            // Set the Model property, the INotifyPropertyChanged event will 
-            //  make the WPF Plot control update its content
-            PlotPredictedOverallSeatsModel = tmp;
-            PlotPredictedOverallSeatsViewController = new CustomPlotController();
-        }
-
-        private void CreatePreviousOverallPlotModel()
-        {
-            // Create the plot model & controller 
-            var tmp =
-                new PlotModel
-                {
-                    Title = "Previous Election seats distribution",
-                    Subtitle = "using OxyPlot only"
-                };
-            // Set the Model property, the INotifyPropertyChanged event will 
-            //  make the WPF Plot control update its content
-            PlotPreviousOverallSeatsModel = tmp;
-            PlotPreviousOverallSeatsViewController = new CustomPlotController();
+            PlotPreviousOverallSeats = 
+                new PlotModelAndController("Previous Election seats distribution");
+            PlotPredictedOverallSeats =
+                new PlotModelAndController("Predicted Election seats distribution");
         }
 
         #endregion
@@ -115,36 +81,74 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
             }
         }
 
+        public class PlotModelAndController : INotifyPropertyChanged
+        {
+            #region INotifyPropertyChanged Members
+
+            void OnPropertyChanged<T>(Expression<Func<T>> sExpression)
+            {
+                if (sExpression == null) throw new ArgumentNullException("sExpression");
+
+                MemberExpression body = sExpression.Body as MemberExpression;
+                if (body == null)
+                {
+                    throw new ArgumentException("Body must be a member expression");
+                }
+                OnPropertyChanged(body.Member.Name);
+            }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            protected virtual void OnPropertyChanged(string propertyName)
+            {
+                PropertyChangedEventHandler handler = PropertyChanged;
+                if (handler != null)
+                    handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+
+            #endregion // INotifyPropertyChanged Members
+
+            #region Constructor
+            public PlotModelAndController(string title)
+            {
+                // Create the plot model & controller 
+                var tmp =
+                    new PlotModel { Title = title, Subtitle = "using OxyPlot only" };
+
+                // Set the Model property, the INotifyPropertyChanged event will 
+                //  make the WPF Plot control update its content
+                Model = tmp;
+                ViewController = new CustomPlotController();
+            }
+
+            #endregion
+
+            #region Private Fields
+
+            private PlotModel _model;
+
+            #endregion
+
+            #region Public Properties
+
+            public PlotModel Model
+            {
+                get { return _model; }
+                set { _model = value; }
+            }
+
+            public IPlotController ViewController { get; private set; }
+
+            #endregion
+        }
+
         #endregion
 
         #region Public properties
 
-        public PlotModel PlotPreviousOverallSeatsModel
-        {
-            get { return _plotPreviousOverallSeat; }
-            private set { _plotPreviousOverallSeat = value; }
-        }
+        public PlotModelAndController PlotPreviousOverallSeats { get; private set; }
 
-        public IPlotController PlotPreviousOverallSeatsViewController { get; private set; }
-
-
-        public PlotModel PlotPredictedOverallSeatsModel
-        {
-            get { return _plotPredictedOverallSeat; }
-            private set { _plotPredictedOverallSeat = value; }
-        }
-
-        public IPlotController PlotPredictedOverallSeatsViewController { get; private set; }
-
-        public Dictionary<string, OxyColor> PartyNameToColorLookup
-        {
-            get
-            {
-                if (_partyNameToColorLookup == null)
-                    SetupPartyNameToColorLookup();
-                return _partyNameToColorLookup;
-            }
-        }
+        public PlotModelAndController PlotPredictedOverallSeats { get; private set; }
 
         #endregion
 
@@ -166,97 +170,28 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
             GeneratePlotForPlotPredictedOverallSeatsModel();
         }
 
-        private void SetupPartyNameToColorLookup()
-        {
-            _partyNameToColorLookup = new Dictionary<string, OxyColor>();
-            _partyNameToColorLookup.Add(
-                MainModel.MajorPartyNames[(int)MainModel.MajorNamePartyLookup.SNP], OxyColors.Yellow);
-            _partyNameToColorLookup.Add(
-                MainModel.MajorPartyNames[(int)MainModel.MajorNamePartyLookup.Labour], OxyColors.Red);
-            _partyNameToColorLookup.Add(
-                MainModel.MajorPartyNames[(int)MainModel.MajorNamePartyLookup.Conservative], OxyColors.Blue);
-            _partyNameToColorLookup.Add(
-                MainModel.MajorPartyNames[(int)MainModel.MajorNamePartyLookup.LiberalDemocrat], OxyColors.Orange);
-            _partyNameToColorLookup.Add(
-                MainModel.MajorPartyNames[(int)MainModel.MajorNamePartyLookup.Green], OxyColors.Green);
-            _partyNameToColorLookup.Add(
-                MainModel.MajorPartyNames[(int)MainModel.MajorNamePartyLookup.UKIP], OxyColors.Purple);
-        }
-
         private void GeneratePlotForPlotPreviousOverallSeatsModel()
         {
-            var modelP1 = new PlotModel { Title = "Previous Election Overall seats" };
-
-            dynamic seriesP1 = new PieSeries 
-                { 
-                    StrokeThickness = 2.0, 
-                    InsideLabelPosition = 0.8, 
-                                
-                    AngleSpan = 360, 
-                    StartAngle = 90,        
-                 
-                    InsideLabelFormat = "{0}", 
-                    OutsideLabelFormat = "{1}",                                
-                    TrackerFormatString = "{1} {2:0.0}",                                
-                    LabelField = "{0} {1} {2:0.0}"
-                };
-
+            List<KeyValuePair<string, int>> partyResults = new List<KeyValuePair<string, int>>();
             foreach (var party in _mainModel.PartyOverallForecasts)
-            {
-                string name = party.Name;
-                int previousSeats = party.PreviousSeats;
-                OxyColor color = PartyNameToColorLookup.ContainsKey(name) ?
-                    PartyNameToColorLookup[name] : OxyColors.Gray;
-                bool isExploded = (previousSeats < 20);
+                partyResults.Add(new KeyValuePair<string, int>(party.Name, party.PreviousSeats));
 
-                if (previousSeats > 0)
-                    seriesP1.Slices.Add(
-                        new PieSlice(name, previousSeats) { IsExploded = isExploded, Fill = color });
-
-            }
-
-            modelP1.Series.Add(seriesP1);
-
-            PlotPreviousOverallSeatsModel = modelP1;
+            PlotPreviousOverallSeats.Model =
+                ChartUtilities.CreatePieSeriesModelForPartyResults(
+                    partyResults, "Previous Election Overall seats");
         }
 
         private void GeneratePlotForPlotPredictedOverallSeatsModel()
         {
-            var modelP1 = new PlotModel { Title = "Predicted Election Overall seats" };
-
-            dynamic seriesP1 = new PieSeries
-            {
-                StrokeThickness = 2.0,
-                InsideLabelPosition = 0.8,
-
-                AngleSpan = 360,
-                StartAngle = 90,
-
-                InsideLabelFormat = "{0}",
-                OutsideLabelFormat = "{1}",
-                TrackerFormatString = "{1} {2:0.0}",
-                LabelField = "{0} {1} {2:0.0}"
-            };
-
+            List<KeyValuePair<string, int>> partyResults = new List<KeyValuePair<string, int>>();
             foreach (var party in _mainModel.PartyOverallForecasts)
-            {
-                string name = party.Name;
-                int seats = party.PredictedSeats;
-                OxyColor color = PartyNameToColorLookup.ContainsKey(name) ?
-                    PartyNameToColorLookup[name] : OxyColors.Gray;
-                bool isExploded = (seats < 20);
+                partyResults.Add(new KeyValuePair<string, int>(party.Name, party.PredictedSeats));
 
-                if (seats > 0)
-                    seriesP1.Slices.Add(
-                        new PieSlice(name, seats) { IsExploded = isExploded, Fill = color });
-            }
-
-            modelP1.Series.Add(seriesP1);
-
-            PlotPredictedOverallSeatsModel = modelP1;
+            PlotPredictedOverallSeats.Model =
+                ChartUtilities.CreatePieSeriesModelForPartyResults(
+                    partyResults, "Predicted Election Overall seats");
         }
 
         #endregion
-
     }
 }

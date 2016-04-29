@@ -23,8 +23,8 @@
                                     <Label Content="Previous Results" />
 
                                     <oxy:PlotView MinHeight="400" MinWidth="450" Margin="10,10,10,10"
-                                    Model="{Binding Path=PlotPreviousOverallSeatsModel}"
-                                    Controller="{Binding Path=PlotPreviousOverallSeatsViewController}" />
+                                    Model="{Binding Path=PlotPreviousOverallSeats.Model}"
+                                    Controller="{Binding Path=PlotPreviousOverallSeats.ViewController}" />
                                 </StackPanel>
                             </Border>
 
@@ -33,8 +33,8 @@
                                     <Label Content="Predicted Results" />
 
                                     <oxy:PlotView MinHeight="400" MinWidth="450" Margin="10,10,10,10"
-                                    Model="{Binding Path=PlotPredictedOverallSeatsModel}"
-                                    Controller="{Binding Path=PlotPredictedOverallSeatsViewController}" />
+                                    Model="{Binding Path=PlotPredictedOverallSeats.Model}"
+                                    Controller="{Binding Path=PlotPredictedOverallSeats.ViewController}" />
                                 </StackPanel>
                             </Border>
 

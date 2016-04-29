@@ -140,6 +140,29 @@ namespace ElectionScotlandSwingWpfApp.Models
             ResetPredictedResultToCurrent();
         }
 
+        public void PredictUsingUniformNationalSwing(
+            Dictionary<string, double> partyListSwings,
+            Dictionary<string, double> partyConstituencySwings)
+        {
+            // reset the prediction to the previous
+            ResetPredictedResultToCurrent();
+
+            // update the swings to account for the removed parties
+            var updatedListSwings = new Dictionary<string, double>(partyListSwings);
+            var updatedConstituencySwings = new Dictionary<string, double>(partyConstituencySwings);
+            foreach (var removedParty in RemovedPartyNames)
+            {
+                updatedListSwings.Add(removedParty, -99.99);
+                updatedConstituencySwings.Add(removedParty, -99.99);
+            }
+
+            // apply the swings & recalculate the regions
+            foreach (var region in _predictedResult.Regions)
+            {
+                region.ApplyPartySwings(updatedListSwings, updatedConstituencySwings);
+            }
+        }
+
         #endregion
 
         #region Private Fields
@@ -210,6 +233,12 @@ namespace ElectionScotlandSwingWpfApp.Models
             "Liberal Democrat", 
             "Green", 
             "UK Independence Party"
+        };
+
+        public readonly static string[] RemovedPartyNames = new string[] 
+        {        
+            "Margo MacDonald", 
+            "British National Party"
         };
 
         #endregion
@@ -549,19 +578,6 @@ namespace ElectionScotlandSwingWpfApp.Models
 
         #region Party Predictions
 
-        public void PredictUsingUniformNationalSwing(
-            Dictionary<string, double> partyListSwings,
-            Dictionary<string, double> partyConstituencySwings)
-        {
-            // reset the prediction to the previous
-            ResetPredictedResultToCurrent();
-
-            // apply the swings & recaclulate the regions
-            foreach (var region in _predictedResult.Regions)
-            {
-                region.ApplyPartySwings(partyListSwings, partyConstituencySwings);
-            }            
-        }
 
         #endregion
     }

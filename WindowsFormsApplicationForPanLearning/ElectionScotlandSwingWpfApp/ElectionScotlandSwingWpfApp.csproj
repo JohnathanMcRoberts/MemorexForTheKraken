@@ -87,6 +87,7 @@
     <Compile Include="ViewModels\MajorPartyForecastsViewModel.cs" />
     <Compile Include="ViewModels\OverallPredictionsViewModel.cs" />
     <Compile Include="ViewModels\PredictionsSetupViewModel.cs" />
+    <Compile Include="ViewModels\Utilities\ChartUtilities.cs" />
     <Compile Include="ViewModels\Utilities\CommandHandler.cs" />
     <Compile Include="ViewModels\Utilities\WaitCursor.cs" />
     <Compile Include="Views\DataGridsView.xaml.cs">
