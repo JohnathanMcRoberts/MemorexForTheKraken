@@ -211,11 +211,14 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
 
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                _mainModel.OpenElectoralResults(fileDialog.FileName);
+                using (new WaitCursor())
+                {
+                    _mainModel.OpenElectoralResults(fileDialog.FileName);
 
-                RegionsDataLoaded = true;
-                _parent.UpdateData();
-                OnPropertyChanged("");
+                    RegionsDataLoaded = true;
+                    _parent.UpdateData();
+                    OnPropertyChanged("");
+                }
             }
         }
 

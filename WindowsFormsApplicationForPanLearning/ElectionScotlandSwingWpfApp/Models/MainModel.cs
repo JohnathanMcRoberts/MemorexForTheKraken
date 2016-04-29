@@ -17,13 +17,24 @@ namespace ElectionScotlandSwingWpfApp.Models
 
         public MainModel(log4net.ILog log)
         {
-            // TODO: Complete member initialization
             this.Log = log;
 
             PopulatePartyForecasts();
 
             CurrentResult = new ElectionResult();
             _predictedResult = new ElectionResult();
+
+            _partyListSwings = new Dictionary<string,double>();
+            _partyConstituencySwings = new Dictionary<string, double>();
+
+            foreach (var party in MajorPartyNames)
+            {
+                _partyListSwings.Add(party, 0);
+                _partyConstituencySwings.Add(party, 0);
+            }
+
+            FirstPartyVotesAndPairedPredictionTotals = 
+                new List<KeyValuePair<double, List<PartyForecast>>>();
         }
 
         #endregion
@@ -144,17 +155,18 @@ namespace ElectionScotlandSwingWpfApp.Models
             Dictionary<string, double> partyListSwings,
             Dictionary<string, double> partyConstituencySwings)
         {
+            _partyListSwings = new Dictionary<string, double> ( partyListSwings);
+            _partyConstituencySwings = new Dictionary<string, double>(partyConstituencySwings);
+
             // reset the prediction to the previous
             ResetPredictedResultToCurrent();
 
             // update the swings to account for the removed parties
-            var updatedListSwings = new Dictionary<string, double>(partyListSwings);
-            var updatedConstituencySwings = new Dictionary<string, double>(partyConstituencySwings);
-            foreach (var removedParty in RemovedPartyNames)
-            {
-                updatedListSwings.Add(removedParty, -99.99);
-                updatedConstituencySwings.Add(removedParty, -99.99);
-            }
+            Dictionary<string, double> updatedListSwings;
+            Dictionary<string, double> updatedConstituencySwings;
+            UpdateSwingsForRemovedParties(
+                partyListSwings, partyConstituencySwings, 
+                out updatedListSwings, out updatedConstituencySwings);
 
             // apply the swings & recalculate the regions
             foreach (var region in _predictedResult.Regions)
@@ -163,11 +175,31 @@ namespace ElectionScotlandSwingWpfApp.Models
             }
         }
 
+        public static void PopulatePartyForecasts(
+            Dictionary<string, int> currentResultSeats,
+            Dictionary<string, int> predictedResultSeats,
+            ref List<PartyForecast> partyForecasts)
+        {
+
+            foreach (var party in partyForecasts)
+            {
+                party.PreviousSeats =
+                    currentResultSeats.ContainsKey(party.Name) ?
+                    currentResultSeats[party.Name] : 0;
+                party.PredictedSeats =
+                    predictedResultSeats.ContainsKey(party.Name) ?
+                    predictedResultSeats[party.Name] : 0;
+            }
+        }
+
         #endregion
 
         #region Private Fields
 
         private ElectionResult _predictedResult;
+
+        private Dictionary<string, double> _partyListSwings;
+        private Dictionary<string, double> _partyConstituencySwings;
 
         #endregion
 
@@ -188,27 +220,38 @@ namespace ElectionScotlandSwingWpfApp.Models
         { 
             get
             {
-                List<PartyForecast> overallForecasts = new List<PartyForecast>();
-                if (PartyListForecasts != null && PartyConstituencyForecasts != null)
-                {
-                    for (int i = 0; i < PartyListForecasts.Count; i++)
-                    {
-                        string name = PartyListForecasts[i].Name;
-                        int prevSeats = 
-                            PartyListForecasts[i].PreviousSeats + PartyConstituencyForecasts[i].PreviousSeats;
-                        int predictedSeats = 
-                            PartyListForecasts[i].PredictedSeats + PartyConstituencyForecasts[i].PredictedSeats;
-
-                        overallForecasts.Add(
-                            new PartyForecast(name, 0.0)
-                            {
-                                PreviousSeats = prevSeats,
-                                PredictedSeats = predictedSeats
-                            });                    
-                    }
-                }
+                var listForecasts = PartyListForecasts;
+                var constituencyForecasts = PartyConstituencyForecasts;
+                List<PartyForecast> overallForecasts = 
+                    GetOverallPartyForecastFromListAndConstituencies(listForecasts, constituencyForecasts);
                 return overallForecasts;
             }
+        }
+
+        private static List<PartyForecast> GetOverallPartyForecastFromListAndConstituencies(
+                        List<PartyForecast> listForecasts, List<PartyForecast> constituencyForecasts)
+        {
+
+            List<PartyForecast> overallForecasts = new List<PartyForecast>();
+            if (listForecasts != null && constituencyForecasts != null)
+            {
+                for (int i = 0; i < listForecasts.Count; i++)
+                {
+                    string name = listForecasts[i].Name;
+                    int prevSeats =
+                        listForecasts[i].PreviousSeats + constituencyForecasts[i].PreviousSeats;
+                    int predictedSeats =
+                        listForecasts[i].PredictedSeats + constituencyForecasts[i].PredictedSeats;
+
+                    overallForecasts.Add(
+                        new PartyForecast(name, 0.0)
+                        {
+                            PreviousSeats = prevSeats,
+                            PredictedSeats = predictedSeats
+                        });
+                }
+            }
+            return overallForecasts;
         }
 
         #endregion
@@ -526,6 +569,22 @@ namespace ElectionScotlandSwingWpfApp.Models
 
         #region Predicted Result Setup
 
+
+        private static void UpdateSwingsForRemovedParties(
+            Dictionary<string, double> partyListSwings,
+            Dictionary<string, double> partyConstituencySwings,
+            out Dictionary<string, double> updatedListSwings,
+            out Dictionary<string, double> updatedConstituencySwings)
+        {
+            updatedListSwings = new Dictionary<string, double>(partyListSwings);
+            updatedConstituencySwings = new Dictionary<string, double>(partyConstituencySwings);
+            foreach (var removedParty in RemovedPartyNames)
+            {
+                updatedListSwings.Add(removedParty, -99.99);
+                updatedConstituencySwings.Add(removedParty, -99.99);
+            }
+        }
+
         private void ResetPredictedResultToCurrent()
         {
             _predictedResult = (ElectionResult)CurrentResult.Clone();
@@ -538,47 +597,136 @@ namespace ElectionScotlandSwingWpfApp.Models
 
         private void PopulatePartyForecasts()
         {
-            PartyConstituencyForecasts = new List<PartyForecast>();
-            PartyListForecasts = new List<PartyForecast>();
+            List<PartyForecast> partyConstituencyForecasts;
+            List<PartyForecast> partyListForecasts;
+
+            PopulatePartyForecastsFromCurrentResult(out partyConstituencyForecasts, out partyListForecasts);
+
+
+            PartyConstituencyForecasts = partyConstituencyForecasts;
+            PartyListForecasts = partyListForecasts;
+        }
+
+        private void PopulatePartyForecastsFromCurrentResult(
+            out List<PartyForecast> partyConstituencyForecasts, out List<PartyForecast> partyListForecasts)
+        {
+
+            partyConstituencyForecasts = new List<PartyForecast>();
+            partyListForecasts = new List<PartyForecast>();
 
             if (CurrentResult != null && CurrentResult.Regions.Count > 0)
             {
                 foreach (var name in MajorPartyNames)
                 {
-                    double listPercentage = 
+                    double listPercentage =
                         CurrentResult.ListPercentagesByParty.ContainsKey(name) ?
                         CurrentResult.ListPercentagesByParty[name] : 0.0;
 
-                    PartyForecast listForecast = 
+                    PartyForecast listForecast =
                         new PartyForecast(name, listPercentage);
-                    PartyListForecasts.Add(listForecast);
+                    partyListForecasts.Add(listForecast);
 
                     double constituencyPercentage =
                         CurrentResult.ConstituencyPercentagesByParty.ContainsKey(name) ?
                         CurrentResult.ConstituencyPercentagesByParty[name] : 0.0;
 
-                    PartyForecast constituencyForecast = 
+                    PartyForecast constituencyForecast =
                         new PartyForecast(name, constituencyPercentage);
-                    PartyConstituencyForecasts.Add(constituencyForecast);
+                    partyConstituencyForecasts.Add(constituencyForecast);
                 }
             }
             else
             {
-                foreach(var name in MajorPartyNames)
+                foreach (var name in MajorPartyNames)
                 {
                     PartyForecast forecast = new PartyForecast(name, 0.0);
-                    PartyConstituencyForecasts.Add(forecast);
-                    PartyListForecasts.Add(forecast);                
+                    partyConstituencyForecasts.Add(forecast);
+                    partyListForecasts.Add(forecast);
                 }
             }
-
         }
 
         #endregion
 
-        #region Party Predictions
+        #region Paired Party Predictions
 
+        public List<KeyValuePair<double, List<PartyForecast>>> FirstPartyVotesAndPairedPredictionTotals { get; private set; }
+
+        public void GeneratePairPrediction(string firstPartyName, string secondPartyName)
+        {
+            FirstPartyVotesAndPairedPredictionTotals.Clear();
+
+            double totalPairedListVote =
+                PredictedResult.ListPercentagesByParty[firstPartyName] +
+                PredictedResult.ListPercentagesByParty[secondPartyName];
+
+            double increment = totalPairedListVote / 100.0;
+
+            double firstPartyVote = totalPairedListVote;
+            double secondPartyVote = 0.0;
+
+            do
+            {
+                var pairedPredictedResult = (ElectionResult)_predictedResult.Clone();
+
+                // update the swings to account for the removed parties
+                Dictionary<string, double> updatedListSwings;
+                Dictionary<string, double> updatedConstituencySwings;
+                UpdateSwingsForRemovedParties(
+                    _partyListSwings, _partyConstituencySwings,
+                    out updatedListSwings, out updatedConstituencySwings);
+
+                if (updatedListSwings.ContainsKey(firstPartyName))
+                    updatedListSwings[firstPartyName] = firstPartyVote - _predictedResult.ListPercentagesByParty[firstPartyName];
+
+                if (updatedListSwings.ContainsKey(secondPartyName))
+                    updatedListSwings[secondPartyName] = secondPartyVote - _predictedResult.ListPercentagesByParty[secondPartyName];
+
+                // apply the swings & recalculate the regions
+                foreach (var region in pairedPredictedResult.Regions)
+                {
+                    region.ApplyPartySwings(updatedListSwings, updatedConstituencySwings);
+                }
+
+                List<PartyForecast> overallPairedResults =
+                    GetOverallFromResultsFromPrediction(pairedPredictedResult);
+
+                KeyValuePair<double, List<PartyForecast>> pairedResult =
+                    new KeyValuePair<double, List<PartyForecast>>(firstPartyVote, overallPairedResults);
+                FirstPartyVotesAndPairedPredictionTotals.Add(pairedResult);
+
+                firstPartyVote -= increment;
+                secondPartyVote += increment;
+            }
+            while (firstPartyVote >= -1e-7);
+        }
+
+        private List<PartyForecast> GetOverallFromResultsFromPrediction(ElectionResult pairedPredictedResult)
+        {
+            List<PartyForecast> overallPairedResults = new List<PartyForecast>();
+
+            for(int i = 0; i < PartyOverallForecasts.Count; i++)
+            {
+                string name = PartyOverallForecasts[i].Name;
+                PartyForecast forecast = 
+                    new PartyForecast(name, 0.0);
+                forecast.PreviousSeats = PartyOverallForecasts[i].PreviousSeats;
+
+                int predictedList =
+                    pairedPredictedResult.ListSeatsByParty.ContainsKey(name) ?
+                    pairedPredictedResult.ListSeatsByParty[name] : 0;
+                int predictedConstituency =
+                    pairedPredictedResult.ConstituencySeatsByParty.ContainsKey(name) ?
+                    pairedPredictedResult.ConstituencySeatsByParty[name] : 0;
+
+                forecast.PredictedSeats = predictedConstituency + predictedList;
+
+                overallPairedResults.Add(forecast);
+            }
+            return overallPairedResults;
+        }
 
         #endregion
+
     }
 }

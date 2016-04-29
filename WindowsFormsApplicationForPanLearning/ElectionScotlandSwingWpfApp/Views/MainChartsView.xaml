@@ -8,6 +8,8 @@
              d:DesignHeight="600" d:DesignWidth="1100">
     <Grid>
 
+
+
         <TabControl>
 
             <TabItem Header="Seats Pie Charts">
@@ -92,17 +94,58 @@
 
                         </StackPanel>
                     </TabItem>
-                    
+
                 </TabControl>
-                
+
             </TabItem>
 
             <TabItem Header="Paired Voting Chart">
 
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="10*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="5" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="5" />
+                        <RowDefinition Height="250*" />
+                    </Grid.RowDefinitions>
+
+
+                    <Button Content="Generate Pair Prediction" 
+                            Command="{Binding Path=GeneratePairPredictionCommand}" Height="22"/>
+
+                    <Label Grid.Row="2" Grid.Column="0"  Content="First Party"  Margin="10,2,10,2"/>
+
+                    <ComboBox  Grid.Row="2" Grid.Column="1"  ItemsSource="{Binding Path=PartyNames}" 
+                        SelectedValue="{Binding Path=FirstPartyName}"  />
+
+                    <Label Grid.Row="2" Grid.Column="2"  Content="Second Party"  Margin="10,2,10,2"/>
+
+                    <ComboBox  Grid.Row="2" Grid.Column="3"  ItemsSource="{Binding Path=PartyNames}" 
+                        SelectedValue="{Binding Path=SecondPartyName}"  />
+
+
+                    <StackPanel  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5"
+                                 Orientation="Vertical" MinWidth="550">
+                        <Label Content="Pair Prediction" />
+                        <oxy:PlotView MinHeight="400" MinWidth="450" Margin="10,10,10,10"
+                                    Model="{Binding Path=PlotPairPrediction.Model}"
+                                    Controller="{Binding Path=PlotPairPrediction.ViewController}" />
+                    </StackPanel>
+
+                </Grid>
 
             </TabItem>
 
         </TabControl>
-
     </Grid>
 </UserControl>

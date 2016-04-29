@@ -133,14 +133,18 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
 
         public void PredictFromUniformNationalSwingCommandAction()
         {
-            _mainModel.PredictUsingUniformNationalSwing(
-                _listMajorPartyForecastsVM.PartySwings,
-                _constituencyMajorPartyForecastsVM.PartySwings
-                );
 
-            _parent.UpdateData();
+            using (new WaitCursor())
+            {
+                _mainModel.PredictUsingUniformNationalSwing(
+                    _listMajorPartyForecastsVM.PartySwings,
+                    _constituencyMajorPartyForecastsVM.PartySwings
+                    );
 
-            OnPropertyChanged("");
+                _parent.UpdateData();
+
+                OnPropertyChanged("");
+            }
 
         }
 

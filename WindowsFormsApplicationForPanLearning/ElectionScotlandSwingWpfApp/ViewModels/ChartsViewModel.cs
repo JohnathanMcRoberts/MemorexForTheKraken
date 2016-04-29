@@ -6,6 +6,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Data;
+using System.Windows.Input;
 
 using OxyPlot;
 using OxyPlot.Series;
@@ -49,6 +50,8 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
         private log4net.ILog _log;
         private Models.MainModel _mainModel;
         private MainViewModel _parent;
+
+        private ICommand _generatePairPredictionCommand;
         
         #endregion
 
@@ -77,6 +80,13 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
             PlotPredictedListSeats =
                 new PlotModelAndController("Predicted Election seats distribution");
 
+            PartyNames = new List<string>();
+            foreach(var party in MainModel.MajorPartyNames)
+                PartyNames.Add(party);
+            FirstPartyName = PartyNames[0];
+            SecondPartyName = PartyNames[1];
+            PlotPairPrediction =
+                new PlotModelAndController("Predicted Party Split seats distribution");
 
         }
 
@@ -156,8 +166,9 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
 
         #endregion
 
-        #region Public properties
+        #region Public Properties
 
+        #region Pie Charts Data
         public PlotModelAndController PlotPreviousOverallSeats { get; private set; }
 
         public PlotModelAndController PlotPredictedOverallSeats { get; private set; }
@@ -174,6 +185,18 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
 
         #endregion
 
+        #region Paired Voting Chart
+
+        public List<string> PartyNames { get; private set; }
+        public string FirstPartyName { get; set; }
+        public string SecondPartyName { get; set; }
+
+        public PlotModelAndController PlotPairPrediction { get; private set; }
+
+        #endregion
+
+        #endregion
+
         #region Public Methods
 
         public void Refresh()
@@ -184,7 +207,7 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
 
         #endregion
 
-        #region Utility Functions for Plots
+        #region Private Functions for Plots
 
         private void ResetPlot()
         {
@@ -265,5 +288,39 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
         }
 
         #endregion
+
+        #region Commands
+
+        public ICommand GeneratePairPredictionCommand
+        {
+            get
+            {
+                return _generatePairPredictionCommand ??
+                    (_generatePairPredictionCommand =
+                        new CommandHandler(() => GeneratePairPredictionCommandAction(), true));
+            }
+        }
+
+        #endregion
+
+        #region Command Handlers
+
+        public void GeneratePairPredictionCommandAction()
+        {
+            using (new WaitCursor())
+            {
+                _mainModel.GeneratePairPrediction(
+                    FirstPartyName, SecondPartyName
+                    );
+
+                _parent.UpdateData();
+
+                OnPropertyChanged("");
+            }
+
+        }
+
+        #endregion
+
     }
 }

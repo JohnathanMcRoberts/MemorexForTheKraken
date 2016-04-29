@@ -619,32 +619,22 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
 
             if (IsConstutencyForecasts)
             {
-
-                foreach (var party in _partyForecasts)
-                {
-                    party.PreviousSeats =
-                        _mainModel.CurrentResult.ConstituencySeatsByParty.ContainsKey(party.Name) ?
-                        _mainModel.CurrentResult.ConstituencySeatsByParty[party.Name] : 0;
-                    party.PredictedSeats =
-                        _mainModel.PredictedResult.ConstituencySeatsByParty.ContainsKey(party.Name) ?
-                        _mainModel.PredictedResult.ConstituencySeatsByParty[party.Name] : 0;
-                }
+                MainModel.PopulatePartyForecasts(
+                    _mainModel.CurrentResult.ConstituencySeatsByParty,
+                    _mainModel.PredictedResult.ConstituencySeatsByParty, 
+                    ref partyForecasts);
             }
             else
             {
-                foreach (var party in _partyForecasts)
-                {
-                    party.PreviousSeats =
-                        _mainModel.CurrentResult.ListSeatsByParty.ContainsKey(party.Name) ?
-                        _mainModel.CurrentResult.ListSeatsByParty[party.Name] : 0;
-                    party.PredictedSeats =
-                        _mainModel.PredictedResult.ListSeatsByParty.ContainsKey(party.Name) ?
-                        _mainModel.PredictedResult.ListSeatsByParty[party.Name] : 0;
-                }
+                MainModel.PopulatePartyForecasts(
+                    _mainModel.CurrentResult.ListSeatsByParty, 
+                    _mainModel.PredictedResult.ListSeatsByParty,
+                    ref partyForecasts);
             }
 
             OnPropertyChanged("");
         }
+
 
         #endregion
     }
