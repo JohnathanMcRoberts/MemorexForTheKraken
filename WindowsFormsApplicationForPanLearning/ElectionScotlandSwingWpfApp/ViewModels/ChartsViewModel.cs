@@ -315,9 +315,175 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
 
                 _parent.UpdateData();
 
+                GeneratePlotForPairedPrediction();
+
                 OnPropertyChanged("");
             }
 
+        }
+
+
+        public static IEnumerable<AreaSeries> StackLineSeries(IList<LineSeries> series)
+        {
+            double[] total = new double[series[0].Points.Count];
+
+            LineSeries lineSeries;
+            AreaSeries areaSeries;
+
+            for (int s = 0; s < series.Count; s++)
+            {
+                lineSeries = series[s];
+                areaSeries = new AreaSeries()
+                {
+                    Title = lineSeries.Title,
+                    Color = lineSeries.Color,
+                };
+
+                for (int p = 0; p < lineSeries.Points.Count; p++)
+                {
+                    double x = lineSeries.Points[p].X;
+                    double y = lineSeries.Points[p].Y;
+
+                    areaSeries.Points.Add(new DataPoint(x, total[p]));
+                    total[p] += y;
+                    areaSeries.Points2.Add(new DataPoint(x, total[p]));
+                }
+
+                yield return areaSeries;
+            }
+        }
+
+        public static void SetupPlotLegend(PlotModel newPlot,
+            string title = "Performance Curves")
+        {
+            newPlot.LegendTitle = title;
+            newPlot.LegendOrientation = LegendOrientation.Horizontal;
+            newPlot.LegendPlacement = LegendPlacement.Outside;
+            newPlot.LegendPosition = LegendPosition.TopRight;
+            newPlot.LegendBackground = OxyColor.FromAColor(200, OxyColors.White);
+            newPlot.LegendBorder = OxyColors.Black;
+        }
+
+        const string VoteKey = "FirstPartyVoteKey";
+        const string SeatsKey = "SeatsKey";
+
+        private void SetupTotalPagesReadKeyVsTimeAxes(PlotModel newPlot)
+        {
+            //var xAxis = new DateTimeAxis
+            //{
+            //    Position = AxisPosition.Bottom,
+            //    Title = "FirstPartyVoteKey",
+            //    Key = VoteKey,
+            //    MajorGridlineStyle = LineStyle.Solid,
+            //    MinorGridlineStyle = LineStyle.None,
+            //    StringFormat = "yyyy-MM-dd"
+            //}; 
+            var xAxis = new LinearAxis
+            {
+                Position = AxisPosition.Bottom,
+                Title = "First Party Vote",
+                Key = VoteKey,
+                MajorGridlineStyle = LineStyle.Solid,
+                MinorGridlineStyle = LineStyle.None,
+                //StringFormat = "{0} %"
+            };
+            newPlot.Axes.Add(xAxis);
+
+            var lhsAxis = new LinearAxis
+            {
+                Position = AxisPosition.Left,
+                Title = "Total Seats",
+                Key = SeatsKey,
+                MajorGridlineStyle = LineStyle.Solid,
+                MinorGridlineStyle = LineStyle.None
+            };
+            newPlot.Axes.Add(lhsAxis);
+        }
+
+        public static void CreateLongLineSeries(out LineSeries series, string xAxisKey,
+            string yAxisKey, string title, int colourIndex, byte aValue = 225)
+        {
+            //List<OxyColor> coloursArray = SetupStandardColourSet(aValue);
+
+            //int index = colourIndex % coloursArray.Count;
+            var colour = ChartUtilities.PartyNameToColorLookup[title];
+
+            series = new LineSeries
+            {
+                Title = title,
+                XAxisKey = xAxisKey,
+                YAxisKey = yAxisKey,
+                Color = colour
+            };
+        }
+
+        public static void CreateLongAreaSeries(out AreaSeries series, string xAxisKey,
+            string yAxisKey, string title, int colourIndex, byte aValue = 225)
+        {
+            //List<OxyColor> coloursArray = SetupStandardColourSet(aValue);
+
+            //int index = colourIndex % coloursArray.Count;
+            var colour = ChartUtilities.PartyNameToColorLookup[title];
+
+            series = new AreaSeries
+            {
+                Title = title,
+                XAxisKey = xAxisKey,
+                YAxisKey = yAxisKey,
+                Color = colour,
+                Color2 = OxyColors.Transparent
+            };
+        }
+
+        private void GeneratePlotForPairedPrediction()
+        {
+            // Create the plot model
+            var newPlot = new PlotModel { Title = "Total Pages Read by Country With Time Plot" };
+            SetupPlotLegend(newPlot, "Total Pages Read by Country With Time Plot");
+            SetupTotalPagesReadKeyVsTimeAxes(newPlot);
+
+            // get the parties (in order) - need to fix!!!
+            List<string> parties = (MainModel.MajorPartyNames).ToList();
+
+            // create the series for the partie
+            List<KeyValuePair<string, LineSeries>> partiesLineSeries =
+                new List<KeyValuePair<string, LineSeries>>();
+
+            for (int i = 0; i < parties.Count; i++)
+            {
+                LineSeries lineSeries;
+                CreateLongLineSeries(out lineSeries,
+                    VoteKey, SeatsKey, parties[i], i, 128);
+                partiesLineSeries.Add(
+                    new KeyValuePair<string, LineSeries>(parties[i], lineSeries));
+
+                //if (i > 1) break;
+            }
+
+            // loop through the deltas adding points for each of the items to the lines
+            foreach (var pair in _mainModel.FirstPartyVotesAndPairedPredictionTotals)
+            {
+                var vote = pair.Key;
+                var partyResults = pair.Value;
+                foreach (var partyLine in partiesLineSeries)
+                {
+                    double ttlSeats = 0.0;
+                    foreach (var partyResult in partyResults)
+                        if (partyResult.Name == partyLine.Key)
+                            ttlSeats = partyResult.PredictedSeats;
+                    partyLine.Value.Points.Add(new DataPoint(vote, ttlSeats));
+                }
+            }
+
+            IList<LineSeries> lineSeriesSet =
+                (from item in partiesLineSeries select item.Value).ToList();
+            var stackSeries = StackLineSeries(lineSeriesSet);
+
+            // add them to the plot
+            foreach (var languageItems in stackSeries)
+                newPlot.Series.Add(languageItems);
+
+            PlotPairPrediction.Model = newPlot;
         }
 
         #endregion
