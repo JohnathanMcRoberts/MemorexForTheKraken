@@ -42,9 +42,55 @@
                     </TabItem>
 
                     <TabItem Header="Constituency Seats Change">
+                        <StackPanel Orientation="Horizontal">
+
+                            <Border BorderBrush="Black" BorderThickness="2" Margin="10,10,10,10">
+                                <StackPanel Orientation="Vertical" MinWidth="550">
+                                    <Label Content="Previous Results" />
+
+                                    <oxy:PlotView MinHeight="400" MinWidth="450" Margin="10,10,10,10"
+                                    Model="{Binding Path=PlotPreviousConstituencySeats.Model}"
+                                    Controller="{Binding Path=PlotPreviousConstituencySeats.ViewController}" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border BorderBrush="Black" BorderThickness="2" Margin="10,10,10,10">
+                                <StackPanel Orientation="Vertical" MinWidth="550">
+                                    <Label Content="Predicted Results" />
+
+                                    <oxy:PlotView MinHeight="400" MinWidth="450" Margin="10,10,10,10"
+                                    Model="{Binding Path=PlotPredictedConstituencySeats.Model}"
+                                    Controller="{Binding Path=PlotPredictedConstituencySeats.ViewController}" />
+                                </StackPanel>
+                            </Border>
+
+                        </StackPanel>
                     </TabItem>
 
                     <TabItem Header="List Seats Change">
+                        <StackPanel Orientation="Horizontal">
+
+                            <Border BorderBrush="Black" BorderThickness="2" Margin="10,10,10,10">
+                                <StackPanel Orientation="Vertical" MinWidth="550">
+                                    <Label Content="Previous Results" />
+
+                                    <oxy:PlotView MinHeight="400" MinWidth="450" Margin="10,10,10,10"
+                                    Model="{Binding Path=PlotPreviousListSeats.Model}"
+                                    Controller="{Binding Path=PlotPreviousListSeats.ViewController}" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border BorderBrush="Black" BorderThickness="2" Margin="10,10,10,10">
+                                <StackPanel Orientation="Vertical" MinWidth="550">
+                                    <Label Content="Predicted Results" />
+
+                                    <oxy:PlotView MinHeight="400" MinWidth="450" Margin="10,10,10,10"
+                                    Model="{Binding Path=PlotPredictedListSeats.Model}"
+                                    Controller="{Binding Path=PlotPredictedListSeats.ViewController}" />
+                                </StackPanel>
+                            </Border>
+
+                        </StackPanel>
                     </TabItem>
                     
                 </TabControl>

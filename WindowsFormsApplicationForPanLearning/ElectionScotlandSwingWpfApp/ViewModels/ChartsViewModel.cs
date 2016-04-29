@@ -66,6 +66,18 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
                 new PlotModelAndController("Previous Election seats distribution");
             PlotPredictedOverallSeats =
                 new PlotModelAndController("Predicted Election seats distribution");
+
+            PlotPreviousConstituencySeats = 
+                new PlotModelAndController("Previous Election seats distribution");
+            PlotPredictedConstituencySeats =
+                new PlotModelAndController("Predicted Election seats distribution");
+
+            PlotPreviousListSeats = 
+                new PlotModelAndController("Previous Election seats distribution");
+            PlotPredictedListSeats =
+                new PlotModelAndController("Predicted Election seats distribution");
+
+
         }
 
         #endregion
@@ -150,6 +162,16 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
 
         public PlotModelAndController PlotPredictedOverallSeats { get; private set; }
 
+
+        public PlotModelAndController PlotPreviousConstituencySeats { get; private set; }
+
+        public PlotModelAndController PlotPredictedConstituencySeats { get; private set; }
+
+
+        public PlotModelAndController PlotPreviousListSeats { get; private set; }
+
+        public PlotModelAndController PlotPredictedListSeats { get; private set; }
+
         #endregion
 
         #region Public Methods
@@ -168,6 +190,12 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
         {
             GeneratePlotForPlotPreviousOverallSeatsModel();
             GeneratePlotForPlotPredictedOverallSeatsModel();
+
+            GeneratePlotForPlotPreviousConstituencySeatsModel();
+            GeneratePlotForPlotPredictedConstituencySeatsModel();
+
+            GeneratePlotForPlotPreviousListSeatsModel();
+            GeneratePlotForPlotPredictedListSeatsModel();
         }
 
         private void GeneratePlotForPlotPreviousOverallSeatsModel()
@@ -190,6 +218,50 @@ namespace ElectionScotlandSwingWpfApp.ViewModels
             PlotPredictedOverallSeats.Model =
                 ChartUtilities.CreatePieSeriesModelForPartyResults(
                     partyResults, "Predicted Election Overall seats");
+        }
+
+        private void GeneratePlotForPlotPreviousConstituencySeatsModel()
+        {
+            List<KeyValuePair<string, int>> partyResults = new List<KeyValuePair<string, int>>();
+            foreach (var party in _mainModel.PartyConstituencyForecasts)
+                partyResults.Add(new KeyValuePair<string, int>(party.Name, party.PreviousSeats));
+
+            PlotPreviousConstituencySeats.Model =
+                ChartUtilities.CreatePieSeriesModelForPartyResults(
+                    partyResults, "Previous Election Constituency seats");
+        }
+
+        private void GeneratePlotForPlotPredictedConstituencySeatsModel()
+        {
+            List<KeyValuePair<string, int>> partyResults = new List<KeyValuePair<string, int>>();
+            foreach (var party in _mainModel.PartyConstituencyForecasts)
+                partyResults.Add(new KeyValuePair<string, int>(party.Name, party.PredictedSeats));
+
+            PlotPredictedConstituencySeats.Model =
+                ChartUtilities.CreatePieSeriesModelForPartyResults(
+                    partyResults, "Predicted Election Constituency seats");
+        }
+
+        private void GeneratePlotForPlotPreviousListSeatsModel()
+        {
+            List<KeyValuePair<string, int>> partyResults = new List<KeyValuePair<string, int>>();
+            foreach (var party in _mainModel.PartyListForecasts)
+                partyResults.Add(new KeyValuePair<string, int>(party.Name, party.PreviousSeats));
+
+            PlotPreviousListSeats.Model =
+                ChartUtilities.CreatePieSeriesModelForPartyResults(
+                    partyResults, "Previous Election List seats");
+        }
+
+        private void GeneratePlotForPlotPredictedListSeatsModel()
+        {
+            List<KeyValuePair<string, int>> partyResults = new List<KeyValuePair<string, int>>();
+            foreach (var party in _mainModel.PartyListForecasts)
+                partyResults.Add(new KeyValuePair<string, int>(party.Name, party.PredictedSeats));
+
+            PlotPredictedListSeats.Model =
+                ChartUtilities.CreatePieSeriesModelForPartyResults(
+                    partyResults, "Predicted Election List seats");
         }
 
         #endregion
