@@ -205,6 +205,29 @@
                             </ScrollViewer>
                         </TabItem>
 
+
+                        <TabItem Header="Current Pages and Books By Country">
+                            <ScrollViewer>
+                                
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+                                    <oxy:PlotView MinHeight="600" MinWidth="360" Grid.Column="0"
+                        Model="{Binding Path=PlotCurrentPagesReadByCountryModel}"
+                   Controller="{Binding Path=PlotCurrentPagesReadByCountryViewController}" />
+
+                                    <oxy:PlotView MinHeight="600" MinWidth="360" Grid.Column="1"
+                        Model="{Binding Path=PlotCurrentBooksReadByCountryModel}"
+                   Controller="{Binding Path=PlotCurrentBooksReadByCountryViewController}" />
+
+                                </Grid>
+
+                            </ScrollViewer>
+                        </TabItem>
+
                     </TabControl>
                 </ScrollViewer>
             </TabItem>

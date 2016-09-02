@@ -67,6 +67,9 @@ namespace MongoDbBooks.ViewModels
         private PlotModel _plotTotalPagesReadByCountry;
         private PlotModel _plotBooksAndPagesThisYear;
 
+        private PlotModel _plotCurrentPagesReadByCountry;
+        private PlotModel _plotCurrentBooksReadByCountry;
+
         #endregion
 
         #region Public properties
@@ -205,6 +208,23 @@ namespace MongoDbBooks.ViewModels
         }
         public IPlotController PlotBooksAndPagesThisYearViewController { get; private set; }
 
+
+        public PlotModel PlotCurrentPagesReadByCountryModel
+        {
+            get { return _plotCurrentPagesReadByCountry; }
+            private set { _plotCurrentPagesReadByCountry = value; }
+        }
+        public IPlotController PlotCurrentPagesReadByCountryViewController { get; private set; }
+
+
+        public PlotModel PlotCurrentBooksReadByCountryModel
+        {
+            get { return _plotCurrentBooksReadByCountry; }
+            private set { _plotCurrentBooksReadByCountry = value; }
+        }
+        public IPlotController PlotCurrentBooksReadByCountryViewController { get; private set; }
+
+
         #endregion
 
         #region Constructor
@@ -253,6 +273,10 @@ namespace MongoDbBooks.ViewModels
                 InitialisePlotModelAndController(ref _plotTotalPagesReadByCountry, "TotalPagesReadByCountry");
             PlotBooksAndPagesThisYearViewController =
                 InitialisePlotModelAndController(ref _plotBooksAndPagesThisYear, "BooksAndPagesThisYear");
+            PlotCurrentPagesReadByCountryViewController =
+                InitialisePlotModelAndController(ref _plotCurrentPagesReadByCountry, "CurrentPagesReadByCountry");
+            PlotCurrentBooksReadByCountryViewController =
+                InitialisePlotModelAndController(ref _plotCurrentBooksReadByCountry, "CurrentBooksReadByCountry");
 
         }
 
@@ -279,6 +303,8 @@ namespace MongoDbBooks.ViewModels
             PlotPercentagePagesReadByCountryModel = (new PercentagePagesReadByCountryPlotGenerator()).SetupPlot(_mainModel);
             PlotTotalPagesReadByCountryModel = (new TotalPagesReadByCountryPlotGenerator()).SetupPlot(_mainModel);
             PlotBooksAndPagesThisYearModel = (new BooksAndPagesThisYearPlotGenerator()).SetupPlot(_mainModel);
+            PlotCurrentPagesReadByCountryModel = (new CurrentPagesReadByCountryPlotGenerator()).SetupPlot(_mainModel);
+            PlotCurrentBooksReadByCountryModel = (new CurrentBooksReadByCountryPlotGenerator()).SetupPlot(_mainModel);
 
             OnPropertyChanged("");
         }

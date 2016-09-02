@@ -87,7 +87,6 @@ namespace MongoDbBooks.ViewModels.Utilities
             newPlot.LegendBorder = OxyColors.Black;
         }
 
-
         public static void AddLineSeriesToModel(PlotModel newPlot, LineSeries[] lineSeries)
         {
             foreach (var series in lineSeries)
@@ -366,6 +365,64 @@ namespace MongoDbBooks.ViewModels.Utilities
 
                 yield return areaSeries;
             }
+        }
+
+        public static void GetNewModelForPieSeries(
+            out PlotModel modelP1, out dynamic seriesP1, string title)
+        {
+            modelP1 = new PlotModel { Title = title };
+
+            seriesP1 = new PieSeries
+            {
+                StrokeThickness = 2.0,
+                InsideLabelPosition = 0.8,
+
+                AngleSpan = 360,
+                StartAngle = 270,
+
+                InsideLabelFormat = "{0}",
+                OutsideLabelFormat = "{1}",
+                TrackerFormatString = "{1} {2:0.0}",
+                LabelField = "{0} {1} {2:0.0}"
+            };
+        }
+
+        public static void AddResultsToPieChart(
+            dynamic seriesP1, List<KeyValuePair<string, int>> totals)
+        {
+            int colourIndex = 0;
+
+            List<OxyColor> coloursArray = SetupStandardColourSet();
+
+            foreach (var total in totals)
+            {
+                string name = total.Key;
+                int count = total.Value;
+
+                OxyColor color = coloursArray[colourIndex % coloursArray.Count];
+                bool isExploded = (count < 20);
+
+                if (count > 0)
+                    seriesP1.Slices.Add(
+                        new PieSlice(name, count) { IsExploded = isExploded, Fill = color });
+
+                colourIndex++;
+            }
+        }
+
+        public static PlotModel CreatePieSeriesModelForResultsSet(
+            List<KeyValuePair<string, int>> results, string title)
+        {
+            PlotModel modelP1;
+            dynamic seriesP1;
+
+            GetNewModelForPieSeries(out modelP1, out seriesP1, title);
+
+            AddResultsToPieChart(seriesP1, results);
+
+            modelP1.Series.Add(seriesP1);
+
+            return modelP1;
         }
 
     }

@@ -34,6 +34,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CsvHelper, Version=3.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.3.0.0-beta4\lib\net45\CsvHelper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MongoDB.Bson, Version=2.3.0.149, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoDB.Bson.2.3.0-rc1\lib\net45\MongoDB.Bson.dll</HintPath>
       <Private>True</Private>
@@ -46,8 +54,24 @@
       <HintPath>..\packages\MongoDB.Driver.Core.2.3.0-rc1\lib\net45\MongoDB.Driver.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="OxyPlot, Version=1.0.0.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Core.1.0.0-unstable2100\lib\net45\OxyPlot.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OxyPlot.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=75e952ba404cdbb0, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Wpf.1.0.0-unstable2100\lib\net45\OxyPlot.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OxyPlot.Xps, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Wpf.1.0.0-unstable2100\lib\net45\OxyPlot.Xps.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms">
+      <HintPath>..\packages\System.Windows.Forms.4.0.0.0\lib\System.Windows.Forms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -65,6 +89,48 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Utilities\Logger.cs" />
+    <Compile Include="ViewModels\ChartsViewModel.cs" />
+    <Compile Include="ViewModels\DataGridsViewModel.cs" />
+    <Compile Include="ViewModels\DataLoaderViewModel.cs" />
+    <Compile Include="ViewModels\DataUpdaterViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\PlotGenerators\AverageDaysPerBookPlotGenerator.cs" />
+    <Compile Include="ViewModels\PlotGenerators\BooksAndPagesThisYearPlotGenerator.cs" />
+    <Compile Include="ViewModels\PlotGenerators\BooksInTranslationPlotGenerator.cs" />
+    <Compile Include="ViewModels\PlotGenerators\ChartAxisKeys.cs" />
+    <Compile Include="ViewModels\PlotGenerators\CurrentBooksReadByCountryPlotGenerator.cs" />
+    <Compile Include="ViewModels\PlotGenerators\CurrentPagesReadByCountryPlotGenerator.cs" />
+    <Compile Include="ViewModels\PlotGenerators\DaysPerBookPlotGenerator.cs" />
+    <Compile Include="ViewModels\PlotGenerators\DaysPerBookWithTimePlotGenerator.cs" />
+    <Compile Include="ViewModels\PlotGenerators\IPlotGenerator.cs" />
+    <Compile Include="ViewModels\PlotGenerators\OverallBookAndPageTalliesPlotGenerator.cs" />
+    <Compile Include="ViewModels\PlotGenerators\PageRatePlotGenerator.cs" />
+    <Compile Include="ViewModels\PlotGenerators\PagesPerBookPlotGenerator.cs" />
+    <Compile Include="ViewModels\PlotGenerators\PagesPerDayWithTimePlotGenerator.cs" />
+    <Compile Include="ViewModels\PlotGenerators\PercentageBooksReadByCountryPlotGenerator.cs" />
+    <Compile Include="ViewModels\PlotGenerators\PercentageBooksReadByLanguagePlotGenerator.cs" />
+    <Compile Include="ViewModels\PlotGenerators\PercentagePagesReadByCountryPlotGenerator.cs" />
+    <Compile Include="ViewModels\PlotGenerators\PercentagePagesReadByLanguagePlotGenerator.cs" />
+    <Compile Include="ViewModels\PlotGenerators\TotalBooksReadByCountryPlotGenerator.cs" />
+    <Compile Include="ViewModels\PlotGenerators\TotalBooksReadByLanguagePlotGenerator.cs" />
+    <Compile Include="ViewModels\PlotGenerators\TotalPagesReadByCountryPlotGenerator.cs" />
+    <Compile Include="ViewModels\PlotGenerators\TotalPagesReadByLanguagePlotGenerator.cs" />
+    <Compile Include="ViewModels\Utilities\CommandHandler.cs" />
+    <Compile Include="ViewModels\Utilities\ICurveFitter.cs" />
+    <Compile Include="ViewModels\Utilities\LinearCurveFitter.cs" />
+    <Compile Include="ViewModels\Utilities\OxyPlotUtilities.cs" />
+    <Compile Include="ViewModels\Utilities\QuadraticCurveFitter.cs" />
+    <Compile Include="ViewModels\Utilities\WaitCursor.cs" />
+    <Compile Include="Views\BooksChartsView.xaml.cs">
+      <DependentUpon>BooksChartsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BooksDataUpdateView.xaml.cs">
+      <DependentUpon>BooksDataUpdateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BooksGridsView.xaml.cs">
+      <DependentUpon>BooksGridsView.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -78,11 +144,27 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\BooksChartsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BooksDataUpdateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BooksGridsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\AuthorCountry.cs" />
+    <Compile Include="Models\AuthorLanguage.cs" />
     <Compile Include="Models\BookAuthor.cs" />
     <Compile Include="Models\BookRead.cs" />
+    <Compile Include="Models\BooksDelta.cs" />
+    <Compile Include="Models\MainBooksModel.cs" />
+    <Compile Include="Models\TalliedBook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -112,9 +194,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
-    <Folder Include="Utilities\" />
-    <Folder Include="ViewModels\" />
-    <Folder Include="Views\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\book-open-list.png" />
+    <Resource Include="Images\Credentials.png" />
+    <Resource Include="Images\database-medium.png" />
+    <Resource Include="Images\File_Exit_16.png" />
+    <Resource Include="Images\File_Open_16.png" />
+    <Resource Include="Images\save icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
