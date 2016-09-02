@@ -13,21 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using MongoDbBooks.Utilities;
-using MongoDbBooks.ViewModels;
-
-namespace MongoDbBooks
+namespace MongoDbBooks.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for BooksGridsView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class BooksGridsView : UserControl
     {
-        public MainWindow()
+        public BooksGridsView()
         {
             InitializeComponent();
-            MainViewModel mainVieWModel = new MainViewModel(this, App.Log);
-            DataContext = mainVieWModel;
         }
     }
 }

@@ -1,0 +1,227 @@
+﻿<UserControl x:Class="MongoDbBooks.Views.BooksChartsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"              
+             xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"                           
+             mc:Ignorable="d"              
+             d:DesignHeight="800" d:DesignWidth="1000">
+    <Grid>
+
+        <TabControl Margin="10,10,0,0" Grid.Row="1" MinHeight="700" MinWidth="800"
+                       HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
+
+
+            <TabItem Header="Overall Book and Page Tallies">
+                <ScrollViewer>
+
+                    <oxy:PlotView MinHeight="630" MinWidth="720"
+                        Model="{Binding Path=PlotOverallBookAndPageTalliesModel}"
+                   Controller="{Binding Path=PlotOverallBookAndPageTalliesViewController}" />
+
+                </ScrollViewer>
+            </TabItem>
+
+
+            <TabItem Header="Days per Book">
+                <ScrollViewer>
+
+                    <oxy:PlotView MinHeight="630" MinWidth="720"
+                        Model="{Binding Path=PlotDaysPerBookModel}"
+                   Controller="{Binding Path=PlotDaysPerBookViewController}" />
+
+                </ScrollViewer>
+            </TabItem>
+
+
+            <TabItem Header="Page Rate">
+                <ScrollViewer>
+
+                    <oxy:PlotView MinHeight="630" MinWidth="720"
+                        Model="{Binding Path=PlotPageRateModel}"
+                   Controller="{Binding Path=PlotPageRateViewController}" />
+
+                </ScrollViewer>
+            </TabItem>
+
+
+            <TabItem Header="Pages per Book">
+                <ScrollViewer>
+
+                    <oxy:PlotView MinHeight="630" MinWidth="720"
+                        Model="{Binding Path=PlotPagesPerBookModel}"
+                   Controller="{Binding Path=PlotPagesPerBookViewController}" />
+
+                </ScrollViewer>
+            </TabItem>
+
+
+            <TabItem Header="Books in Translation">
+                <ScrollViewer>
+
+                    <oxy:PlotView MinHeight="630" MinWidth="720"
+                        Model="{Binding Path=PlotBooksInTranslationModel}"
+                   Controller="{Binding Path=PlotBooksInTranslationViewController}" />
+
+                </ScrollViewer>
+            </TabItem>
+
+
+            <TabItem Header="By Time Charts">
+                <ScrollViewer>
+
+                    <TabControl Margin="10,10,0,0" Grid.Row="1" MinHeight="650" MinWidth="750"
+                       HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
+
+                        <TabItem Header="Days per Book with Time">
+                            <ScrollViewer>
+
+                                <oxy:PlotView MinHeight="600" MinWidth="720"
+                        Model="{Binding Path=PlotDaysPerBookWithTimeModel}"
+                   Controller="{Binding Path=PlotDaysPerBookWithTimeViewController}" />
+
+                            </ScrollViewer>
+                        </TabItem>
+
+                        <TabItem Header="Pages per Day with Time">
+                            <ScrollViewer>
+
+                                <oxy:PlotView MinHeight="600" MinWidth="720"
+                        Model="{Binding Path=PlotPagesPerDayWithTimeModel}"
+                   Controller="{Binding Path=PlotPagesPerDayWithTimeViewController}" />
+
+                            </ScrollViewer>
+                        </TabItem>
+
+                        <TabItem Header="Average Days per Book">
+                            <ScrollViewer>
+
+                                <oxy:PlotView MinHeight="600" MinWidth="720"
+                        Model="{Binding Path=PlotAverageDaysPerBookModel}"
+                   Controller="{Binding Path=PlotAverageDaysPerBookViewController}" />
+
+                            </ScrollViewer>
+                        </TabItem>
+
+                    </TabControl>
+                </ScrollViewer>
+            </TabItem>
+
+
+            <TabItem Header="By Language">
+                <ScrollViewer>
+
+                    <TabControl Margin="10,10,0,0" Grid.Row="1" MinHeight="650" MinWidth="750"
+                       HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
+
+                        <TabItem Header="Percentage Books Read By Language">
+                            <ScrollViewer>
+
+                                <oxy:PlotView MinHeight="600" MinWidth="720"
+                        Model="{Binding Path=PlotPercentageBooksReadByLanguageModel}"
+                   Controller="{Binding Path=PlotPercentageBooksReadByLanguageViewController}" />
+
+                            </ScrollViewer>
+                        </TabItem>
+
+                        <TabItem Header="Total Books Read By Language">
+                            <ScrollViewer>
+
+                                <oxy:PlotView MinHeight="600" MinWidth="720"
+                        Model="{Binding Path=PlotTotalBooksReadByLanguageModel}"
+                   Controller="{Binding Path=PlotTotalBooksReadByLanguageViewController}" />
+
+                            </ScrollViewer>
+                        </TabItem>
+
+                        <TabItem Header="Percentage Pages Read By Language">
+                            <ScrollViewer>
+
+                                <oxy:PlotView MinHeight="600" MinWidth="720"
+                        Model="{Binding Path=PlotPercentagePagesReadByLanguageModel}"
+                   Controller="{Binding Path=PlotPercentagePagesReadByLanguageViewController}" />
+
+                            </ScrollViewer>
+                        </TabItem>
+
+                        <TabItem Header="Total Pages Read By Language">
+                            <ScrollViewer>
+
+                                <oxy:PlotView MinHeight="600" MinWidth="720"
+                        Model="{Binding Path=PlotTotalPagesReadByLanguageModel}"
+                   Controller="{Binding Path=PlotTotalPagesReadByLanguageViewController}" />
+
+                            </ScrollViewer>
+                        </TabItem>
+
+                    </TabControl>
+                </ScrollViewer>
+            </TabItem>
+
+
+            <TabItem Header="By Country">
+                <ScrollViewer>
+
+                    <TabControl Margin="10,10,0,0" Grid.Row="1" MinHeight="650" MinWidth="750"
+                       HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
+
+                        <TabItem Header="Percentage Books Read By Country">
+                            <ScrollViewer>
+
+                                <oxy:PlotView MinHeight="600" MinWidth="720"
+                        Model="{Binding Path=PlotPercentageBooksReadByCountryModel}"
+                   Controller="{Binding Path=PlotPercentageBooksReadByCountryViewController}" />
+
+                            </ScrollViewer>
+                        </TabItem>
+
+                        <TabItem Header="Total Books Read By Country">
+                            <ScrollViewer>
+
+                                <oxy:PlotView MinHeight="600" MinWidth="720"
+                        Model="{Binding Path=PlotTotalBooksReadByCountryModel}"
+                   Controller="{Binding Path=PlotTotalBooksReadByCountryViewController}" />
+
+                            </ScrollViewer>
+                        </TabItem>
+
+                        <TabItem Header="Percentage Pages Read By Country">
+                            <ScrollViewer>
+
+                                <oxy:PlotView MinHeight="600" MinWidth="720"
+                        Model="{Binding Path=PlotPercentagePagesReadByCountryModel}"
+                   Controller="{Binding Path=PlotPercentagePagesReadByCountryViewController}" />
+
+                            </ScrollViewer>
+                        </TabItem>
+
+                        <TabItem Header="Total Pages Read By Country">
+                            <ScrollViewer>
+
+                                <oxy:PlotView MinHeight="600" MinWidth="720"
+                        Model="{Binding Path=PlotTotalPagesReadByCountryModel}"
+                   Controller="{Binding Path=PlotTotalPagesReadByCountryViewController}" />
+
+                            </ScrollViewer>
+                        </TabItem>
+
+                    </TabControl>
+                </ScrollViewer>
+            </TabItem>
+
+
+            <TabItem Header="Books and Pages this Year">
+                <ScrollViewer>
+
+                    <oxy:PlotView MinHeight="630" MinWidth="720"
+                        Model="{Binding Path=PlotBooksAndPagesThisYearModel}"
+                   Controller="{Binding Path=PlotBooksAndPagesThisYearViewController}" />
+
+                </ScrollViewer>
+            </TabItem>
+
+
+        </TabControl>
+
+    </Grid>
+</UserControl>

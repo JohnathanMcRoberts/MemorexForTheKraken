@@ -262,7 +262,6 @@ namespace MongoDbBooks.ViewModels
 
         public void UpdateData()
         {
-            /*
             PlotOverallBookAndPageTalliesModel = (new OverallBookAndPageTalliesPlotGenerator()).SetupPlot(_mainModel);
             PlotDaysPerBookModel = (new DaysPerBookPlotGenerator()).SetupPlot(_mainModel);
             PlotPageRateModel = (new PageRatePlotGenerator()).SetupPlot(_mainModel);
@@ -280,7 +279,7 @@ namespace MongoDbBooks.ViewModels
             PlotPercentagePagesReadByCountryModel = (new PercentagePagesReadByCountryPlotGenerator()).SetupPlot(_mainModel);
             PlotTotalPagesReadByCountryModel = (new TotalPagesReadByCountryPlotGenerator()).SetupPlot(_mainModel);
             PlotBooksAndPagesThisYearModel = (new BooksAndPagesThisYearPlotGenerator()).SetupPlot(_mainModel);
-            */
+
             OnPropertyChanged("");
         }
 
@@ -313,6 +312,6 @@ namespace MongoDbBooks.ViewModels
         }
 
         #endregion
-
+        
     }
 }
