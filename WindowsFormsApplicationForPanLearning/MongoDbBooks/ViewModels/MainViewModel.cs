@@ -50,6 +50,10 @@ namespace MongoDbBooks.ViewModels
             _dataUpdaterVM = new DataUpdaterViewModel(_mainWindow, log, _mainModel, this);
             _dataGridsVM = new DataGridsViewModel(_mainWindow, log, _mainModel, this);
             _chartsVM = new ChartsViewModel(_mainWindow, log, _mainModel, this);
+
+            if (_mainModel.ConnectedToDbSuccessfully)
+                UpdateData();
+
         }
 
         #endregion

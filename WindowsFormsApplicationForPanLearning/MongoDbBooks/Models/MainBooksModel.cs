@@ -46,7 +46,8 @@ namespace MongoDbBooks.Models
             OutputFilePath = Properties.Settings.Default.OutputFile;
 
             string errorMsg = "test";
-            if (!ConnectToDatabase(out errorMsg))
+            ConnectedToDbSuccessfully = ConnectToDatabase(out errorMsg);
+            if (!ConnectedToDbSuccessfully)
                 _log.Debug("error connecting to db : " + errorMsg);
 
         }
@@ -80,6 +81,8 @@ namespace MongoDbBooks.Models
 
         public bool DataFromFile { get; set; }
         public bool DataFromDb { get; set; }
+
+        public bool ConnectedToDbSuccessfully { get; private set; }
 
         #endregion
 
